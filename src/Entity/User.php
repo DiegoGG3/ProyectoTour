@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -35,6 +37,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: Types::BLOB)]
     private $foto = null;
+
+    #[ORM\OneToMany(mappedBy: 'codUser', targetEntity: Reserva::class)]
+    private Collection $reservas;
+
+    public function __construct()
+    {
+        $this->reservas = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -126,6 +136,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setFoto($foto): static
     {
         $this->foto = $foto;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Reserva>
+     */
+    public function getReservas(): Collection
+    {
+        return $this->reservas;
+    }
+
+    public function addReserva(Reserva $reserva): static
+    {
+        if (!$this->reservas->contains($reserva)) {
+            $this->reservas->add($reserva);
+            $reserva->setCodUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReserva(Reserva $reserva): static
+    {
+        if ($this->reservas->removeElement($reserva)) {
+            // set the owning side to null (unless already changed)
+            if ($reserva->getCodUser() === $this) {
+                $reserva->setCodUser(null);
+            }
+        }
 
         return $this;
     }
