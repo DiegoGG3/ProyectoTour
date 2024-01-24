@@ -27,7 +27,7 @@ class Reserva
 
     #[ORM\ManyToOne(inversedBy: 'reservas')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?tour $codTour = null;
+    private ?Tour $codTour = null;
 
     #[ORM\ManyToOne(inversedBy: 'reservas')]
     #[ORM\JoinColumn(nullable: false)]
@@ -74,12 +74,12 @@ class Reserva
         return $this;
     }
 
-    public function getCodTour(): ?tour
+    public function getCodTour(): ?Tour
     {
         return $this->codTour;
     }
 
-    public function setCodTour(?tour $codTour): static
+    public function setCodTour(?Tour $codTour): static
     {
         $this->codTour = $codTour;
 
