@@ -1,4 +1,3 @@
-# see https://symfony.com/doc/current/reference/configuration/framework.html
 framework:
     secret: '%env(APP_SECRET)%'
     #csrf_protection: true
@@ -8,6 +7,10 @@ framework:
 
     #esi: true
     #fragments: true
+
+    assets:
+        packages:
+            app: null
 
 when@test:
     framework:

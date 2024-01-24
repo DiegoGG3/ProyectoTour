@@ -21,7 +21,7 @@ class Tour
 
     #[ORM\ManyToOne(inversedBy: 'tours')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?ruta $codRuta = null;
+    private ?Ruta $codRuta = null;
 
     #[ORM\OneToMany(mappedBy: 'codTour', targetEntity: Informe::class, orphanRemoval: true)]
     private Collection $informes;
@@ -52,12 +52,12 @@ class Tour
         return $this;
     }
 
-    public function getCodRuta(): ?ruta
+    public function getCodRuta(): ?Ruta
     {
         return $this->codRuta;
     }
 
-    public function setCodRuta(?ruta $codRuta): static
+    public function setCodRuta(?Ruta $codRuta): static
     {
         $this->codRuta = $codRuta;
 

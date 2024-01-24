@@ -26,7 +26,7 @@ class Informe
 
     #[ORM\ManyToOne(inversedBy: 'informes')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?tour $codTour = null;
+    private ?Tour $codTour = null;
 
     public function getId(): ?int
     {
@@ -69,12 +69,12 @@ class Informe
         return $this;
     }
 
-    public function getCodTour(): ?tour
+    public function getCodTour(): ?Tour
     {
         return $this->codTour;
     }
 
-    public function setCodTour(?tour $codTour): static
+    public function setCodTour(?Tour $codTour): static
     {
         $this->codTour = $codTour;
 

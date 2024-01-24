@@ -17,35 +17,35 @@ class RutaVisitas
 
     #[ORM\ManyToOne(inversedBy: 'lugaresVisitados')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?ruta $codRuta = null;
+    private ?Ruta $codRuta = null;
 
     #[ORM\ManyToOne(inversedBy: 'rutaVisitas')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?visita $codVisita = null;
+    private ?Visita $codVisita = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getCodRuta(): ?ruta
+    public function getCodRuta(): ?Ruta
     {
         return $this->codRuta;
     }
 
-    public function setCodRuta(?ruta $codRuta): static
+    public function setCodRuta(?Ruta $codRuta): static
     {
         $this->codRuta = $codRuta;
 
         return $this;
     }
 
-    public function getCodVisita(): ?visita
+    public function getCodVisita(): ?Visita
     {
         return $this->codVisita;
     }
 
-    public function setCodVisita(?visita $codVisita): static
+    public function setCodVisita(?Visita $codVisita): static
     {
         $this->codVisita = $codVisita;
 

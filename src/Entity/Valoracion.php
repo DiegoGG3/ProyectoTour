@@ -26,7 +26,7 @@ class Valoracion
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?reserva $codReserva = null;
+    private ?Reserva $codReserva = null;
 
     public function getId(): ?int
     {
@@ -69,12 +69,12 @@ class Valoracion
         return $this;
     }
 
-    public function getCodReserva(): ?reserva
+    public function getCodReserva(): ?Reserva
     {
         return $this->codReserva;
     }
 
-    public function setCodReserva(reserva $codReserva): static
+    public function setCodReserva(Reserva $codReserva): static
     {
         $this->codReserva = $codReserva;
 
