@@ -10,7 +10,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class UserCrudController extends AbstractCrudController
 {
