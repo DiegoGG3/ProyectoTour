@@ -35,8 +35,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $nombre = null;
 
-    #[ORM\Column(type: Types::BLOB)]
-    private $foto = null;
+    #[ORM\Column(length: 255)]
+    private ?string $foto = null;
 
     #[ORM\OneToMany(mappedBy: 'codUser', targetEntity: Reserva::class)]
     private Collection $reservas;
@@ -128,12 +128,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getFoto()
+    public function getFoto(): ?string
     {
         return $this->foto;
     }
 
-    public function setFoto($foto): static
+    public function setFoto(?string $foto): static
     {
         $this->foto = $foto;
 

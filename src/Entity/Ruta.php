@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\RutaRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\UX\Turbo\Attribute\Broadcast;
 
@@ -37,6 +38,15 @@ class Ruta
 
     #[ORM\OneToMany(mappedBy: 'codRuta', targetEntity: RutaVisitas::class)]
     private Collection $lugaresVisitados;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $fechaInicio = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $fechaFin = null;
+
+    #[ORM\Column]
+    private array $programacion = [];
 
     public function __construct()
     {
@@ -165,6 +175,42 @@ class Ruta
                 $lugaresVisitado->setCodRuta(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFechaInicio(): ?\DateTimeInterface
+    {
+        return $this->fechaInicio;
+    }
+
+    public function setFechaInicio(\DateTimeInterface $fechaInicio): static
+    {
+        $this->fechaInicio = $fechaInicio;
+
+        return $this;
+    }
+
+    public function getFechaFin(): ?\DateTimeInterface
+    {
+        return $this->fechaFin;
+    }
+
+    public function setFechaFin(\DateTimeInterface $fechaFin): static
+    {
+        $this->fechaFin = $fechaFin;
+
+        return $this;
+    }
+
+    public function getProgramacion(): array
+    {
+        return $this->programacion;
+    }
+
+    public function setProgramacion(array $programacion): static
+    {
+        $this->programacion = $programacion;
 
         return $this;
     }
