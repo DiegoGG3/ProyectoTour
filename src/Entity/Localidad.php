@@ -21,8 +21,10 @@ class Localidad
     private ?string $nombre = null;
 
     #[ORM\ManyToOne(inversedBy: 'localidades')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'cod_provincia_id', referencedColumnName: 'id', nullable: false)]
     private ?Provincia $codProvincia = null;
+
+
 
     #[ORM\OneToMany(mappedBy: 'localidad', targetEntity: Visita::class)]
     private Collection $visitas;
