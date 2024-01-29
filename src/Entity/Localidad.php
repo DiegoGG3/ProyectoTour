@@ -92,4 +92,9 @@ class Localidad
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return $this->nombre ?? 'N/A';
+    }
 }

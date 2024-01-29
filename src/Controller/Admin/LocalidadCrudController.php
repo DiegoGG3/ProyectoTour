@@ -5,8 +5,8 @@ namespace App\Controller\Admin;
 use App\Entity\Localidad;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 
 class LocalidadCrudController extends AbstractCrudController
 {
@@ -19,8 +19,8 @@ class LocalidadCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
-            IdField::new('CodProvincia'),
+            IdField::new('id')->hideOnForm(),
+            AssociationField::new('codProvincia'),
 
             TextField::new('nombre'),
         ];
