@@ -33,12 +33,14 @@ class Visita
     #[ORM\JoinColumn(nullable: false)]
     private ?Localidad $localidad = null;
 
-    #[ORM\OneToMany(mappedBy: 'codVisita', targetEntity: RutaVisitas::class)]
-    private Collection $rutaVisitas;
+
+
+    #[ORM\ManyToMany(targetEntity: Ruta::class, mappedBy: 'visitas')]
+    private Collection $rutas;
 
     public function __construct()
     {
-        $this->rutaVisitas = new ArrayCollection();
+        $this->rutas = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -106,33 +108,37 @@ class Visita
         return $this;
     }
 
+    
+
     /**
-     * @return Collection<int, RutaVisitas>
+     * @return Collection<int, Ruta>
      */
-    public function getRutaVisitas(): Collection
+    public function getRutas(): Collection
     {
-        return $this->rutaVisitas;
+        return $this->rutas;
     }
 
-    public function addRutaVisita(RutaVisitas $rutaVisita): static
+    public function addRuta(Ruta $ruta): static
     {
-        if (!$this->rutaVisitas->contains($rutaVisita)) {
-            $this->rutaVisitas->add($rutaVisita);
-            $rutaVisita->setCodVisita($this);
+        if (!$this->rutas->contains($ruta)) {
+            $this->rutas->add($ruta);
+            $ruta->addVisita($this);
         }
 
         return $this;
     }
 
-    public function removeRutaVisita(RutaVisitas $rutaVisita): static
+    public function removeRuta(Ruta $ruta): static
     {
-        if ($this->rutaVisitas->removeElement($rutaVisita)) {
-            // set the owning side to null (unless already changed)
-            if ($rutaVisita->getCodVisita() === $this) {
-                $rutaVisita->setCodVisita(null);
-            }
+        if ($this->rutas->removeElement($ruta)) {
+            $ruta->removeVisita($this);
         }
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->nombre ?? 'N/A';
     }
 }

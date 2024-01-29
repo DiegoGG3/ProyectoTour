@@ -3,6 +3,10 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
+use App\Entity\Ruta;
+use App\Entity\Provincia;
+use App\Entity\Localidad;
+
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -27,6 +31,12 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::section('CRUD');
+        yield MenuItem::linkToCrud('Ruta', 'fa-solid fa-route', Ruta::class);
         yield MenuItem::linkToCrud('Usuarios', 'fa-solid fa-person', User::class);
+        yield MenuItem::linkToCrud('Provincia', 'fa-solid fa-globe', Provincia::class);
+        yield MenuItem::linkToCrud('Localidad', 'fa-solid fa-city', Localidad::class);
+
+
+
     }
 }

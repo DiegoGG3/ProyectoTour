@@ -31,13 +31,10 @@ class Ruta
     private ?string $puntoInicio = null;
 
     #[ORM\Column]
-    private ?int $tamañoMaximo = null;
+    private ?int $tamanoMaximo = null;
 
     #[ORM\OneToMany(mappedBy: 'codRuta', targetEntity: Tour::class, orphanRemoval: true)]
     private Collection $tours;
-
-    #[ORM\OneToMany(mappedBy: 'codRuta', targetEntity: RutaVisitas::class)]
-    private Collection $lugaresVisitados;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $fechaInicio = null;
@@ -48,10 +45,13 @@ class Ruta
     #[ORM\Column]
     private array $programacion = [];
 
+    #[ORM\ManyToMany(targetEntity: Visita::class, inversedBy: 'rutas')]
+    private Collection $visitas;
+
     public function __construct()
     {
         $this->tours = new ArrayCollection();
-        $this->lugaresVisitados = new ArrayCollection();
+        $this->visitas = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -107,14 +107,14 @@ class Ruta
         return $this;
     }
 
-    public function getTamañoMaximo(): ?int
+    public function getTamanoMaximo(): ?int
     {
-        return $this->tamañoMaximo;
+        return $this->tamanoMaximo;
     }
 
-    public function setTamañoMaximo(int $tamañoMaximo): static
+    public function setTamanoMaximo(int $tamanoMaximo): static
     {
-        $this->tamañoMaximo = $tamañoMaximo;
+        $this->tamanoMaximo = $tamanoMaximo;
 
         return $this;
     }
@@ -149,35 +149,6 @@ class Ruta
         return $this;
     }
 
-    /**
-     * @return Collection<int, RutaVisitas>
-     */
-    public function getLugaresVisitados(): Collection
-    {
-        return $this->lugaresVisitados;
-    }
-
-    public function addLugaresVisitado(RutaVisitas $lugaresVisitado): static
-    {
-        if (!$this->lugaresVisitados->contains($lugaresVisitado)) {
-            $this->lugaresVisitados->add($lugaresVisitado);
-            $lugaresVisitado->setCodRuta($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLugaresVisitado(RutaVisitas $lugaresVisitado): static
-    {
-        if ($this->lugaresVisitados->removeElement($lugaresVisitado)) {
-            // set the owning side to null (unless already changed)
-            if ($lugaresVisitado->getCodRuta() === $this) {
-                $lugaresVisitado->setCodRuta(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getFechaInicio(): ?\DateTimeInterface
     {
@@ -211,6 +182,30 @@ class Ruta
     public function setProgramacion(array $programacion): static
     {
         $this->programacion = $programacion;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, visita>
+     */
+    public function getVisitas(): Collection
+    {
+        return $this->visitas;
+    }
+
+    public function addVisita(Visita $visita): static
+    {
+        if (!$this->visitas->contains($visita)) {
+            $this->visitas->add($visita);
+        }
+
+        return $this;
+    }
+
+    public function removeVisita(Visita $visita): static
+    {
+        $this->visitas->removeElement($visita);
 
         return $this;
     }

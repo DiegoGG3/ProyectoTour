@@ -10,6 +10,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+
 
 class UserCrudController extends AbstractCrudController
 {
@@ -20,15 +22,18 @@ class UserCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        $roles= ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_GUIA'];
         return [
             IdField::new('id')->hideOnForm(),
             TextField::new('nombre'),
             TextField::new('email'),
             TextField::new('password'),
-            ArrayField::new('roles'),
+            ChoiceField::new('roles')
+                ->setChoices(array_combine($roles,$roles))
+                ->allowMultipleChoices(),
             ImageField::new('foto')
-                ->setBasePath('fotos_perfil/') // Configura la carpeta base para las imágenes
-                ->setUploadDir('public/fotos_perfil/') // Configura la carpeta de destino para las imágenes                
+                ->setBasePath('fotos_perfil/')
+                ->setUploadDir('public/fotos_perfil/')               
         ];
     }
 }
