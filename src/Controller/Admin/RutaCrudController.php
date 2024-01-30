@@ -37,11 +37,15 @@ class RutaCrudController extends AbstractCrudController
                 ->renderAsChoice(),
             ArrayField::new('programacion'),
             ImageField::new('foto')
-                ->setBasePath('fotos_perfil/')
-                ->setUploadDir('public/fotos_perfil/'),
+                ->setBasePath('fotos_ruta/')
+                ->setUploadDir('public/fotos_ruta/')
+                ->setUploadedFileNamePattern('[uuid].[extension]'),
             AssociationField::new('visitas')
  
         ];
     }
     
 }
+
+//CAMBIAR NOMBRE FOTOS AL EDITAR O CREAR
+//FOTO PERFIL

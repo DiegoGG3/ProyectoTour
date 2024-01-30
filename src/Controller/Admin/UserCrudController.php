@@ -33,7 +33,9 @@ class UserCrudController extends AbstractCrudController
                 ->allowMultipleChoices(),
             ImageField::new('foto')
                 ->setBasePath('fotos_perfil/')
-                ->setUploadDir('public/fotos_perfil/')               
+                ->setUploadDir('public/fotos_perfil/')    
+                ->setUploadedFileNamePattern('[uuid].[extension]'),
+          
         ];
     }
 }
