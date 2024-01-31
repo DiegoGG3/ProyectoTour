@@ -48,6 +48,3 @@ class RutaCrudController extends AbstractCrudController
         ];
     }
 }
-
-//CAMBIAR NOMBRE FOTOS AL EDITAR O CREAR
-//FOTO PERFIL
