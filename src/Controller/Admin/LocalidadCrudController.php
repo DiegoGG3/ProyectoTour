@@ -20,7 +20,8 @@ class LocalidadCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->hideOnForm(),
-            AssociationField::new('codProvincia'),
+            AssociationField::new('codProvincia')
+                ->setLabel("Nombre Provincia"),
 
             TextField::new('nombre'),
         ];

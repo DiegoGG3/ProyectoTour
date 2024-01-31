@@ -7,6 +7,8 @@ use App\Entity\Ruta;
 use App\Entity\Provincia;
 use App\Entity\Localidad;
 use App\Entity\Visita;
+use App\Entity\Tour;
+
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -34,10 +36,16 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('Inicio', 'fa fa-home');
         yield MenuItem::section('CRUD');
+        yield MenuItem::linkToCrud('Usuarios', 'fa-solid fa-person', User::class);
+
+        yield MenuItem::section('VIAJES');
+
         yield MenuItem::linkToCrud('Ruta', 'fa-solid fa-route', Ruta::class);
         yield MenuItem::linkToCrud('Visita', 'fa-solid fa-map-pin', Visita::class);
+        yield MenuItem::linkToCrud('Tour', 'fa-solid fa-neuter', Tour::class);
 
-        yield MenuItem::linkToCrud('Usuarios', 'fa-solid fa-person', User::class);
+        yield MenuItem::section('LUGARES');
+
         yield MenuItem::linkToCrud('Provincia', 'fa-solid fa-globe', Provincia::class);
         yield MenuItem::linkToCrud('Localidad', 'fa-solid fa-city', Localidad::class);
     }

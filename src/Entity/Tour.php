@@ -29,6 +29,10 @@ class Tour
     #[ORM\OneToMany(mappedBy: 'codTour', targetEntity: Reserva::class)]
     private Collection $reservas;
 
+    #[ORM\ManyToOne(inversedBy: 'tours')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?user $guia = null;
+
     public function __construct()
     {
         $this->informes = new ArrayCollection();
@@ -120,6 +124,18 @@ class Tour
                 $reserva->setCodTour(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getGuia(): ?user
+    {
+        return $this->guia;
+    }
+
+    public function setGuia(?user $guia): static
+    {
+        $this->guia = $guia;
 
         return $this;
     }

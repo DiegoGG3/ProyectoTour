@@ -12,10 +12,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
-
-
-
-
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 
 class RutaCrudController extends AbstractCrudController
 {
@@ -27,24 +25,28 @@ class RutaCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
+            FormField::addTab('Informacion'),
             TextField::new('nombre'),
             TextEditorField::new('descripcion'),
             TextField::new('puntoInicio'),
-            NumberField::new('tamanoMaximo'),
-            DateTimeField::new('fechaInicio')
-                ->renderAsChoice(),
-            DateTimeField::new('fechaFin')
-                ->renderAsChoice(),
+            
+            FormField::addTab('Archivos'),
             ArrayField::new('programacion'),
             ImageField::new('foto')
                 ->setBasePath('fotos_ruta/')
                 ->setUploadDir('public/fotos_ruta/')
-                ->setUploadedFileNamePattern('[uuid].[extension]'),
-            AssociationField::new('visitas')
- 
+                ->setUploadedFileNamePattern('[uuid].[extension]')
+                ->setRequired($pageName !== Crud::PAGE_EDIT),
+            DateTimeField::new('fechaInicio')
+                ->renderAsChoice(),
+            DateTimeField::new('fechaFin')
+                ->renderAsChoice(),
+            NumberField::new('tamanoMaximo'),
+
+            FormField::addTab('Items Visitables'),
+            AssociationField::new('visitas'),
         ];
     }
-    
 }
 
 //CAMBIAR NOMBRE FOTOS AL EDITAR O CREAR

@@ -9,6 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 
 class VisitaCrudController extends AbstractCrudController
 {
@@ -29,7 +30,9 @@ class VisitaCrudController extends AbstractCrudController
             ImageField::new('foto')
                 ->setBasePath('fotos_visita/')
                 ->setUploadDir('public/fotos_visita/')
-                ->setUploadedFileNamePattern('[uuid].[extension]'),
+                ->setUploadedFileNamePattern('[uuid].[extension]')
+                ->setRequired($pageName !== Crud::PAGE_EDIT),
+                
 
             TextField::new('coordenadas'),
 

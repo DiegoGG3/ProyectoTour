@@ -11,6 +11,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 
 
 class UserCrudController extends AbstractCrudController
@@ -34,7 +35,8 @@ class UserCrudController extends AbstractCrudController
             ImageField::new('foto')
                 ->setBasePath('fotos_perfil/')
                 ->setUploadDir('public/fotos_perfil/')    
-                ->setUploadedFileNamePattern('[uuid].[extension]'),
+                ->setUploadedFileNamePattern('[uuid].[extension]')
+                ->setRequired($pageName !== Crud::PAGE_EDIT),
           
         ];
     }

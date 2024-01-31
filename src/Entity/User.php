@@ -41,9 +41,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'codUser', targetEntity: Reserva::class)]
     private Collection $reservas;
 
+    #[ORM\OneToMany(mappedBy: 'guia', targetEntity: Tour::class)]
+    private Collection $tours;
+
     public function __construct()
     {
         $this->reservas = new ArrayCollection();
+        $this->tours = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -168,5 +172,40 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Tour>
+     */
+    public function getTours(): Collection
+    {
+        return $this->tours;
+    }
+
+    public function addTour(Tour $tour): static
+    {
+        if (!$this->tours->contains($tour)) {
+            $this->tours->add($tour);
+            $tour->setGuia($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTour(Tour $tour): static
+    {
+        if ($this->tours->removeElement($tour)) {
+            // set the owning side to null (unless already changed)
+            if ($tour->getGuia() === $this) {
+                $tour->setGuia(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->nombre ?? 'N/A';
     }
 }
