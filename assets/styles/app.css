@@ -29,7 +29,8 @@ input {
     box-sizing: border-box;
 }
 
-button {
+button, .boton {
+    text-decoration: none;
     background-color: #4caf50;
     color: white;
     padding: 10px 15px;

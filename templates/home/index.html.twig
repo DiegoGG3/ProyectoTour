@@ -13,23 +13,24 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="#!">Tours Diego</a>
+        <img src="{{ asset('css/images/logo.jpg') }}" alt="Tours Diego Logo" style="max-width: 80px; height: auto;" />
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#!">Sobre nosotros</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#!">Contactanos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ path('app_login') }}">Inicia Sesion</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <header class="py-5 bg-image-full" id="headerLandin">
-        <div class="text-center my-5" style="background-image: url({{ asset('css/images/ciudad.jpg')}})">
-            <h1 class="text-white fs-3 fw-bolder">Los mejores tours que vas a encontrar</h1>
-            <p class="text-white-50 mb-0">¡Viaja con nosotros!</p>
+    <header class="py-5 bg-image-full d-flex justify-content-center" id="headerLandin" style="background-image: url({{ asset('css/images/ciudad.jpg')}})">
+        <div class="text-center my-5 bg-white rounded p-4 d-inline-block mx-auto">
+            <h1 class="text-dark fs-3 fw-bolder">Los mejores tours que vas a encontrar</h1>
+            <p class="text-dark-50 mb-0">¡Viaja con nosotros!</p>
         </div>
     </header>
 
