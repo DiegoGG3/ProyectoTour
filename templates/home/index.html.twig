@@ -21,14 +21,30 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ path('app_login') }}">Inicia Sesion</a></li>
-                </ul>
+                        {% if app.user %}
+                            {% for rol in app.user.roles %}
+                                {% if rol=="ROLE_USER" %}
+                                    <li class="nav-item"><a class="nav-link" href="{{path('admin')}}">Mis Tours</a></li>
+                                {% endif %}
+                                {% if rol=="ROLE_ADMIN" %}
+                                    <li class="nav-item"><a class="nav-link" href="{{path('admin')}}">Administración</a></li>
+                                {% endif %}
+                                {% if rol=="ROLE_GUIDE" %}
+                                    <li class="nav-item"><a class="nav-link" href="{{path('admin')}}">Calendario Tours</a></li>
+                                {% endif %}
+
+                            {% endfor %}
+                            <li class="nav-item"><a class="nav-link" href="{{path('action-logout')}}">Cerrar Sesión</a></li>
+                        {% else %}
+                            <li class="nav-item"><a class="nav-link" href="{{path('app_login')}}">Iniciar Sesión</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{path('app_register')}}">Registro</a></li>
+                        {% endif %}                </ul>
             </div>
         </div>
     </nav>
 
     <header class="py-5 bg-image-full d-flex justify-content-center" id="headerLandin" style="background-image: url({{ asset('css/images/ciudad.jpg')}})">
-        <div class="text-center my-5 bg-white rounded p-4 d-inline-block mx-auto">
+        <div class="shadow p-3 mb-5 bg-white rounded text-center my-5 p-4 d-inline-block ">
             <h1 class="text-dark fs-3 fw-bolder">Los mejores tours que vas a encontrar</h1>
             <p class="text-dark-50 mb-0">¡Viaja con nosotros!</p>
         </div>
