@@ -29,7 +29,7 @@ input {
     box-sizing: border-box;
 }
 
-button, .boton {
+/* button, .boton {
     text-decoration: none;
     background-color: #4caf50;
     color: white;
@@ -37,12 +37,50 @@ button, .boton {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-}
+} */
 
 button:hover {
     background-color: #45a049;
 }
 
 #headerLandin{
-    background-image: url("../css/images/ciudad.jpg");
+    height: 70vh;
+    flex-direction: column;
+}
+
+#navbar {
+    background-color: rgba(0, 0, 0, 0.9); 
+}
+
+#spanmain{
+    color: #e84134;
+    display: block;
+    font-family: Montserrat,sans-serif;
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 32px;
+    margin: auto;
+    max-width: 880px;
+}
+
+.buscar{
+    background-color: #e84134;
+    border: 0;
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+    color: #fff;
+    font-family: Montserrat,sans-serif;
+    font-size: 16px;
+    font-weight: 900;
+    padding: 11px 19px;
+    text-transform: uppercase;
+}
+
+#subtitulo{
+    color: #fff;
+    display: block;
+    font-family: Lato,sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    margin-top: 27px;
 }

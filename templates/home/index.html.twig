@@ -1,118 +1,130 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Full Width Pics - Start Bootstrap Template{% endblock %}
+{% block title %}Tours Diego{% endblock %}
 
 {% block importmap %}
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/logo.png') }}" />
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
+    <link href="{{ asset('styles/app.css') }}" rel="stylesheet" />
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/scripts.js"></script>
 {% endblock %}
 
 {% block body %}
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#!">Tours Diego</a>
-        <img src="{{ asset('images/logo.jpg') }}" alt="Tours Diego Logo" style="max-width: 80px; height: auto;" />
+    <nav class="navbar navbar-expand-lg navbar-dark  bg-dark fixed-top" id="navbar">
+    <div class="container">
+        <a class="navbar-brand" href="#!">Tours Diego</a>
+        <img src="{{ asset('images/logo.png') }}" alt="Tours Diego Logo" style="max-width: 60px; height: auto;" />
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
+                {% if app.user %}
+                    {% for rol in app.user.roles %}
+                        {% if rol=="ROLE_USER" %}
+                            <li class="nav-item"><a class="nav-link" href="{{path('admin')}}">Mis Tours</a></li>
+                        {% endif %}
+                        {% if rol=="ROLE_ADMIN" %}
+                            <li class="nav-item"><a class="nav-link" href="{{path('admin')}}">Administración</a></li>
+                        {% endif %}
+                        {% if rol=="ROLE_GUIDE" %}
+                            <li class="nav-item"><a class="nav-link" href="{{path('admin')}}">Calendario Tours</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    <li class="nav-item"><a class="nav-link" href="{{path('action-logout')}}">Cerrar Sesión</a></li>
+                {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{{path('app_login')}}">Iniciar Sesión</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{path('app_register')}}">Registro</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+
+<div class="py-5 bg-image-full d-flex justify-content-center align-items-center h-100" id="headerLandin" style="background-image: url({{ asset('images/fondo.jpg')}})">
+    <div class="shadow p-3 mb-5 bg-white rounded text-center my-5 p-4 d-inline-block bg-transparent flex-column align-items-start" id="titulo">
+        <span id="spanmain">Los mejores tours que vas a encontrar</span>
+        <p id="subtitulo">¡Viaja con nosotros!</p>
+    </div>
+    
+    <div id="wrapper-buscador" class="shadow p-3 bg-white rounded text-center p-4 d-inline-block bg-transparent flex-column align-items-start">
+        <input type="hidden" name="q" value="" id="consulta">
+        <div class="d-flex flex-wrap justify-content-center align-items-start">
+            <div class="input-wrapper">
+                <input aria-label="buscar" id="home-search" autocomplete="off" type="text" placeholder="Buscar destino" maxlength="50" value="" data-lang="es">
+            </div>
+            <div class="btn-search">
+                <button class="buscar">Buscar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <section class="py-3">
+    <div class="container my-3" id="carrusel">
+        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4" aria-label="Slide 5"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="{{ asset('fotos_carrusel/villar.jpg') }}" class="d-block w-75 mx-auto" alt="villar" style="max-height: 600;">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5 style="font-size: 1.5rem;">Villardompardo</h5>
+                        <p style="font-size: 1rem;">El mejor pueblo.</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="{{ asset('fotos_carrusel/madrid.jpg') }}" class="d-block w-75 mx-auto" alt="madrid" style="max-height: 600;">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5 style="font-size: 1.5rem;">Madrid</h5>
+                        <p style="font-size: 1rem;">Capital de España.</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="{{ asset('fotos_carrusel/ronda.jpg') }}" class="d-block w-75 mx-auto" alt="ronda" style="max-height: 600;">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5 style="font-size: 1.5rem;">Ronda</h5>
+                        <p style="font-size: 1rem;">Sierra de Málaga.</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="{{ asset('fotos_carrusel/alambra.jpg') }}" class="d-block w-75 mx-auto" alt="granada" style="max-height: 600;">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5 style="font-size: 1.5rem;">Granada</h5>
+                        <p style="font-size: 1rem;">Alhambra de Granada.</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="{{ asset('fotos_carrusel/valencia.jpg') }}" class="d-block w-75 mx-auto" alt="valencia" style="max-height: 600;">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5 style="font-size: 1.5rem;">Valencia</h5>
+                        <p style="font-size: 1rem;">Ciudad de las Artes y de las Ciencias.</p>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
-                        {% if app.user %}
-                            {% for rol in app.user.roles %}
-                                {% if rol=="ROLE_USER" %}
-                                    <li class="nav-item"><a class="nav-link" href="{{path('admin')}}">Mis Tours</a></li>
-                                {% endif %}
-                                {% if rol=="ROLE_ADMIN" %}
-                                    <li class="nav-item"><a class="nav-link" href="{{path('admin')}}">Administración</a></li>
-                                {% endif %}
-                                {% if rol=="ROLE_GUIDE" %}
-                                    <li class="nav-item"><a class="nav-link" href="{{path('admin')}}">Calendario Tours</a></li>
-                                {% endif %}
-
-                            {% endfor %}
-                            <li class="nav-item"><a class="nav-link" href="{{path('action-logout')}}">Cerrar Sesión</a></li>
-                        {% else %}
-                            <li class="nav-item"><a class="nav-link" href="{{path('app_login')}}">Iniciar Sesión</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{{path('app_register')}}">Registro</a></li>
-                        {% endif %}                </ul>
-            </div>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
-    </nav>
+    </div>
+</section>
 
-    <header class="py-5 bg-image-full d-flex justify-content-center" id="headerLandin" style="background-image: url({{ asset('images/ciudad.jpg')}})">
-        <div class="shadow p-3 mb-5 bg-white rounded text-center my-5 p-4 d-inline-block ">
-            <h1 class="text-dark fs-3 fw-bolder">Los mejores tours que vas a encontrar</h1>
-            <p class="text-dark-50 mb-0">¡Viaja con nosotros!</p>
-        </div>
-    </header>
-
-    <section class="py-5" id="carrusel">
-        <div class="container my-5">
-            <!-- Carrusel Bootstrap -->
-            <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
-                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4" aria-label="Slide 5"></button>
-
-                </div>
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="{{ asset('fotos_carrusel/villar.jpg') }}" class="d-block w-100" alt="villar">
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>Villardompardo</h5>
-                            <p>El mejor pueblp.</p>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="{{ asset('fotos_carrusel/madrid.jpg') }}" class="d-block w-100" alt="madrid">
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>Madrid</h5>
-                            <p>Capital de españa.</p>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="{{ asset('fotos_carrusel/ronda.jpg') }}" class="d-block w-100" alt="ronda">
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>Ronda</h5>
-                            <p>Sierra de malaga.</p>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="{{ asset('fotos_carrusel/alambra.jpg') }}" class="d-block w-100" alt="granada">
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>Granada</h5>
-                            <p>Alambra de Granada.</p>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="{{ asset('fotos_carrusel/valencia.jpg') }}" class="d-block w-100" alt="valencia">
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>Valencia</h5>
-                            <p>Ciudad de las artes y de las ciencias.</p>
-                        </div>
-                    </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
-            </div>
-            <!-- Fin del Carrusel Bootstrap -->
-            
-            <!-- ... (resto del contenido de la sección) ... -->
-        </div>
-    </section>
 
     <div class="py-5 bg-image-full" style="background-image: url('https://source.unsplash.com/4ulffa6qoKA/1200x800')">
         <div style="height: 20rem"></div>
