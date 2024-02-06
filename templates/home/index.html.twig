@@ -17,6 +17,7 @@
 {% endblock %}
 
 {% block body %}
+<body id="bodyLandin" class="bg-image-full" style="background-image: url({{ asset('images/fondo.png')}})">
     <nav class="navbar navbar-expand-lg navbar-dark  bg-dark fixed-top" id="navbar">
     <div class="container">
         <a class="navbar-brand" href="#!">Tours Diego</a>
@@ -140,25 +141,74 @@
 </section>
 
 
-    <div class="py-5 bg-image-full" style="background-image: url('https://source.unsplash.com/4ulffa6qoKA/1200x800')">
-        <div style="height: 20rem"></div>
-    </div>
-
-    <section class="py-5">
-        <div class="container my-5">
-            <div class="row justify-content-center">
-                <div class="col-lg-6">
-                    <h2>Engaging Background Images</h2>
-                    <p class="lead">The background images used in this template are sourced from Unsplash and are open source and free to use.</p>
-                    <p class="mb-0">I can't tell you how many people say they were turned off from science because of a science teacher that completely sucked out all the inspiration and enthusiasm they had for the course.</p>
+    <section class="page-section" id="contact">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-lg-8 col-xl-6 text-center">
+                        <h2 class="mt-0">¡Contactanos!</h2>
+                        <hr class="divider" />
+                        <p class="text-muted mb-5">Si deseas informacion sobre algun tour o ayuda para trabajar con nosotros</p>
+                    </div>
+                </div>
+                <div class="row gx-4 gx-lg-5 justify-content-center mb-5">
+                    <div class="col-lg-6">
+                       
+                        <form id="contactForm" data-sb-form-api-token="API_TOKEN">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="name" type="text" placeholder="Enter your name..." data-sb-validations="required" />
+                                <label for="name">Nombre completo</label>
+                                <div class="invalid-feedback" data-sb-feedback="name:required">Se requiere un nombre</div>
+                            </div>
+                            <!-- Email address input-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="email" type="email" placeholder="email@example.com" data-sb-validations="required,email" />
+                                <label for="email">Dirección de correo</label>
+                                <div class="invalid-feedback" data-sb-feedback="email:required">Un correo es requerido.</div>
+                                <div class="invalid-feedback" data-sb-feedback="email:email">El correo no es valido.</div>
+                            </div>
+                            <!-- Phone number input-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="phone" type="tel" placeholder="+34 123 456 789" data-sb-validations="required" />
+                                <label for="phone">Numero de télefono</label>
+                                <div class="invalid-feedback" data-sb-feedback="phone:required">Se requiere un numero de telefono.</div>
+                            </div>
+                            <!-- Message input-->
+                            <div class="form-floating mb-3">
+                                <textarea class="form-control" id="message" type="text" placeholder="Cuerpo del mensaje..." style="height: 10rem" data-sb-validations="required"></textarea>
+                                <label for="message">Mensaje</label>
+                                <div class="invalid-feedback" data-sb-feedback="message:required">Se requiere un mensaje.</div>
+                            </div>
+                            <!-- Submit success message-->
+                            <!---->
+                            <!-- This is what your users will see when the form-->
+                            <!-- has successfully submitted-->
+                            <div class="d-none" id="submitSuccessMessage">
+                                <div class="text-center mb-3">
+                                    <div class="fw-bolder">Mensaje enviado con éxito.</div>
+                                    To activate this form, sign up at
+                                    <br />
+                                    <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
+                                </div>
+                            </div>
+                            <!-- Submit error message-->
+                            <!---->
+                            <!-- This is what your users will see when there is-->
+                            <!-- an error submitting the form-->
+                            <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error enviando mensaje</div></div>
+                            <!-- Submit Button-->
+                            <div class="d-grid"><button class="btn btn-primary btn-xl disabled" id="submitButton" type="submit">Submit</button></div>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
     <footer class="py-5 bg-dark">
         <div class="container">
             <p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p>
         </div>
     </footer>
+
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+</body>
 {% endblock %}

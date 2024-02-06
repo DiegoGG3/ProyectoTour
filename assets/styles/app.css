@@ -7,7 +7,7 @@ h1 {
     color: #45a049;
 }
 
-form {
+/* form {
     background-color: rgb(255, 255, 255);
     max-width: 300px;
     margin: auto;
@@ -15,8 +15,16 @@ form {
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+} */
 
+
+#contactForm {
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 label {
     display: block;
     margin-bottom: 8px;
@@ -39,13 +47,17 @@ input {
     cursor: pointer;
 } */
 
-button:hover {
+/* button:hover {
     background-color: #45a049;
-}
+} */
 
 #headerLandin{
     height: 70vh;
     flex-direction: column;
+}
+
+#bodyLandin{
+    height: 100vh;
 }
 
 #navbar {
