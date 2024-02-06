@@ -84,3 +84,12 @@ button:hover {
     font-weight: 400;
     margin-top: 27px;
 }
+
+#botonEncontrar{
+    width: 80%;
+}
+#botonPaises{
+    height: 41px;
+    margin-bottom: 3px;
+    padding-top: 12px;
+}
