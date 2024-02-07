@@ -3,10 +3,6 @@
     height: 100vh;
 }
 
-h1 {
-    color: #45a049;
-}
-
 /* form {
     background-color: rgb(255, 255, 255);
     max-width: 300px;
@@ -56,23 +52,35 @@ input {
     flex-direction: column;
 }
 
+
+
 #bodyLandin{
-    height: 100vh;
+    background-color: rgb(231, 226 ,202);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
+}
+
+
+#contact{
+    background-color: rgba(160,133,88,255);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
+    display: flex;
 }
 
 #navbar {
     background-color: rgba(0, 0, 0, 0.9); 
 }
 
-#spanmain{
+.spanmain{
     color: #e84134;
     display: block;
     font-family: Montserrat,sans-serif;
     font-size: 32px;
     font-weight: 900;
-    line-height: 32px;
     margin: auto;
-    max-width: 880px;
 }
 
 .buscar{
@@ -88,7 +96,7 @@ input {
     text-transform: uppercase;
 }
 
-#subtitulo{
+.subtitulo{
     color: #fff;
     display: block;
     font-family: Lato,sans-serif;
@@ -105,3 +113,38 @@ input {
     margin-bottom: 3px;
     padding-top: 12px;
 }
+
+#carrusel{
+    min-width: 100%;
+    max-height: 600;
+    min-height: 600;
+    text-align: center;
+}
+
+.fotoCarrusel{
+    max-height: 600;
+    min-height: 600;
+}
+
+.footer-block {
+    margin-bottom: 20px; /* Espacio entre bloques */
+}
+
+.footer-title {
+    font-weight: bold;
+    margin-bottom: 10px; /* Espacio entre título y lista */
+}
+
+.footer-list {
+    list-style-type: none; /* Quita los puntos de la lista */
+    padding: 0; /* Quita el padding predeterminado de la lista */
+}
+
+.footer-list__li {
+    margin-bottom: 5px; /* Espacio entre elementos de la lista */
+}
+
+.footer-li {
+    margin-bottom: 5px; /* Espacio entre elementos de la lista */
+}
+
