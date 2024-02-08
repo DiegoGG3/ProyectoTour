@@ -1,9 +1,9 @@
+
 {% extends 'base.html.twig' %}
 
 {% block title %}Tours Diego{% endblock %}
 
 {% block importmap %}
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('js/jquery-3.7.1.js') }}"></script>
     <script src="{{ asset('js/jquery-ui.js') }}"></script>
@@ -17,83 +17,75 @@
 {% endblock %}
 
 {% block body %}
-    <nav class="navbar navbar-expand-lg navbar-dark  bg-dark fixed-top" id="navbar">
-    <div class="container">
-        <a class="navbar-brand" href="#!">Tours Diego</a>
-        <img src="{{ asset('images/logo.png') }}" alt="Tours Diego Logo" style="max-width: 60px; height: auto;" />
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{{path('home')}}">Home</a></li>
-                {% if app.user %}
-                    {% for rol in app.user.roles %}
-                        {% if rol=="ROLE_USER" %}
-                            <li class="nav-item"><a class="nav-link" href="{{path('admin')}}">Mis Tours</a></li>
-                        {% endif %}
-                        {% if rol=="ROLE_ADMIN" %}
-                            <li class="nav-item"><a class="nav-link" href="{{path('admin')}}">Administración</a></li>
-                        {% endif %}
-                        {% if rol=="ROLE_GUIDE" %}
-                            <li class="nav-item"><a class="nav-link" href="{{path('admin')}}">Calendario Tours</a></li>
-                        {% endif %}
-                    {% endfor %}
-                    <li class="nav-item"><a class="nav-link" href="{{path('action-logout')}}">Cerrar Sesión</a></li>
-                {% else %}
-                    <li class="nav-item"><a class="nav-link" href="{{path('app_login')}}">Iniciar Sesión</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{path('app_register')}}">Registro</a></li>
-                {% endif %}
-            </ul>
-        </div>
-    </div>
-</nav>
-
-
-<div class="py-5 bg-image-full d-flex justify-content-center align-items-center h-100" id="headerLandin" style="background-image: url({{ asset('images/fondo.jpg')}})">
-    <div class="shadow p-3 mb-5 bg-white rounded text-center my-5 p-4 d-inline-block bg-transparent flex-column align-items-start" id="titulo">
-        <span class="spanmain">Los mejores tours que vas a encontrar</span>
-        <p class="subtitulo">¡Viaja con nosotros!</p>
-    </div>
-    
-    <div id="wrapper-buscador" class="shadow p-3 bg-white rounded text-center p-4 d-inline-block bg-transparent flex-column align-items-start">
-        <input type="hidden" name="q" value="" id="consulta">
-        <div >
-        <span class="subtitulo">Tours por ciudades disponibles:</span>
-            <div class="ui-widget" id="barraBusqueda">
-                <select id="combobox">
-                    <option value>Eliga una localidad...</option>
-                    <option value="Jaén">Jaén</option>
-                    <option value="Granada">Granada</option>
-                    <option value="Madrid">Madrid</option>
-                    <option value="Barcelona">Barcelona</option>
-                    <option value="Cádiz">Cádiz</option>
-                    <option value="Villardompardo">Valencia</option>
-                    <option value="Bilbao">Bilbao</option>
-                </select>
-            </div>              
-        </div>
-
-        </div>
-    </div>
-</div>
-
-
-<div id="bodyLandin" class="bg-image-full">
-
-    <section class="py-3">
-
-    <div class="container my-3" id="carrusel">
-    <span class="spanmain">Fotos tomadas desde rutas</span>
-        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
-                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4" aria-label="Slide 5"></button>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="#!">Tours Diego</a>
+            <img src="{{ asset('images/logo.png') }}" alt="Tours Diego Logo" style="max-width: 60px; height: auto;" />
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="{{ path('home') }}">Home</a></li>
+                    {% if app.user %}
+                        {% for rol in app.user.roles %}
+                            {% if rol=="ROLE_USER" %}
+                                <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Mis Tours</a></li>
+                            {% endif %}
+                            {% if rol=="ROLE_ADMIN" %}
+                                <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Administración</a></li>
+                            {% endif %}
+                            {% if rol=="ROLE_GUIDE" %}
+                                <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Calendario Tours</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        <li class="nav-item"><a class="nav-link" href="{{ path('action-logout') }}">Cerrar Sesión</a></li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{{ path('app_login') }}">Iniciar Sesión</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ path('app_register') }}">Registro</a></li>
+                    {% endif %}
+                </ul>
             </div>
-            <div class="carousel-inner">
+        </div>
+    </nav>
+
+    <div class="carousel-caption d-none d-md-block" id="fotos">
+        <div class="shadow p-3 mb-5 bg-black rounded text-center my-5 p-4 flex-column align-items-start" id="titulo">
+            <span class="spanmain">Los mejores tours que vas a encontrar</span>
+            <p class="subtitulo">¡Viaja con nosotros!</p>
+        </div>
+
+        <div id="wrapper-buscador" class="shadow p-3 bg-white rounded text-center p-4 d-inline-block bg-transparent flex-column align-items-start">
+            <input type="hidden" name="q" value="" id="consulta">
+            <div>
+                <div class="ui-widget" id="barraBusqueda">
+                    <select id="combobox">
+                        <option value>Eliga una localidad...</option>
+                        <option value="Jaén">Jaén</option>
+                        <option value="Granada">Granada</option>
+                        <option value="Madrid">Madrid</option>
+                        <option value="Barcelona">Barcelona</option>
+                        <option value="Cádiz">Cádiz</option>
+                        <option value="Villardompardo">Valencia</option>
+                        <option value="Bilbao">Bilbao</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Carrusel de imágenes -->
+            <div  id="carrusel">
+                <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4" aria-label="Slide 5"></button>
+                    </div>
+                    <div class="carousel-inner">
+                            <div class="carousel-inner">
                 <div class="carousel-item active">
                     <img src="{{ asset('fotos_carrusel/villar.jpg') }}" class="d-block w-75 mx-auto fotoCarrusel" alt="villar">
                     <div class="carousel-caption d-none d-md-block">
@@ -129,89 +121,8 @@
                         <p style="font-size: 1rem;">Ciudad de las Artes y de las Ciencias.</p>
                     </div>
                 </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
-    </div>
-</section>
 
-
-    <section class="page-section" id="contact">
-            <div class="container px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-lg-8 col-xl-6 text-center">
-                        <span class="spanmain">¡Contactacnos!</span>
-
-                        <hr class="divider" />
-                        <p class="subtitulo">Si deseas informacion sobre algun tour o ayuda para trabajar con nosotros</p>
-                    </div>
-                </div>
-                <div class="row gx-4 gx-lg-5 justify-content-center mb-5">
-                    <div class="col-lg-6">
-                       
-                        <form id="contactForm" data-sb-form-api-token="API_TOKEN">
-                            <div class="form-floating mb-3">
-                                <input class="form-control" id="name" type="text" placeholder="Enter your name..." data-sb-validations="required" />
-                                <label for="name">Nombre completo</label>
-                                <div class="invalid-feedback" data-sb-feedback="name:required">Se requiere un nombre</div>
-                            </div>
-                            <!-- Email address input-->
-                            <div class="form-floating mb-3">
-                                <input class="form-control" id="email" type="email" placeholder="email@example.com" data-sb-validations="required,email" />
-                                <label for="email">Dirección de correo</label>
-                                <div class="invalid-feedback" data-sb-feedback="email:required">Un correo es requerido.</div>
-                                <div class="invalid-feedback" data-sb-feedback="email:email">El correo no es valido.</div>
-                            </div>
-                            <!-- Phone number input-->
-                            <div class="form-floating mb-3">
-                                <input class="form-control" id="phone" type="tel" placeholder="+34 123 456 789" data-sb-validations="required" />
-                                <label for="phone">Numero de télefono</label>
-                                <div class="invalid-feedback" data-sb-feedback="phone:required">Se requiere un numero de telefono.</div>
-                            </div>
-                            <!-- Message input-->
-                            <div class="form-floating mb-3">
-                                <textarea class="form-control" id="message" type="text" placeholder="Cuerpo del mensaje..." style="height: 10rem" data-sb-validations="required"></textarea>
-                                <label for="message">Mensaje</label>
-                                <div class="invalid-feedback" data-sb-feedback="message:required">Se requiere un mensaje.</div>
-                            </div>
-                            <!-- Submit success message-->
-                            <!---->
-                            <!-- This is what your users will see when the form-->
-                            <!-- has successfully submitted-->
-                            <div class="d-none" id="submitSuccessMessage">
-                                <div class="text-center mb-3">
-                                    <div class="fw-bolder">Mensaje enviado con éxito.</div>
-                                    To activate this form, sign up at
-                                    <br />
-                                    <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
-                                </div>
-                            </div>
-                            <!-- Submit error message-->
-                            <!---->
-                            <!-- This is what your users will see when there is-->
-                            <!-- an error submitting the form-->
-                            <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error enviando mensaje</div></div>
-                            <!-- Submit Button-->
-                            <div class="d-grid"><button class="btn btn-primary btn-xl disabled" id="submitButton" type="submit">Submit</button></div>
-                        </form>
                     </div>
                 </div>
             </div>
-        </section>
-
-    <footer class="py-5 bg-dark">
-        <div class="container">
-            <p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p>
-        </div>
-    </footer>
-
-        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
-</div>
 {% endblock %}
