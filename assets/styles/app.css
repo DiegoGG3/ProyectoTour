@@ -96,6 +96,16 @@ input {
     text-transform: uppercase;
 }
 
+#titulo{
+    width: 50%;
+    margin-left: 265px;
+}
+
+.subtituloCarrusel{
+    width: 20%;
+    margin-left: 375px;
+
+}
 .subtitulo{
     color: #fff;
     display: block;
@@ -115,10 +125,8 @@ input {
 }
 
 #carrusel{
-    min-width: 100%;
-    max-height: 600;
-    min-height: 600;
-    text-align: center;
+    
+    height: 100vh;
 }
 
 .fotoCarrusel{
@@ -156,9 +164,7 @@ input {
 
 #fotos{
     z-index: 1;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 200px;
+    margin-bottom: 100px;
 }
 
 
