@@ -1,27 +1,103 @@
-{# templates/login.html.twig #}
-{% extends 'base.html.twig' %}
 
-{# ... #}
-{% block stylesheets %}
+{% block head %}
+<head>
+    <title>Login Tours Diego</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+
+    <link rel="icon" href="{{ asset('images/logo.png') }}" type="image/x-icon">
+
+</head>
 {% endblock %}
 
 {% block body %}
-    {% if error %}
+    
+
+    <body class="img js-fullheight" style="background-image: url({{ asset('images/fondo3.jpg') }});">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="#!">Tours Diego</a>
+            <img src="{{ asset('images/logo.png') }}" alt="Tours Diego Logo" style="max-width: 60px; height: auto;" />
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="{{ path('home') }}">Home</a></li>
+                    {% if app.user %}
+                        {% for rol in app.user.roles %}
+                            {% if rol=="ROLE_USER" %}
+                                <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Mis Tours</a></li>
+                            {% endif %}
+                            {% if rol=="ROLE_ADMIN" %}
+                                <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Administración</a></li>
+                            {% endif %}
+                            {% if rol=="ROLE_GUIDE" %}
+                                <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Calendario Tours</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        <li class="nav-item"><a class="nav-link" href="{{ path('action-logout') }}">Cerrar Sesión</a></li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{{ path('app_login') }}">Iniciar Sesión</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ path('app_register') }}">Registro</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+<section class="ftco-section">
+{% if error %}
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
-
-    <form action="{{ path('app_login') }}" method="post">
-        <label for="username">Email:</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}">
-
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="_password">
-
-        {# If you want to control the URL the user is redirected to on success
-        <input type="hidden" name="_target_path" value="/account"> #}
-
-        <button type="submit">login</button>
-        <a class="boton" href="{{ path('app_register') }}">Registrate</a>
-
-    </form>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center mb-5">
+                <h2 class="heading-section">Login Tours Diego</h2>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4 bg-dark rounded">
+                <div class="login-wrap p-0">
+                    <h3 class="mb-4 text-center">¿Tienes una cuenta?</h3>
+                    <form action="{{ path('app_login') }}" class="signin-form" method="post">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Correo" id="username" name="_username" value="{{ last_username }}" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" placeholder="Contraseña" id="password" name="_password" required>
+                            <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="form-control btn btn-primary submit px-3">Iniciar Sesion</button>
+                        </div>
+                        <div class="form-group d-md-flex">
+                            <div class="w-50">
+                                <label class="checkbox-wrap checkbox-primary">Remember Me
+                                    <input type="checkbox" checked>
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="w-50 text-md-right">
+                                <a href="#" style="color: #fff">Forgot Password</a>
+                            </div>
+                        </div>                        
+                    </form>
+                        <div class="form-group">
+                            <a class="form-control btn btn-primary submit px-3" href="{{ path('app_register') }}">Registrate</a>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{# <script src="{{ asset('js/jquery.min.js') }}"></script>
+<script src="{{ asset('js/popper.js') }}"></script>
+<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('js/main.js') }}"></script> #}
+</body>
 {% endblock %}
+

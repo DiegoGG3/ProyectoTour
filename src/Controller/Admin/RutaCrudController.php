@@ -13,6 +13,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 
 class RutaCrudController extends AbstractCrudController
@@ -46,5 +49,17 @@ class RutaCrudController extends AbstractCrudController
             FormField::addTab('Items Visitables'),
             AssociationField::new('visitas'),
         ];
+    }
+
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions
+            ->update(Crud::PAGE_INDEX, Action::NEW, function (Action $action) {
+                return $action->linkToRoute('app_crear_ruta', []);
+            })
+            // ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action) {
+            //     return $action->linkToRoute('app_crear_ruta', ["id"=>"hola"]);
+            // })
+            ;
     }
 }

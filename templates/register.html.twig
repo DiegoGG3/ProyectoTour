@@ -1,20 +1,71 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Registro - Tours Diego{% endblock %}
 
 {% block body %}
-    
+        <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 
-    {{ form_errors(registrationForm) }}
+    <body class="img js-fullheight" style="background-image: url({{ asset('images/fondo3.jpg') }});">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="#!">Tours Diego</a>
+            <img src="{{ asset('images/logo.png') }}" alt="Tours Diego Logo" style="max-width: 60px; height: auto;" />
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="{{ path('home') }}">Home</a></li>
+                    {% if app.user %}
+                        {% for rol in app.user.roles %}
+                            {% if rol=="ROLE_USER" %}
+                                <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Mis Tours</a></li>
+                            {% endif %}
+                            {% if rol=="ROLE_ADMIN" %}
+                                <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Administración</a></li>
+                            {% endif %}
+                            {% if rol=="ROLE_GUIDE" %}
+                                <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Calendario Tours</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        <li class="nav-item"><a class="nav-link" href="{{ path('action-logout') }}">Cerrar Sesión</a></li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{{ path('app_login') }}">Iniciar Sesión</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ path('app_register') }}">Registro</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
-    {{ form_start(registrationForm) }}
-        <h1>Register</h1>
-        {{ form_row(registrationForm.nombre) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.foto) }}
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center mb-5">
+                <h2 class="heading-section">Registro en Tours Diego</h2>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4 bg-dark rounded">
+                <div class="login-wrap p-0">
+                    <h3 class="mb-4 text-center">¿Nuevo por aquí?</h3>
+                     <form action="{{ path('app_register') }}" class="signin-form" method="post" enctype="multipart/form-data">
+                        {{ form_start(registrationForm) }}
+                        {{ form_row(registrationForm.nombre) }}
+                        {{ form_row(registrationForm.email) }}
+                        {{ form_row(registrationForm.plainPassword) }}
+                        {{ form_row(registrationForm.foto) }}
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <button type="submit" class="form-control btn btn-primary submit px-3">Registrarse</button>
+                            </div>
+                        </div>
+                        {{ form_end(registrationForm) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
 {% endblock %}
