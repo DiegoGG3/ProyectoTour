@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery-ui.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery-ui.structure.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery-ui.theme.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/css.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('styles/appRuta.css') }}" />
 
     <link rel="stylesheet" href="{{ asset('css/richtext.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/image-uploader.css') }}" />
@@ -29,7 +29,7 @@
 <body>
     <div id="crearRuta">
         <h1>Crear Ruta</h1>
-        <form method="post">
+        <form method="post" id="formulario">
             <ul>
                 <li><a href="#tabs-1">Informacion</a></li>
                 <li><a href="#tabs-2">Vistas</a></li>
@@ -72,38 +72,25 @@
                 <div id="filtro">
                     <label for="filtroLoc">Localidad</label>
                     <select name="filtroLoc" id="filtroLoc">
-                        <option value="villar">Villar</option>
-                        <option value="Jaen">Jaen</option>
-                        <option value="Madrid">Madrid</option>
-                        <option value="Barcelona">Barcelona</option>
+                        {% for localidad in localidades %}
+                            <option value={{localidad.nombre}}>{{localidad.nombre}}</option>
+                        {% endfor %}
+
                     </select>
                 </div>
 
                 <div>
                     <ul id="visitasDisponibles" style="border: 1px solid red;">
+                    {% for visita in visitas %}
                         <li class="tarjeta" style="border: 1px solid green;">
-                            <img src="{{ asset('css/images/carlo.jpg') }}" width="80px" height="80px" alt="Castillo">
-                            <h2>Castillo villar</h2>
+                        <img src="{{ asset('fotos_visita/' ~ visita.foto) }}" width="80px" height="80px" alt="Castillo">
+                            <h2>{{visita.nombre}}</h2>
                         </li>
-                        <li class="tarjeta" style="border: 1px solid green;">
-                            <img src="{{ asset('css/images/rana.jpg') }}" width="80px" height="80px" alt="Castillo">
-                            <h2>Pilar villar</h2>
-                        </li>
-                        <li class="tarjeta" style="border: 1px solid green;">
-                            <img src="{{ asset('css/images/oso.jpg') }}" width="80px" height="80px" alt="Castillo">
-                            <h2>Plaza villar</h2>
-                        </li>
-
+                    {% endfor %}
                     </ul>
                 </div>
                 <div>
-                    <ul id="visitasRuta" style="border: 1px solid red;">
-                        <li class="tarjeta" style="border: 1px solid green;">
-                            <img src="{{ asset('css/images/elbicho.jpg') }}" width="80px" height="80px" alt="Castillo">
-                            <h2>Llano villar</h2>
-                        </li>
-
-                    </ul>
+                    
                 </div>
 
             </div>

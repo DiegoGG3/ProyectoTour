@@ -1,0 +1,25 @@
+
+
+#tabs-2{
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+#filtro{
+    grid-column-start: 1;
+    grid-column-end: 4;
+}
+
+.tarjeta{
+    border-radius: 30px;
+    margin-bottom: 10px;
+}
+
+li{
+    list-style: none;
+}
+
+#diasSemana {
+    display: inline-block;
+    margin-right: 10px; 
+}

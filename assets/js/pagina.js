@@ -54,7 +54,7 @@ $(function () {
         modal: true,
         draggable: false,
         buttons: {
-            "Crear Ruta": crearRuta,
+            "Crear Ruta": validarInputs,
             "Crear Ruta Y Tours": CrearRutaYTours,
 
             "Cerrar": function () {
@@ -66,9 +66,9 @@ $(function () {
         position: { my: "top", at: "top", of: window }
     });
 
-    function crearRuta(){
-        alert("sisi");
-    }
+    // function crearRuta(){
+    //     alert("sisi");
+    // }
     function CrearRutaYTours(){
         alert("sisino");
 
@@ -138,7 +138,7 @@ $(function () {
     });
 
     function agregarFila() {
-        var rangoFecha = $("#fechaInicioPr").val() + " - " + $("#fechaFinPr").val();
+        var rangoFecha = $("#fechaInicioPr").val() + "-" + $("#fechaFinPr").val();
         var dias = obtenerDiasSeleccionados();
         var hora = $("#hora").val();
         var persona = $("#personas").val();
@@ -152,66 +152,34 @@ $(function () {
         $("#diasSemana input[type='checkbox']:checked").each(function() {
             diasSeleccionados.push($(this).val());
         });
-        return diasSeleccionados.join(", ");
+        return diasSeleccionados.join(",");
     }
+    
+    var closeButton = $(".ui-dialog-titlebar-close");
+    
+    closeButton.on("click", function () {
+        window.location.href = "/admin?crudAction=index&crudControllerFqcn=App%5CController%5CAdmin%5CRutaCrudController";
+    });
+
+    function validarInputs() {
+        var inputs = document.querySelectorAll('input[type="text"], textarea'); // Seleccionar todos los inputs de tipo texto y las áreas de texto
+        var inputsArray = Array.from(inputs); // Convertir la NodeList a un array para usar métodos como forEach
+        array_push($inputsArray, document.getElementById('descripcion'));
+        array_push($inputsArray, document.getElementById('spinner'));
+        // Iterar sobre cada input
+        inputsArray.forEach(function(input) {
+            if (input.value.trim() === '') { // Comprobar si el valor está vacío (después de recortar espacios en blanco)
+                input.style.borderColor = 'red'; // Establecer el borde rojo
+            } else {
+                input.style.borderColor = ''; 
+            }
+        });
+    }
+
+    document.querySelector('form').addEventListener('submit', function(event) {
+        event.preventDefault(); 
+        validarInputs();
+    });
     
 });
 
-/*
-services.ymal
-App\EventSubscriber\RequestSubscriber:
-        arguments:
-           # $mailer: '@Symfony\Component\Mailer\MailerInterface'
-        tags:
-            - { name: 'kernel.event_subscriber' }
-
-RequestSubscriber
-<?php
-namespace App\EventSubscriber;
-
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\RequestEvent;
-use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
-
-class RequestSubscriber implements EventSubscriberInterface
-{
-    private $mailer;
-
-    public function __construct(MailerInterface $mailer)
-    {
-        $this->mailer = $mailer;
-    }
-
-    public static function getSubscribedEvents()
-    {
-        return [
-            KernelEvents::REQUEST => 'onKernelRequest',
-        ];
-    }
-
-    public function onKernelRequest(RequestEvent $event)
-    {
-        // Accede al objeto Request para obtener información sobre la solicitud
-        $request = $event->getRequest();
-        $method = $request->getMethod();
-        $uri = $request->getUri();
-
-        // Envía un correo electrónico cada vez que se recibe una solicitud
-        $this->sendEmail("Solicitud recibida: $method $uri");
-    }
-
-    private function sendEmail($message)
-    {
-        // Implementa la lógica para enviar el correo electrónico utilizando el servicio Mailer
-        $email = (new Email())
-            ->from('noreply@example.com')
-            ->to('admin@example.com')
-            ->subject('Nueva Solicitud')
-            ->text($message);
-
-        $this->mailer->send($email);
-    }
-}
-*/
