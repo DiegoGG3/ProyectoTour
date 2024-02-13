@@ -80,17 +80,24 @@
                 </div>
 
                 <div>
-                    <ul id="visitasDisponibles" style="border: 1px solid red;">
+                <h1>Lugares Dispobibles</h1>
+                    <ul id="visitasDisponibles">
                     {% for visita in visitas %}
-                        <li class="tarjeta" style="border: 1px solid green;">
+                        <li id="{{visita.id}}" class="tarjeta" style="border: 1px solid green;">
                         <img src="{{ asset('fotos_visita/' ~ visita.foto) }}" width="80px" height="80px" alt="Castillo">
                             <h2>{{visita.nombre}}</h2>
                         </li>
                     {% endfor %}
+                        <li class="tarjeta" style="border: 1px solid green;"></li>
+
                     </ul>
                 </div>
                 <div>
-                    
+                    <h1>Lugares Asignados</h1>
+                    <ul id="visitasRuta">
+                        <li class="tarjeta" style="border: 1px solid green;"></li>
+
+                    </ul>
                 </div>
 
             </div>
