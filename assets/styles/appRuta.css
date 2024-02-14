@@ -1,18 +1,27 @@
 
+html{
+    background-color: #1c5353;
+    font-family: 'Arial', sans-serif; /* Cambia 'Arial' por tu fuente deseada */
+}
+
+#tabs-2,
+#tabs-3 {
+    font-family: inherit; 
+}
 
 #tabs-2{
     display: grid;
     grid-template-columns: 50% 50%;
 }
 
+#tabs-3{
+    display: grid;
+    grid-template-columns: 60% 40%;
+}
+
 #filtro{
     grid-column-start: 1;
     grid-column-end: 4;
-}
-
-.tarjeta{
-    border-radius: 30px;
-    margin-bottom: 10px;
 }
 
 li{
@@ -22,4 +31,172 @@ li{
 #diasSemana {
     display: inline-block;
     margin-right: 10px; 
+}
+
+input[type="text"]{
+    width: 30%;
+    padding: 8px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    resize: vertical;
+}
+
+.ui-dialog-titlebar{
+    background-color: rgb(14 62 59);
+}
+
+.ui-dialog-buttonpane{
+    background-color: rgb(14 62 59);
+
+}
+
+#tabs-1 {
+    background-color: #f2f2f2;
+
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+input[type="button"] {
+    padding: 10px 20px;
+    background-color: rgb(55, 157, 150);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 3px 3px teal;
+
+}
+
+.image-uploader{
+    width: 80%;
+}
+
+input[type="text"]{
+    box-shadow: 3px 3px teal;
+}
+
+.ui-spinner{
+    box-shadow: 3px 3px teal;
+    margin-bottom: 10px;
+}
+
+input{
+    margin-bottom: 5px;
+}
+
+#tabla {
+    margin: 20px auto;
+    width: 80%;
+}
+
+#horarios {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#horarios th,
+#horarios td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+#horarios th {
+    background-color: #f2f2f2;
+}
+
+#horarios tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#horarios tbody tr:hover {
+    background-color: #ddd;
+}
+
+#diasSemana {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+#diasSemana label {
+    display: block;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+#diasSemana input[type="checkbox"] {
+    display: none;
+}
+
+#diasSemana label {
+    padding: 10px 20px;
+    background-color: #bababa;
+    border-radius: 5px;
+}
+
+#diasSemana input[type="checkbox"]:checked + label {
+    background-color: teal;
+    color: white;
+}
+
+
+.formulario {
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#formulario label {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+#formulario input[type="time"],
+#formulario select {
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#formulario #botonAñadir {
+    align-self: flex-end;
+}
+
+.tarjeta {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: flex-start; /* Alinear los elementos al inicio del contenedor */
+}
+
+.tarjeta img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%; /* Para que la imagen sea redonda */
+}
+
+.tarjeta-content {
+    margin-left: 10px; /* Espacio entre la imagen y el contenido */
+}
+
+.tarjeta h2 {
+    margin-top: 0; /* Eliminar el margen superior predeterminado del h2 */
+    margin-bottom: 5px; /* Espacio entre el título y la descripción */
+}
+
+.tarjeta p {
+    margin: 0; /* Eliminar el margen del párrafo */
 }

@@ -193,9 +193,6 @@ $(function () {
 
         // Convertir el array de datos en formato JSON
         var jsonData = JSON.stringify(datosTabla);
-        var file = $('input[type="file"][id^="images-"]')[0].files[0].name;
-
-
         var formData = new FormData();
         formData.append('nombre', $('#nombre').val());
         formData.append('descripcion', $('#descripcion').val());

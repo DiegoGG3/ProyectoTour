@@ -34,7 +34,6 @@ class RutaCrudController extends AbstractCrudController
             TextField::new('puntoInicio'),
             
             FormField::addTab('Archivos'),
-            ArrayField::new('programacion'),
             ImageField::new('foto')
                 ->setBasePath('fotos_ruta/')
                 ->setUploadDir('public/fotos_ruta/')
