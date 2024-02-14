@@ -5,6 +5,8 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     fotos_perfil: '%kernel.project_dir%/public/fotos_perfil'
+    fotos_ruta: '%kernel.project_dir%/public/fotos_ruta'
+
 
 services:
     # default configuration for services in *this* file
@@ -24,10 +26,10 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    App\EventSubscriber\RequestSubscriber:
-        arguments:
-           # $mailer: '@Symfony\Component\Mailer\MailerInterface'
-        tags:
-            - { name: 'kernel.event_subscriber' }
+    # App\EventSubscriber\RequestSubscriber:
+    #     arguments:
+    #        # $mailer: '@Symfony\Component\Mailer\MailerInterface'
+    #     tags:
+    #         - { name: 'kernel.event_subscriber' }
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

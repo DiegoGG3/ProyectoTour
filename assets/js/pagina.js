@@ -44,7 +44,7 @@ $(function () {
         draggable: false,
         buttons: {
             "Crear Ruta": submit,
-            "Crear Ruta Y Tours": CrearRutaYTours,
+            "Crear Ruta Y Tours": obtenerIdsVisitasRuta,
             "Cerrar": function () {
                 $(this).dialog("close");
             }
@@ -169,34 +169,57 @@ $(function () {
             }
         });
         return ids; // Devolver el array de IDs
+
     }
 
     function submit(event) {
         event.preventDefault();
 
-        var formData = {
-            nombre: $('#nombre').val(),
-            descripcion: $('#descripcion').val(),
-            foto: ('foto', $('#foto')[0].files[0]), // Obtener el archivo de la entrada de archivo
-            puntoInicio: $('#x').val()+$('#y').val(),
-            tamanoMaximo: $('#spinner').val(),
-            visita: obtenerIdsVisitasRuta(),
+        var table = document.getElementById('horarios');
+
+        var datosTabla = [];
+
+        // Recorrer las filas de la tabla (empezando desde 1 para omitir la fila de encabezado)
+        for (var i = 1; i < table.rows.length; i++) {
+            var row = table.rows[i];
+            var fila = {
+                "rangoFecha": row.cells[0].innerText,
+                "dias": row.cells[1].innerText,
+                "hora": row.cells[2].innerText,
+                "persona": row.cells[3].innerText
+            };
+            datosTabla.push(fila);
+        }
+
+        // Convertir el array de datos en formato JSON
+        var jsonData = JSON.stringify(datosTabla);
+        var file = $('input[type="file"][id^="images-"]')[0].files[0].name;
 
 
-            
-        };
+        var formData = new FormData();
+        formData.append('nombre', $('#nombre').val());
+        formData.append('descripcion', $('#descripcion').val());
+        formData.append('foto', $('input[type="file"][id^="images-"]')[0].files[0]);
+        formData.append('puntoInicio', $('#x').val() + $('#y').val());
+        formData.append('tamanoMaximo', $('#spinner').val());
+        formData.append('fechaInicio', $('#fechaInicio').val());
+        formData.append('fechaFin', $('#fechaFin').val());
+        formData.append('programacion', jsonData);
+        formData.append('visitasId', obtenerIdsVisitasRuta());
 
         $.ajax({
             type: 'POST',
             url: '/apiRuta/insert',
-            contentType: 'application/json',
-            data: JSON.stringify(formData),
+            processData: false,
+            contentType: false,
+            data: formData,
             success: function(response) {
-                console.log('Ruta creada con éxito. ID: ' + response.id);
+                console.log(response);  
             },
             error: function(xhr, status, error) {
                 console.error('Error al crear la ruta:', xhr.responseText);
             }
         });
+
     }
 });
