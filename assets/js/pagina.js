@@ -43,7 +43,13 @@ $(function () {
         modal: true,
         draggable: false,
         buttons: {
-            "Crear Ruta": submit,
+            "Crear Ruta": function() {
+                if (!validarInputs()) {
+                    return; // Detener la ejecución si la validación falla
+                }else{
+                    submit(event); // Llamar a la función submit para enviar el formulario si la validación pasa
+                }
+            },
             "Crear Ruta Y Tours": obtenerIdsVisitasRuta,
             "Cerrar": function () {
                 $(this).dialog("close");
@@ -116,7 +122,47 @@ $(function () {
     });
 
     $("#botonAñadir").click(function(){
-        agregarFila();
+        var inputs = document.querySelectorAll('#tabs-3 input[type="text"]');
+        var inputsArray = Array.from(inputs);
+        var inputsValidos = true; // Variable para rastrear si todos los campos son válidos
+
+
+        inputsArray.forEach(function(input) {
+            if (input.value.trim() === '') {
+                input.style.borderColor = 'red';
+                inputsValidos = false; // Marcar como no válido si hay algún campo vacío
+            } else {
+                input.style.borderColor = ''; 
+                inputsValidos = true; // Marcar como no válido si hay algún campo vacío
+
+            }
+        });
+
+        var checkboxesSeleccionados = $('input[name="dia"]:checked').length;
+        
+        if (checkboxesSeleccionados === 0) {
+            $("#diasError").show(); 
+            inputsValidos = false; // Marcar como no válido si hay algún campo vacío        }
+        }else{
+            $("#diasError").hide(); 
+            inputsValidos = true; // Marcar como no válido si hay algún campo vacío        }
+        }
+
+        var hora = $('#hora').val();
+        
+        if (hora === '') {
+            $('#hora').css('border-color', 'red'); // Establecer el borde rojo
+            inputsValidos = false; // Marcar como no válido si hay algún campo vacío        }
+        }else{
+            $('#hora').css('border-color', ''); // Establecer el borde rojo
+            inputsValidos = true; // Marcar como no válido si hay algún campo vacío        }
+        }
+
+        if (inputsValidos==true) {
+            agregarFila();
+            $("#tablaError").hide(); 
+        }
+        
     });
 
     function agregarFila() {
@@ -124,10 +170,14 @@ $(function () {
         var dias = obtenerDiasSeleccionados();
         var hora = $("#hora").val();
         var persona = $("#personas").val();
-  
-        var fila = "<tr><td>" + rangoFecha + "</td><td>" + dias + "</td><td>" + hora + "</td><td>" + persona + "</td></tr>";
+    
+        // Agregamos el botón de eliminar a la fila
+        var fila = "<tr><td>" + rangoFecha + "</td><td>" + dias + "</td><td>" + hora + "</td><td>" + persona + "</td><td><input type='button' class='eliminarFila' value='Eliminar'></td></tr>";
+    
+        // Agregamos la fila a la tabla
         $("#horarios tbody").append(fila);
     }
+    
   
     function obtenerDiasSeleccionados() {
         var diasSeleccionados = [];
@@ -136,6 +186,11 @@ $(function () {
         });
         return diasSeleccionados.join(",");
     }
+
+    $('#horarios').on('click', '.eliminarFila', function() {
+        // Eliminar la fila actual
+        $(this).closest('tr').remove();
+    });
     
     var closeButton = $(".ui-dialog-titlebar-close");
     
@@ -219,4 +274,71 @@ $(function () {
         });
 
     }
+
+    function validarInputs() {
+        var inputs = document.querySelectorAll('#tabs-1 input[type="text"], textarea');
+        var inputsArray = Array.from(inputs);
+        var spinnerValue = $("#spinner").spinner("value"); // Obtener el valor del spinner
+        var inputsValidos = true; // Variable para rastrear si todos los campos son válidos
+        inputsArray.forEach(function(input) {
+            if (input.value.trim() === '') {
+                input.style.borderColor = 'red';
+                inputsValidos = false; // Marcar como no válido si hay algún campo vacío
+            } else {
+                input.style.borderColor = ''; 
+                inputsValidos = true; // Marcar como no válido si hay algún campo vacío
+
+            }
+        });
+
+        // Validar el spinner
+        if (spinnerValue === null || spinnerValue === undefined || spinnerValue === '') {
+            $(".ui-spinner").css("border-color", "red");
+            inputsValidos = false; // Marcar como no válido si el spinner está vacío
+        } else {
+            $(".ui-spinner").css("border-color", "");
+            inputsValidos = true; // Marcar como no válido si hay algún campo vacío
+        }
+
+
+        var descripcion = $("#descripcion").html().trim(); // Obtener el contenido del Rich Text Editor y eliminar espacios en blanco al principio y al final
+        if (descripcion == '') {
+            $("#descripcionError").show(); 
+            inputsValidos = false; // Marcar como no válido si hay algún campo vacío
+        } else {
+            $("#descripcionError").hide(); 
+            inputsValidos = true; // Marcar como no válido si hay algún campo vacío
+        }
+
+        if ($("#visitasRuta").find("li").length === 0) {
+            $("#tarjetasError").show(); 
+            inputsValidos = false; // Marcar como no válido si hay algún campo vacío
+        } else {
+            $("#tarjetasError").hide(); 
+            inputsValidos = true; // Marcar como no válido si hay algún campo vacío
+        }
+
+        if ($("#horarios tbody tr").length === 0) {
+            $("#tablaError").show(); 
+            inputsValidos = false; // Marcar como no válido si la tabla de horarios está vacía
+        } else {
+            $("#tablaError").hide(); 
+            inputsValidos = true; // Marcar como válido si la tabla de horarios tiene al menos una fila
+        }
+
+        var cantidadImagenes = $(".uploaded-image").length;
+
+        // Comprobar si hay exactamente una imagen cargada
+        if (cantidadImagenes == 1) {
+            $("#fotoError").hide(); 
+            inputsValidos = true; // Marcar como no válido si hay algún campo vacío
+        } else {
+            $("#fotoError").show(); 
+            inputsValidos = false; // Marcar como no válido si hay algún campo vacío
+        }
+    
+
+        return inputsValidos; // Devolver si todos los campos son válidos
+    }
+
 });

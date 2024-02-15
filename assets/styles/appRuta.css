@@ -79,6 +79,10 @@ input[type="text"]{
     box-shadow: 3px 3px teal;
 }
 
+.tarjetasUl{
+    height: 400px;
+}
+
 .ui-spinner{
     box-shadow: 3px 3px teal;
     margin-bottom: 10px;
