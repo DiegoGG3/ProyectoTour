@@ -45,12 +45,18 @@ $(function () {
         buttons: {
             "Crear Ruta": function() {
                 if (!validarInputs()) {
-                    return; // Detener la ejecución si la validación falla
+                    return; 
                 }else{
-                    submit(event); // Llamar a la función submit para enviar el formulario si la validación pasa
+                    submit(event, false);
                 }
             },
-            "Crear Ruta Y Tours": obtenerIdsVisitasRuta,
+            "Crear Ruta Y Tours": function() {
+                if (!validarInputs()) {
+                    return; 
+                }else{
+                    submit(event, true);
+                }
+            },
             "Cerrar": function () {
                 $(this).dialog("close");
             }
@@ -124,16 +130,16 @@ $(function () {
     $("#botonAñadir").click(function(){
         var inputs = document.querySelectorAll('#tabs-3 input[type="text"]');
         var inputsArray = Array.from(inputs);
-        var inputsValidos = true; // Variable para rastrear si todos los campos son válidos
+        var inputsValidos = true; 
 
 
         inputsArray.forEach(function(input) {
             if (input.value.trim() === '') {
                 input.style.borderColor = 'red';
-                inputsValidos = false; // Marcar como no válido si hay algún campo vacío
+                inputsValidos = false; 
             } else {
                 input.style.borderColor = ''; 
-                inputsValidos = true; // Marcar como no válido si hay algún campo vacío
+                inputsValidos = true; 
 
             }
         });
@@ -142,20 +148,20 @@ $(function () {
         
         if (checkboxesSeleccionados === 0) {
             $("#diasError").show(); 
-            inputsValidos = false; // Marcar como no válido si hay algún campo vacío        }
+            inputsValidos = false;
         }else{
             $("#diasError").hide(); 
-            inputsValidos = true; // Marcar como no válido si hay algún campo vacío        }
+            inputsValidos = true;
         }
 
         var hora = $('#hora').val();
         
         if (hora === '') {
-            $('#hora').css('border-color', 'red'); // Establecer el borde rojo
-            inputsValidos = false; // Marcar como no válido si hay algún campo vacío        }
+            $('#hora').css('border-color', 'red'); 
+            inputsValidos = false;
         }else{
-            $('#hora').css('border-color', ''); // Establecer el borde rojo
-            inputsValidos = true; // Marcar como no válido si hay algún campo vacío        }
+            $('#hora').css('border-color', ''); 
+            inputsValidos = true;
         }
 
         if (inputsValidos==true) {
@@ -171,10 +177,8 @@ $(function () {
         var hora = $("#hora").val();
         var persona = $("#personas").val();
     
-        // Agregamos el botón de eliminar a la fila
         var fila = "<tr><td>" + rangoFecha + "</td><td>" + dias + "</td><td>" + hora + "</td><td>" + persona + "</td><td><input type='button' class='eliminarFila' value='Eliminar'></td></tr>";
     
-        // Agregamos la fila a la tabla
         $("#horarios tbody").append(fila);
     }
     
@@ -188,7 +192,6 @@ $(function () {
     }
 
     $('#horarios').on('click', '.eliminarFila', function() {
-        // Eliminar la fila actual
         $(this).closest('tr').remove();
     });
     
@@ -216,25 +219,25 @@ $(function () {
     });
 
     function obtenerIdsVisitasRuta() {
-        var ids = []; // Array para almacenar las ID
-        $("#visitasRuta li").each(function() { // Iterar sobre cada elemento <li> dentro de #visitasRuta
-            var id = $(this).attr("id"); // Obtener la ID del elemento actual
-            if (id) { // Si la ID existe
-                ids.push(id); // Agregar la ID al array
+        var ids = [];
+        $("#visitasRuta li").each(function() { 
+            var id = $(this).attr("id"); 
+            if (id) { 
+                ids.push(id); 
             }
         });
-        return ids; // Devolver el array de IDs
+        return ids; 
 
     }
 
-    function submit(event) {
+    function submit(event, tour) {
+
         event.preventDefault();
 
         var table = document.getElementById('horarios');
 
         var datosTabla = [];
 
-        // Recorrer las filas de la tabla (empezando desde 1 para omitir la fila de encabezado)
         for (var i = 1; i < table.rows.length; i++) {
             var row = table.rows[i];
             var fila = {
@@ -246,7 +249,6 @@ $(function () {
             datosTabla.push(fila);
         }
 
-        // Convertir el array de datos en formato JSON
         var jsonData = JSON.stringify(datosTabla);
         var formData = new FormData();
         formData.append('nombre', $('#nombre').val());
@@ -258,6 +260,10 @@ $(function () {
         formData.append('fechaFin', $('#fechaFin').val());
         formData.append('programacion', jsonData);
         formData.append('visitasId', obtenerIdsVisitasRuta());
+        formData.append('creaTour', tour);
+        formData.append('idGuia', $('#personas').val());
+
+
 
         $.ajax({
             type: 'POST',
@@ -274,71 +280,97 @@ $(function () {
         });
 
     }
+    document.getElementById('filtroLoc').addEventListener('change', function() {
+        var localidadId = this.value;
+        
+        // Realizar una solicitud AJAX para obtener los lugares disponibles para la localidad seleccionada
+        $.ajax({
+            type: 'POST',
+            url: '/obtener_lugares_disponibles',
+            data: { localidadId: localidadId },
+            success: function(response) {
+                // Limpiar la lista de lugares disponibles antes de agregar los nuevos elementos
+                $('#visitasDisponibles').empty();
+                $("#visitasRuta").empty();
+
+                // Recorrer los datos recibidos y agregar cada lugar disponible como un nuevo elemento de lista
+                response.forEach(function(lugar) {
+                    var listItem = '<li id="' + lugar.id + '" class="tarjeta" style="border: 1px solid green;">' +
+                                       '<img src="/fotos_visita/' + lugar.foto + '" width="80px" height="80px" alt="' + lugar.nombre + '">' +
+                                       '<h2>' + lugar.nombre + '</h2>' +
+                                   '</li>';
+                    $('#visitasDisponibles').append(listItem);
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error('Error al obtener lugares disponibles:', xhr.responseText);
+            }
+        });
+    });
 
     function validarInputs() {
         var inputs = document.querySelectorAll('#tabs-1 input[type="text"], textarea');
         var inputsArray = Array.from(inputs);
-        var spinnerValue = $("#spinner").spinner("value"); // Obtener el valor del spinner
-        var inputsValidos = true; // Variable para rastrear si todos los campos son válidos
+        var spinnerValue = $("#spinner").spinner("value"); 
+        var inputsValidos = true; 
         inputsArray.forEach(function(input) {
             if (input.value.trim() === '') {
                 input.style.borderColor = 'red';
-                inputsValidos = false; // Marcar como no válido si hay algún campo vacío
+                inputsValidos = false; 
             } else {
                 input.style.borderColor = ''; 
-                inputsValidos = true; // Marcar como no válido si hay algún campo vacío
+                inputsValidos = true; 
 
             }
         });
 
-        // Validar el spinner
+        
         if (spinnerValue === null || spinnerValue === undefined || spinnerValue === '') {
             $(".ui-spinner").css("border-color", "red");
-            inputsValidos = false; // Marcar como no válido si el spinner está vacío
+            inputsValidos = false; 
         } else {
             $(".ui-spinner").css("border-color", "");
-            inputsValidos = true; // Marcar como no válido si hay algún campo vacío
+            inputsValidos = true; 
         }
 
 
-        var descripcion = $("#descripcion").html().trim(); // Obtener el contenido del Rich Text Editor y eliminar espacios en blanco al principio y al final
+        var descripcion = $("#descripcion").html().trim(); 
         if (descripcion == '') {
             $("#descripcionError").show(); 
-            inputsValidos = false; // Marcar como no válido si hay algún campo vacío
-        } else {
+            inputsValidos = false; 
             $("#descripcionError").hide(); 
-            inputsValidos = true; // Marcar como no válido si hay algún campo vacío
+            inputsValidos = true; 
         }
 
         if ($("#visitasRuta").find("li").length === 0) {
             $("#tarjetasError").show(); 
-            inputsValidos = false; // Marcar como no válido si hay algún campo vacío
+            inputsValidos = false;
         } else {
             $("#tarjetasError").hide(); 
-            inputsValidos = true; // Marcar como no válido si hay algún campo vacío
+            inputsValidos = true;
         }
 
         if ($("#horarios tbody tr").length === 0) {
             $("#tablaError").show(); 
-            inputsValidos = false; // Marcar como no válido si la tabla de horarios está vacía
+            inputsValidos = false;
         } else {
             $("#tablaError").hide(); 
-            inputsValidos = true; // Marcar como válido si la tabla de horarios tiene al menos una fila
+            inputsValidos = true; 
         }
 
         var cantidadImagenes = $(".uploaded-image").length;
 
-        // Comprobar si hay exactamente una imagen cargada
+        
         if (cantidadImagenes == 1) {
             $("#fotoError").hide(); 
-            inputsValidos = true; // Marcar como no válido si hay algún campo vacío
+            inputsValidos = true;
         } else {
             $("#fotoError").show(); 
-            inputsValidos = false; // Marcar como no válido si hay algún campo vacío
+            inputsValidos = false;
         }
     
 
-        return inputsValidos; // Devolver si todos los campos son válidos
+        return inputsValidos; 
     }
 
 });

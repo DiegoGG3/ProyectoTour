@@ -4,9 +4,13 @@
 namespace App\Controller\Api;
 use DateTime;
 use App\Entity\Ruta;
+use App\Entity\Tour;
+use App\Entity\User;
 use App\Entity\Visita;
 use App\Repository\RutaRepository;
 use App\Repository\VisitaRepository;
+use App\Repository\UserRepository;
+
 use App\Service\RutaService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -46,58 +50,78 @@ class ApiRuta extends AbstractController
     }
 
     #[Route("/insert", name: "insert", methods: ["POST"])]
-public function insert(Request $request, EntityManagerInterface $entityManager, VisitaRepository $visitaRepository): JsonResponse
-{
-    // Obtener los datos del formulario
-    $nombre = $request->request->get('nombre');
-    $descripcion = $request->request->get('descripcion');
-    $puntoInicio = $request->request->get('puntoInicio');
-    $tamanoMaximo = $request->request->get('tamanoMaximo');
-    $fechaInicio = DateTime::createFromFormat('d/m/Y', $request->request->get('fechaInicio'));
-    $fechaFin = DateTime::createFromFormat('d/m/Y', $request->request->get('fechaFin'));
-    $programacion = json_decode($request->request->get('programacion'));
-    $ids = $data['visitasId'] ?? [];
+    public function insert(Request $request, EntityManagerInterface $entityManager, VisitaRepository $visitaRepository, UserRepository $userRepository): JsonResponse
+    {
+        $nombre = $request->request->get('nombre');
+        $descripcion = $request->request->get('descripcion');
+        $puntoInicio = $request->request->get('puntoInicio');
+        $tamanoMaximo = $request->request->get('tamanoMaximo');
+        $fechaInicio = DateTime::createFromFormat('d/m/Y', $request->request->get('fechaInicio'));
+        $fechaFin = DateTime::createFromFormat('d/m/Y', $request->request->get('fechaFin'));
+        $programacion = json_decode($request->request->get('programacion'));
+        $creaTour = $request->request->get('creaTour');
+        $idGuia = $request->request->get('idGuia');
 
-    // Crear una nueva instancia de la entidad Ruta
-    $ruta = new Ruta();
-    $ruta->setNombre($nombre);
-    $ruta->setDescripcion($descripcion);
-    $ruta->setPuntoInicio($puntoInicio);
-    $ruta->setTamanoMaximo($tamanoMaximo);
-    $ruta->setFechaInicio($fechaInicio);
-    $ruta->setFechaFin($fechaFin);
-    $ruta->setProgramacion($programacion);
+        
+        $ids = $request->request->get('visitasId');
+        $idsArray = array_map('intval', explode(',', $ids));
 
-    // Manejar la carga de archivos
-    $file = $request->files->get('foto');
+        
+    
+        $ruta = new Ruta();
+        $ruta->setNombre($nombre);
+        $ruta->setDescripcion($descripcion);
+        $ruta->setPuntoInicio($puntoInicio);
+        $ruta->setTamanoMaximo($tamanoMaximo);
+        $ruta->setFechaInicio($fechaInicio);
+        $ruta->setFechaFin($fechaFin);
+        $ruta->setProgramacion($programacion);
+    
+        $file = $request->files->get('foto');
         $fileName = md5(uniqid()) . '.' . $file->guessExtension();
         $file->move(
             $this->getParameter('fotos_ruta'),
             $fileName
         );
         $ruta->setFoto($fileName);
-
-    // Buscar y añadir las visitas relacionadas
-    $visitasEncontradas = [];
-    foreach ($ids as $id) {
-        $visita = $visitaRepository->find($id);
-        if ($visita) {
-            $visitasEncontradas[] = $visita;
-        }
-    }
-    foreach ($visitasEncontradas as $visita) {
-        $ruta->addVisita($visita);
-    }
-
-    // Persistir y guardar la entidad Ruta en la base de datos
-    $entityManager->persist($ruta);
-    $entityManager->flush();
-
-    // Devolver una respuesta JSON con el ID de la nueva entidad creada y el código de estado HTTP 201 (Created)
-    return new JsonResponse(['id' => $ruta->getId()], JsonResponse::HTTP_CREATED);
-}
-
     
+        if (is_iterable($idsArray)) {
+            foreach ($idsArray as $id) {
+                $visita = $visitaRepository->find($id);
+                if ($visita) {
+                    $ruta->addVisita($visita);
+                }
+            }
+        } else {
+            $ids = [];
+        }
+        
+        $entityManager->persist($ruta);
+        $entityManager->flush();
+
+        foreach ($programacion as $programa) {
+            // Crear un nuevo objeto Tour
+            $tour = new Tour();
+            $tour->setCodRuta($ruta); // Asignar la ruta asociada al tour
+        
+            // Supongamos que tienes un ID de guía disponible para cada programación de ruta
+            // Puedes obtener el objeto User (guía) de la base de datos utilizando el UserRepository
+            $guia = $userRepository->find($idGuia);
+            $tour->setGuia($guia); // Asignar el guía al tour
+        
+            $tour->setFechaHora(new \DateTime()); // Establecer la fecha y hora actual para el tour
+        
+            // Persistir el tour en la base de datos
+            $entityManager->persist($tour);
+        }
+
+        $entityManager->flush();
+
+
+        return new JsonResponse(['id' => $creaTour], JsonResponse::HTTP_CREATED);
+    }
+
+       
 
     #[Route("/update/{id}", name: "update", methods: ["PUT"])]
     public function update(Request $request, $id, RutaRepository $rutaRepository): Response

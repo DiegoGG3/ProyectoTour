@@ -31,7 +31,7 @@ class Tour
 
     #[ORM\ManyToOne(inversedBy: 'tours')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?user $guia = null;
+    private ?User $guia = null;
 
     public function __construct()
     {
@@ -128,15 +128,16 @@ class Tour
         return $this;
     }
 
-    public function getGuia(): ?user
+    public function getGuia(): ?User
     {
         return $this->guia;
     }
 
-    public function setGuia(?user $guia): static
+    public function setGuia(?User $guia): static
     {
         $this->guia = $guia;
 
         return $this;
     }
+
 }
