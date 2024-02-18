@@ -3,24 +3,6 @@
     height: 100vh;
 }
 
-/* form {
-    background-color: rgb(255, 255, 255);
-    max-width: 300px;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-} */
-
-
-#contactForm {
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
 label {
     display: block;
     margin-bottom: 8px;
@@ -33,49 +15,18 @@ input {
     box-sizing: border-box;
 }
 
-/* button, .boton {
-    text-decoration: none;
-    background-color: #4caf50;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-} */
-
-/* button:hover {
-    background-color: #45a049;
-} */
-
 #headerLandin{
     height: 70vh;
     flex-direction: column;
 }
 
 
-
-#bodyLandin{
-    background-color: rgb(231, 226 ,202);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed; 
-}
-
-
-#contact{
-    background-color: rgba(160,133,88,255);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed; 
-    display: flex;
-}
-
 #navbar {
     background-color: rgba(0, 0, 0, 0.9); 
 }
 
 .spanmain{
-    color: #e84134;
+    color: teal;
     display: block;
     font-family: Montserrat,sans-serif;
     font-size: 32px;
@@ -103,13 +54,14 @@ input {
 
 .subtituloCarrusel{
     width: 20%;
+    color: black;
     margin-left: 375px;
 
 }
 .subtitulo{
-    color: #fff;
+    font-family: Montserrat,sans-serif;
+    color: #000000;
     display: block;
-    font-family: Lato,sans-serif;
     font-size: 20px;
     font-weight: 400;
     margin-top: 27px;
@@ -119,6 +71,8 @@ input {
     width: 80%;
 }
 #botonPaises{
+    background-color: teal;
+    color: white;
     height: 41px;
     margin-bottom: 3px;
     padding-top: 12px;
@@ -126,7 +80,7 @@ input {
 
 #carrusel{
     
-    height: 100vh;
+    height: 90vh;
 }
 
 .fotoCarrusel{
@@ -166,4 +120,7 @@ input {
     z-index: 1;
     margin-bottom: 100px;
 }
-      
+    
+#segundoSection{
+    margin-top: 350px;
+}

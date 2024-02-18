@@ -1,7 +1,7 @@
 
 html{
     background-color: #1c5353;
-    font-family: 'Arial', sans-serif; /* Cambia 'Arial' por tu fuente deseada */
+    font-family: 'Arial', sans-serif; 
 }
 
 #tabs-2,
@@ -183,24 +183,24 @@ input{
     padding: 10px;
     margin-bottom: 10px;
     display: flex;
-    align-items: flex-start; /* Alinear los elementos al inicio del contenedor */
+    align-items: flex-start;
 }
 
 .tarjeta img {
     width: 80px;
     height: 80px;
-    border-radius: 50%; /* Para que la imagen sea redonda */
+    border-radius: 50%;
 }
 
 .tarjeta-content {
-    margin-left: 10px; /* Espacio entre la imagen y el contenido */
+    margin-left: 10px; 
 }
 
 .tarjeta h2 {
-    margin-top: 0; /* Eliminar el margen superior predeterminado del h2 */
-    margin-bottom: 5px; /* Espacio entre el título y la descripción */
+    margin-top: 0; 
+    margin-bottom: 5px; 
 }
 
 .tarjeta p {
-    margin: 0; /* Eliminar el margen del párrafo */
+    margin: 0; 
 }
