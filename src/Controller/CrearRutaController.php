@@ -34,26 +34,26 @@ class CrearRutaController extends AbstractController
     }
 
     #[Route("/obtener_lugares_disponibles", name: "obtener_lugares_disponibles")]
-public function obtenerLugaresDisponibles(Request $request, EntityManagerInterface $entityManager): JsonResponse
-{
-    $localidadId = $request->request->get('localidadId');
+    public function obtenerLugaresDisponibles(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $localidadId = $request->request->get('localidadId');
 
-    // Obtener los lugares disponibles según la localidad seleccionada
-    $lugaresDisponibles = $entityManager->getRepository(Visita::class)->findBy(['localidad' => $localidadId]);
+        // Obtener los lugares disponibles según la localidad seleccionada
+        $lugaresDisponibles = $entityManager->getRepository(Visita::class)->findBy(['localidad' => $localidadId]);
 
-    // Convertir los resultados a un array de datos que se pueden serializar fácilmente
-    $data = [];
-    foreach ($lugaresDisponibles as $visita) {
-        $data[] = [
-            'id' => $visita->getId(),
-            'nombre' => $visita->getNombre(),
-            'foto' => $visita->getFoto(),
+        // Convertir los resultados a un array de datos que se pueden serializar fácilmente
+        $data = [];
+        foreach ($lugaresDisponibles as $visita) {
+            $data[] = [
+                'id' => $visita->getId(),
+                'nombre' => $visita->getNombre(),
+                'foto' => $visita->getFoto(),
 
-            // Agrega más campos según sea necesario
-        ];
+                // Agrega más campos según sea necesario
+            ];
+        }
+
+        // Devolver los datos como respuesta JSON
+        return new JsonResponse($data);
     }
-
-    // Devolver los datos como respuesta JSON
-    return new JsonResponse($data);
-}
 }

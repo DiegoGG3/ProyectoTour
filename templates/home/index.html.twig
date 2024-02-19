@@ -8,7 +8,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('js/jquery-3.7.1.js') }}"></script>
     <script src="{{ asset('js/jquery-ui.js') }}"></script>
-    <script src="js/scripts.js"></script>
     <script src="{{ asset('js/landin.js') }}"></script>
 
     <link rel="icon" type="image/x-icon" href="{{ asset('images/logo.png') }}" />
@@ -60,18 +59,17 @@
                     <p class="subtitulo">¡Viaja con nosotros!</p>
                     <div id="wrapper-buscador" class="p-3 bg-white rounded text-center p-4 d-inline-block bg-transparent flex-column align-items-start">
                         <input type="hidden" name="q" value="" id="consulta">
-                        <div>
+                        <div id="dividirBusca">
                             <div class="ui-widget" id="barraBusqueda">
                                 <select id="combobox">
-                                    <option value>Eliga una localidad...</option>
-                                    <option value="Jaén">Jaén</option>
-                                    <option value="Granada">Granada</option>
-                                    <option value="Madrid">Madrid</option>
-                                    <option value="Barcelona">Barcelona</option>
-                                    <option value="Cádiz">Cádiz</option>
-                                    <option value="Villardompardo">Valencia</option>
-                                    <option value="Bilbao">Bilbao</option>
+                                    <option value="">Eliga una localidad...</option>
+                                    {% for localidad in localidades %}
+                                        <option value="{{ localidad.id }}">{{ localidad.nombre }}</option>
+                                    {% endfor %}
                                 </select>
+                            </div>
+                            <div>
+                                <input type="button" id="buscarCiudad" value="Buscar">
                             </div>
                         </div>
                     </div>
@@ -199,5 +197,6 @@
             </div>
         </section>
     </body>
+    
 
 {% endblock %}

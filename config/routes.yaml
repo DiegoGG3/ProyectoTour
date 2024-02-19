@@ -6,3 +6,8 @@ controllers:
 
 action-logout:
     path: /logout
+
+rutas_por_localidad_nombre:
+    path: /rutas-por-localidad-nombre/{nombre}
+    controller: App\Controller\RutasPorLocalidadController::mostrarRutasPorLocalidadNombre
+    methods: [GET]

@@ -48,8 +48,20 @@ input {
 }
 
 #titulo{
+    border: 7px solid teal;
     width: 50%;
     margin-left: 265px;
+}
+
+input[type="button"] {
+    padding: 10px 20px;
+    background-color: rgb(55, 157, 150);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 3px 3px teal;
+
 }
 
 .subtituloCarrusel{
@@ -123,4 +135,9 @@ input {
     
 #segundoSection{
     margin-top: 350px;
+}
+
+#dividirBusca{
+    display: grid;
+    grid-template-columns: 80% 25%;
 }

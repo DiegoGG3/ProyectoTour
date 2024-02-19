@@ -9,6 +9,12 @@ parameters:
 
 
 services:
+    # Otros servicios aquí...
+
+    App\Service\RutasPorLocalidadService:
+        autowire: true
+    
+
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
