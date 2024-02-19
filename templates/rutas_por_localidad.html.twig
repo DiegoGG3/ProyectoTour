@@ -1,1 +1,101 @@
-<h1>{{rutas[0].foto}}</h1>
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Tours Diego
+{% endblock %}
+
+{% block importmap %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('js/jquery-3.7.1.js') }}"></script>
+    <script src="{{ asset('js/jquery-ui.js') }}"></script>
+    <script src="{{ asset('js/landin.js') }}"></script>
+
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/logo.png') }}" />
+    <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
+    <link href="{{ asset('styles/app.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/jquery-ui.css') }}" rel="stylesheet" />
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}
+
+{% block body %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="#!">Tours Diego</a>
+            <img src="{{ asset('images/logo.png') }}" alt="Tours Diego Logo" style="max-width: 60px; height: auto;" />
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="{{ path('home') }}">Home</a></li>
+                    {% if app.user %}
+                        {% for rol in app.user.roles %}
+                            {% if rol != "ROLE_ADMIN" %}
+                                <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Mis Tours</a></li>
+                            {% endif %}
+                            {% if rol=="ROLE_ADMIN" %}
+                                <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Administración</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Calendario</a></li>
+                            {% endif %}
+                            {% if rol=="ROLE_GUIDE" %}
+                                <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Calendario Tours</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        <li class="nav-item"><a class="nav-link" href="{{ path('action-logout') }}">Cerrar Sesión</a></li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{{ path('app_login') }}">Iniciar Sesión</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ path('app_register') }}">Registro</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <link href="{{ asset('styles/listado.css') }}" rel="stylesheet" />
+
+    <div id="rutas">
+    {% for ruta in rutas %}
+    <div id="ruta{{ ruta.id }}" class="divsRutas">
+        <img src="{{ asset('fotos_ruta/' ~ ruta.foto) }}" width="200px" height="200px" alt="{{ ruta.nombre }}" class="fotoRuta">
+        <h1 value="{{ ruta.id }}">{{ ruta.nombre }}</h1>
+        <p>{{ ruta.descripcion }}</p>
+        <input type="button" class="botones" data-toggle="modal" data-target="#modal{{ ruta.id }}" value="Mas Info">
+
+
+<div class="modal fade" id="modal{{ ruta.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{{ ruta.nombre }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h4>Tours asociados:</h4>
+                <ul>
+                    {% for tour in toursPorRuta[ruta.id] %}
+                        <li>{{ tour.getFechaHora()|date('Y-m-d H:i:s') }}</li> <!-- Suponiendo que "getFechaHora()" devuelve la fecha y hora del tour -->
+                        <!-- Mostrar más detalles del tour si es necesario -->
+                        <form action="{{ path('crear_reserva') }}" method="post">
+                            <!-- Campos ocultos para pasar el ID del tour y otros datos necesarios -->
+                            <input type="hidden" name="tour_id" value="{{ ruta.id }}">
+                            <input type="hidden" name="user_id" value="{{ app.user.id }}">
+                            <!-- Botón para enviar el formulario -->
+                            <button type="submit" class="btn btn-primary">Reservar</button>
+                        </form>
+                    {% endfor %}
+                </ul>
+                <!-- Formulario para crear una reserva -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

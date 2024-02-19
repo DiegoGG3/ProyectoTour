@@ -1,0 +1,36 @@
+#rutas {
+    margin-top: 100px;
+    display: grid;
+    grid-template-columns: 32% 32% 32%;
+    gap: 20px;
+}
+
+.divsRutas {
+    margin: 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden; /* Evita que las imágenes sobresalgan del contenedor */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Agrega sombra suave */
+}
+
+.fotoRuta {
+    width: 100%;
+    height: auto;
+    border-radius: 10px 10px 0 0; /* Esquinas redondeadas solo arriba */
+}
+
+.rutaInfo {
+    padding: 20px;
+}
+
+.rutaInfo h2 {
+    margin-top: 0; /* Elimina el margen superior predeterminado */
+}
+
+.rutaInfo p {
+    margin-bottom: 0; /* Elimina el margen inferior predeterminado */
+}
+
+.botones{
+    width: 100px;
+}

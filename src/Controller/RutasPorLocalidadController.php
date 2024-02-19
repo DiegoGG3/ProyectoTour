@@ -33,10 +33,16 @@ class RutasPorLocalidadController extends AbstractController
         }
 
         $rutas = $this->rutasPorLocalidadService->obtenerRutasPorLocalidad($localidad);
+        $toursPorRuta = [];
 
-        return $this->render('rutas_por_localidad.html.twig', [ // Aquí se especifica el nombre real de la plantilla
+        foreach ($rutas as $ruta) {
+            $toursPorRuta[$ruta->getId()] = $ruta->getTours(); // Suponiendo que "getTours()" devuelve los tours asociados a la ruta
+        }
+
+        return $this->render('rutas_por_localidad.html.twig', [
             'localidad' => $localidad,
             'rutas' => $rutas,
+            'toursPorRuta' => $toursPorRuta, // Pasar los tours asociados a cada ruta a la vista
         ]);
     }
 }
