@@ -4,8 +4,10 @@ $(document).ready(function() {
 
         var formData = new FormData(this);
         var idTour = $(this).find('.idTour').val();
+        var idUser = $(this).find('.idUser').val();
         var cantidadPersonas = $(this).find('.cantidad-personas').val();
         formData.set('gente', cantidadPersonas);
+        formData.set('idUser', idUser);
         formData.set('idTour', idTour);
 
 

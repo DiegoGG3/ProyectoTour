@@ -60,7 +60,14 @@
             <input type="text" name="fecha_hora" value="{{ tour.fechaHora|date('Y-m-d H:i:s') }}">
             <label for="cantidad_personas">Cantidad de Personas:</label>
             <input type="number" class="cantidad-personas" name="cantidad_personas" min="1" value="1">
-            <input type="submit" class="btn btn-primary submit" value="Enviar Reserva">
+            {% if app.user %}
+                <input type="hidden" class="idUser" name="idUser" value="{{ app.user.id }}">
+
+                <input type="submit" class="btn btn-primary submit" value="Enviar Reserva">
+            {% else %}
+                <a class="nav-link" href="{{ path('app_login') }}">Iniciar Sesión</a>
+            {% endif %}
+
         </form>
     {% endfor %}
 </div>

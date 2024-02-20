@@ -29,36 +29,25 @@ class ApiReserva extends AbstractController
     #[Route("/insert", name: "insert", methods: ["POST"])]
     public function insert(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
-        // Obtener el ID del tour y la cantidad de personas de la solicitud
         $idTour = $request->request->get('idTour');
+        $idUser = $request->request->get('idUser');
         $genteReservada = $request->request->get('gente');
 
-        // Obtener el usuario autenticado
-
-        // Verificar si el usuario está autenticado
         $tour = $entityManager->getRepository(Tour::class)->findBy(['id' => $idTour]);
+        $userId = $entityManager->getRepository(User::class)->findBy(['id' => $idUser]);
+        $fechaHora = new DateTime();
 
-        $userId = $entityManager->getRepository(User::class)->findBy(['id' => 5]);
-         
-            $fechaHora = new DateTime();
+        $reserva = new Reserva();
+        $reserva->setCodTour($tour[0]);
+        $reserva->setGenteReservada($genteReservada);
+        $reserva->setCodUser($userId[0]); 
+        $reserva->setFechaReserva($fechaHora); 
+        $reserva->setGenteAsistente(0);
 
-            // Crear la reserva
-            $reserva = new Reserva();
-            $reserva->setCodTour($tour[0]);
-            $reserva->setGenteReservada($genteReservada);
-            $reserva->setCodUser($userId[0]); // Establecer el ID del usuario
-            $reserva->setFechaReserva($fechaHora); // Establecer la fecha y hora actual
-            $reserva->setGenteAsistente(0);
+        $this->entityManager->persist($reserva);
+        $this->entityManager->flush();
 
-            // Persistir y guardar la reserva
-            $this->entityManager->persist($reserva);
-            $this->entityManager->flush();
-
-            // Devolver la respuesta
-            return new JsonResponse(['id' => $reserva->getId()], JsonResponse::HTTP_CREATED);
-        
-
-        // Si el usuario no está autenticado, devolver una respuesta de error
+        return new JsonResponse(['id' => $reserva->getId()], JsonResponse::HTTP_CREATED);
         return new JsonResponse(['error' => 'Usuario no autenticado'], JsonResponse::HTTP_UNAUTHORIZED);
     }
 }

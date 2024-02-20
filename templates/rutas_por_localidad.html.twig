@@ -51,15 +51,18 @@
         </div>
     </nav>
     <link href="{{ asset('styles/listado.css') }}" rel="stylesheet" />
-
+    <div id="titulos">
+        <h1>Tours disponibles por {{localidad.nombre}}</h1>
+    </div>
     <div id="rutas">
     {% for ruta in rutas %}
     <div id="ruta{{ ruta.id }}" class="divsRutas">
         <img src="{{ asset('fotos_ruta/' ~ ruta.foto) }}" width="200px" height="200px" alt="{{ ruta.nombre }}" class="fotoRuta">
         <h1 value="{{ ruta.id }}">{{ ruta.nombre }}</h1>
         <p>{{ ruta.descripcion }}</p>
-        <a href="{{ path('formulario_reserva', {'Ruta_id': ruta.id}) }}" class="btn btn-primary">Hacer Reserva</a>
+        <a href="{{ path('formulario_reserva', {'Ruta_id': ruta.id}) }}" class="reserva">Hacer Reserva</a>
     </div>
     {% endfor %}
 </div>
+
 {% endblock %}

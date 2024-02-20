@@ -54,7 +54,7 @@
         <section>
 
             <div class="carousel-caption d-none d-md-block" id="fotos">
-                <div class="shadow p-3 mb-5 bg-white rounded text-center my-5 p-4 flex-column align-items-start" id="titulo">
+                <div class="shadow mb-5 bg-white rounded  p-4" id="titulo">
                     <span class="spanmain">Los mejores tours que vas a encontrar</span>
                     <p class="subtitulo">¡Viaja con nosotros!</p>
                     <div id="wrapper-buscador" class="p-3 bg-white rounded text-center p-4 d-inline-block bg-transparent flex-column align-items-start">
@@ -88,35 +88,35 @@
                     </div>
                     <div class="carousel-inner carrusel">
                         <div class="carousel-item active">
-                            <img src="{{ asset('fotos_carrusel/madrid.jpg') }}" class="d-block w-100" alt="madrid">
+                            <img src="{{ asset('fotos_carrusel/madrid.jpg') }}" class="d-block w-100 imagenesHome" alt="madrid">
                             <div class="carousel-caption d-none d-md-block bg-white subtituloCarrusel rounded">
                                 <h5 style="font-size: 1.5rem;">Madrid</h5>
                                 <p style="font-size: 1rem;">Capital de España.</p>
                             </div>
                         </div>
                         <div class="carousel-item">
-                            <img src="{{ asset('fotos_carrusel/ronda.jpg') }}" class="d-block w-100" alt="ronda">
+                            <img src="{{ asset('fotos_carrusel/ronda.jpg') }}" class="d-block w-100 imagenesHome" alt="ronda">
                             <div class="carousel-caption d-none d-md-block bg-white subtituloCarrusel rounded">
                                 <h5 style="font-size: 1.5rem;">Ronda</h5>
                                 <p style="font-size: 1rem;">Sierra de Málaga.</p>
                             </div>
                         </div>
                         <div class="carousel-item">
-                            <img src="{{ asset('fotos_carrusel/alambra.jpg') }}" class="d-block w-100" alt="granada">
+                            <img src="{{ asset('fotos_carrusel/alambra.jpg') }}" class="d-block w-100 imagenesHome" alt="granada">
                             <div class="carousel-caption d-none d-md-block bg-white subtituloCarrusel rounded">
                                 <h5 style="font-size: 1.5rem;">Granada</h5>
                                 <p style="font-size: 1rem;">Alhambra de Granada.</p>
                             </div>
                         </div>
                         <div class="carousel-item">
-                            <img src="{{ asset('fotos_carrusel/valencia.jpg') }}" class="d-block w-100" alt="valencia">
+                            <img src="{{ asset('fotos_carrusel/valencia.jpg') }}" class="d-block w-100 imagenesHome" alt="valencia">
                             <div class="carousel-caption d-none d-md-block bg-white subtituloCarrusel rounded">
                                 <h5 style="font-size: 1.5rem;">Valencia</h5>
                                 <p style="font-size: 1rem;">Ciudad de las Artes y de las Ciencias.</p>
                             </div>
                         </div>
                         <div class="carousel-item">
-                            <img src="{{ asset('fotos_carrusel/villar.jpg') }}" class="d-block w-100" alt="villar">
+                            <img src="{{ asset('fotos_carrusel/villar.jpg') }}" class="d-block w-100 imagenesHome" alt="villar">
                             <div class="carousel-caption d-none d-md-block bg-white subtituloCarrusel rounded">
                                 <h5 style="font-size: 1.5rem;">Villardompardo</h5>
                                 <p style="font-size: 1rem;">El mejor pueblo.</p>
@@ -136,64 +136,12 @@
         </section>
 
         <section id="segundoSection">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <span class="text-center title-cities-home">RESERVA TU PLAZA ONLINE HOY</span>
-                        <h2 class="text-center">Centenares de tours salen todos los días de las mejores ciudades</h2>
-                        <div class="row banner">
-                            <div class="col-md-12 col-12">
-                                <div class="box">
-                                    <a href="https://freetour.tours/c/roma" title="roma">
-                                        <div data-tour="Roma">
-                                            <div class="city-name">Roma</div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row banner">
-                            <div class="col-md-4 col-sm-5 col-12">
-                                <div class="box">
-                                    <a href="https://freetour.tours/c/amsterdam">
-                                        <div data-tour="Amsterdam">
-                                            <div class="city-name">Ámsterdam</div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-md-8 col-sm-7 col-12">
-                                <div class="box">
-                                    <a href="https://freetour.tours/c/copenhague">
-                                        <div data-tour="Copenhague">
-                                            <div class="city-name">Copenhague</div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row banner">
-                            <div class="col-md-6 col-sm-6 col-12">
-                                <div class="box">
-                                    <a href="https://freetour.tours/c/lisboa">
-                                        <div data-tour="Lisboa">
-                                            <div class="city-name">Lisboa</div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6 col-12">
-                                <div class="box">
-                                    <a href="https://freetour.tours/c/bilbao">
-                                        <div data-tour="Bilbao">
-                                            <div class="city-name">Bilbao</div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div id="ciudades">
+                {% for localidad in localidades %}
+                <div id="id{{localidad.nombre}}">
+                    <h1>{{localidad.nombre}}</h1>
                 </div>
+                {% endfor %}
             </div>
         </section>
     </body>
