@@ -13,7 +13,11 @@ services:
 
     App\Service\RutasPorLocalidadService:
         autowire: true
-    
+        
+    App\Controller\Api\ApiReserva:
+            arguments:
+                $security: '@security.helper'
+                $userRepository: '@App\Repository\UserRepository'
 
     # default configuration for services in *this* file
     _defaults:

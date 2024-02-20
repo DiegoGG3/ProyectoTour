@@ -11,3 +11,8 @@ rutas_por_localidad_nombre:
     path: /rutas-por-localidad-nombre/{nombre}
     controller: App\Controller\RutasPorLocalidadController::mostrarRutasPorLocalidadNombre
     methods: [GET]
+
+procesar_reserva:
+    path: '/procesar_reserva'
+    controller: App\Controller\ProcesarReservaController::procesarReserva'
+    methods: ['POST']
