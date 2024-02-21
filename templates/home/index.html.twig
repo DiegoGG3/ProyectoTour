@@ -136,14 +136,30 @@
         </section>
 
         <section id="segundoSection">
+        <div id="titulo2">
+            <h1 class="nombresLoc">RESERVA TU PLAZA ONLINE HOY</h1>
+        </div>
             <div id="ciudades">
                 {% for localidad in localidades %}
-                <div id="id{{localidad.nombre}}">
-                    <h1>{{localidad.nombre}}</h1>
-                </div>
+                    <a href="/rutas_por_localidad/{{ localidad.nombre }}" class="aFotos">
+                        <div id="id{{localidad.nombre}}" class="fotosPagina" style="background-image: url('/fotos_landin/{{ localidad.nombre }}.jpg');">
+                            <h1 class="nombresLoc">{{localidad.nombre}}</h1>
+                        </div>
+                    </a>
+                </a>
                 {% endfor %}
             </div>
         </section>
+    <footer class="footer-block" id="footer">
+        <div class="container">
+            <h2 class="footer-title" id="h2Footer">Tours Diego</h2>
+            <ul class="footer-list" id="ulFooter">
+                <li class="footer-list__li">Ⓒ Copyright 2024</li>
+                <li class="footer-list__li">Politica de provacidad</li>
+                <li class="footer-list__li">Contacto</li>
+            </ul>
+        </div>
+    </footer>
     </body>
     
 

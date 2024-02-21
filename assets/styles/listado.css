@@ -30,7 +30,7 @@ h1 {
 .fotoRuta {
     width: 100%;
     height: 300px;
-    border-radius: 10px; /* Esquinas redondeadas solo arriba */
+    border-radius: 10px; 
 }
 
 

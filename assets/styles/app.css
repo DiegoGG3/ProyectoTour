@@ -53,13 +53,19 @@ input {
     margin-left: 265px;
 }
 
+#titulo2{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: teal;
+
+}
+
 input[type="button"] {
-    padding: 10px 20px;
     background-color: rgb(55, 157, 150);
     color: white;
     border: none;
     border-radius: 4px;
-    cursor: pointer;
     box-shadow: 3px 3px teal;
 
 }
@@ -130,9 +136,41 @@ input[type="button"] {
 
 #fotos{
     z-index: 1;
-    margin-bottom: 100px;
+    margin-bottom: 160px;
 }
-    
+
+.aFotos {
+    width: 100%;
+    text-decoration: none;
+    position: relative; 
+
+}
+
+
+.aFotos:hover .fotosPagina {
+    background-color: rgba(0, 128, 128, 0.375); /* Estilo de fondo en hover */
+}
+.nombresLoc {
+    font-family: Montserrat, sans-serif;
+    font-size: 32px;
+    font-weight: 900;
+    background-color: #ffffffc4;
+    padding: 15px;
+    border-radius: 15px;
+}
+
+.fotosPagina {
+    width: 500px;
+    height: 300px;
+    border-radius: 10px;
+    background-size: contain; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 #segundoSection{
     margin-top: 70px;
 }
@@ -150,4 +188,22 @@ input[type="button"] {
     display: grid;
     grid-template-columns: 32% 32% 32%;
     gap: 20px;
+    justify-items: center;
+    margin-top: 10px;
+}
+
+#ulFooter{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#h2Footer{
+    font-family: Montserrat, sans-serif;
+    font-size: 32px;
+    font-weight: 900;
+}
+
+#footer{
+    margin-top: 50px;
+    background-color: rgba(0, 0, 0, 0.5);
 }
