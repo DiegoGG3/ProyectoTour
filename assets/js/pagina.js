@@ -56,9 +56,6 @@ $(function () {
                 }else{
                     submit(event, true);
                 }
-            },
-            "Cerrar": function () {
-                $(this).dialog("close");
             }
         },
         width: "90%",

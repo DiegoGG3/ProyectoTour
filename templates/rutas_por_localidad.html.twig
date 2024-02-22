@@ -59,7 +59,7 @@
     <div id="ruta{{ ruta.id }}" class="divsRutas">
         <img src="{{ asset('fotos_ruta/' ~ ruta.foto) }}" width="200px" height="200px" alt="{{ ruta.nombre }}" class="fotoRuta">
         <h1 value="{{ ruta.id }}">{{ ruta.nombre }}</h1>
-        <p>{{ ruta.descripcion }}</p>
+        <p>{{ ruta.descripcion | raw}}</p>
         <a href="{{ path('formulario_reserva', {'Ruta_id': ruta.id}) }}" class="reserva">Hacer Reserva</a>
     </div>
     {% endfor %}

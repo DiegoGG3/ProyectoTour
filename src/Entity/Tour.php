@@ -33,6 +33,9 @@ class Tour
     #[ORM\JoinColumn(nullable: false)]
     private ?User $guia = null;
 
+    #[ORM\Column]
+    private ?bool $finalizado = null;
+
     public function __construct()
     {
         $this->informes = new ArrayCollection();
@@ -136,6 +139,18 @@ class Tour
     public function setGuia(?User $guia): static
     {
         $this->guia = $guia;
+
+        return $this;
+    }
+
+    public function isFinalizado(): ?bool
+    {
+        return $this->finalizado;
+    }
+
+    public function setFinalizado(bool $finalizado): static
+    {
+        $this->finalizado = $finalizado;
 
         return $this;
     }

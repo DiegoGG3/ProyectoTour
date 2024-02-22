@@ -110,7 +110,7 @@ class ApiRuta extends AbstractController
             $tour->setGuia($guia); // Asignar el guía al tour
         
             $tour->setFechaHora(new \DateTime()); // Establecer la fecha y hora actual para el tour
-        
+            $tour->setFinalizado(false);
             // Persistir el tour en la base de datos
             $entityManager->persist($tour);
         }

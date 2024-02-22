@@ -33,6 +33,8 @@ security:
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/administrar_ruta, roles: [ROLE_GUIA, ROLE_USER] }
+
 
 when@test:
     security:

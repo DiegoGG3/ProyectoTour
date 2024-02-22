@@ -36,8 +36,8 @@
                                 <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Administración</a></li>
                                 <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Calendario</a></li>
                             {% endif %}
-                            {% if rol=="ROLE_GUIDE" %}
-                                <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Calendario Tours</a></li>
+                            {% if rol=="ROLE_GUIA" %}
+                                <li class="nav-item"><a class="nav-link" href="{{ path('administrar_ruta', {'idGuia': app.user.id}) }}">Mis tours</a></li>
                             {% endif %}
                         {% endfor %}
                         <li class="nav-item"><a class="nav-link" href="{{ path('action-logout') }}">Cerrar Sesión</a></li>
