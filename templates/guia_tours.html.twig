@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Tours Diego
+{% endblock %}
+
+{% block importmap %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('js/jquery-3.7.1.js') }}"></script>
+    <script src="{{ asset('js/jquery-ui.js') }}"></script>
+    <script src="{{ asset('js/landin.js') }}"></script>
+
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/logo.png') }}" />
+    <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
+    <link href="{{ asset('styles/app.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/jquery-ui.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="#!">Tours Diego</a>
+            <img src="{{ asset('images/logo.png') }}" alt="Tours Diego Logo" style="max-width: 60px; height: auto;" />
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="{{ path('home') }}">Home</a></li>
+                    {% if app.user %}
+                        {% for rol in app.user.roles %}
+                            {% if rol != "ROLE_ADMIN" %}
+                                {# <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Mis Tours</a></li> #}
+                            {% endif %}
+                            {% if rol=="ROLE_ADMIN" %}
+                                <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Administración</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Calendario</a></li>
+                            {% endif %}
+                            {% if rol=="ROLE_GUIA" %}
+                                <li class="nav-item"><a class="nav-link" href="{{ path('guia_ruta', {'idGuia': app.user.id}) }}">Mis tours</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        <li class="nav-item"><a class="nav-link" href="{{ path('action-logout') }}">Cerrar Sesión</a></li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{{ path('app_login') }}">Iniciar Sesión</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ path('app_register') }}">Registro</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <style>
+#tabla {
+    margin: 20px auto;
+    width: 80%;
+}
+
+
+
+th,td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+#th {
+    background-color: #f2f2f2;
+}
+
+#tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#tr:hover {
+    background-color: #ddd;
+}
+    
+</style>
+   <table>
+    <tr>
+        <th>ID</th>
+        <th>Fecha y Hora</th>
+        <th>Finalizado</th>
+        <th>Acción</th>
+    </tr>
+    {% for tour in tours %}
+    <tr>
+        <td>{{ tour.id }}</td>
+        <td>{{ tour.fechaHora|date('Y-m-d H:i:s') }}</td>
+        <td>{{ tour.finalizado ? 'Sí' : 'No' }}</td>
+        <td><input type="button" value="Finalizar"></td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
+
