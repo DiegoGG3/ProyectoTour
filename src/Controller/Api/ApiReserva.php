@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\Informe;
 use App\Entity\Reserva;
 use App\Entity\Tour;
 use App\Entity\User;
@@ -41,8 +42,8 @@ class ApiReserva extends AbstractController
         $reserva = new Reserva();
         $reserva->setCodTour($tour[0]);
         $reserva->setGenteReservada($genteReservada);
-        $reserva->setCodUser($userId[0]); 
-        $reserva->setFechaReserva($fechaHora); 
+        $reserva->setCodUser($userId[0]);
+        $reserva->setFechaReserva($fechaHora);
         $reserva->setGenteAsistente(0);
 
         $this->entityManager->persist($reserva);
@@ -53,24 +54,47 @@ class ApiReserva extends AbstractController
     }
 
     #[Route("/edit", name: "edit", methods: ["POST"])]
-public function edit(Request $request, EntityManagerInterface $entityManager): JsonResponse
-{
-    $reservas = $request->request->get('idReservas');
-    $idReservas = json_decode($reservas); // Decodificar las IDs de reserva desde JSON
-    foreach ($idReservas as $idReserva) {
-        $cantidad = $request->request->get('asistente_' . $idReserva);
-        $reserva = $entityManager->getRepository(Reserva::class)->find($idReserva);
+    public function edit(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $reservas = $request->request->get('idReservas');
+        $idReservas = json_decode($reservas); // Decodificar las IDs de reserva desde JSON
+        foreach ($idReservas as $idReserva) {
+            $cantidad = $request->request->get('asistente_' . $idReserva);
+            $reserva = $entityManager->getRepository(Reserva::class)->find($idReserva);
 
-        $reserva->setGenteAsistente($cantidad);
+            $reserva->setGenteAsistente($cantidad);
 
-        $this->entityManager->persist($reserva);
+            $this->entityManager->persist($reserva);
+        }
+
+        $file = $request->files->get('imagenRuta');
+        $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+        $file->move(
+            $this->getParameter('fotos_informe'),
+            $fileName
+        );
+
+        $observaciones = $request->request->get('observaciones');
+        $recaudacion = $request->request->get('recaudacion');
+        $idTour = $request->request->get('idTour');
+
+
+        $Tour = $entityManager->getRepository(Tour::class)->find($idTour);
+
+        $informe = new Informe();
+        $informe->setCodTour($Tour);
+        $informe->setImagen($fileName);
+        $informe->setRecaudacion($recaudacion);
+        $informe->setObservaciones($observaciones);
+        $tour = $entityManager->getRepository(Tour::class)->find($idTour);
+        $tour->setFinalizado(true);
+
+        $this->entityManager->persist($tour);
+
+        $this->entityManager->persist($informe);
+
+        $entityManager->flush();
+
+        return new JsonResponse(['message' => 'Reservas actualizadas con éxito'], JsonResponse::HTTP_OK);
     }
-
-    
-    $entityManager->flush();
-
-    return new JsonResponse(['message' => 'Reservas actualizadas con éxito'], JsonResponse::HTTP_OK);
-}
-
-
 }

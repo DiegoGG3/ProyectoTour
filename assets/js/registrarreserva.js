@@ -8,6 +8,11 @@ function guardarAsistentes() {
         var valor = $(element).val();
         formData.append('asistente_' + idReserva, valor); 
     });
+    formData.append('imagenRuta', $('#imagenRuta')[0].files[0]);
+    formData.append('observaciones', $('#observaciones').val());
+    formData.append('recaudacion', $('#recaudacion').val());
+    formData.append('idTour', $('#idTour').val());
+
 
     var idsJson = JSON.stringify(idReservas);
     formData.append('idReservas', idsJson);

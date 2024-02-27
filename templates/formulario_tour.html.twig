@@ -46,6 +46,7 @@
         </div>
     </nav>
     <h1>{{tour.id}}</h1>
+    <input type="hidden" id="idTour" value="{{tour.id}}">
     <form>
         {% for reserva in reservas %}
             <h1>{{reserva.id}}</h1>
@@ -54,7 +55,7 @@
         {% endfor %}
 
         <input type="file" id="imagenRuta">
-        <input type="text" id="observaciones">
+        <textarea name="observaciones" id="observaciones" rows="10" cols="50"></textarea>
         <input type="number" id="recaudacion">
 
         <input type="button" value="Guardar" onclick="guardarAsistentes()">
