@@ -1,14 +1,10 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}
-    Tours Diego
-{% endblock %}
-
 {% block importmap %}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('js/jquery-3.7.1.js') }}"></script>
     <script src="{{ asset('js/jquery-ui.js') }}"></script>
     <script src="{{ asset('js/landin.js') }}"></script>
+    <script src="{{ asset('js/registrarreserva.js') }}"></script>
+
 
     <link rel="icon" type="image/x-icon" href="{{ asset('images/logo.png') }}" />
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
@@ -49,51 +45,19 @@
             </div>
         </div>
     </nav>
-    <style>
-#tabla {
-    margin: 20px auto;
-    width: 80%;
-}
+    <h1>{{tour.id}}</h1>
+    <form>
+        {% for reserva in reservas %}
+            <h1>{{reserva.id}}</h1>
+            <input type="number" value="{{reserva.genteReservada}}" disabled>
+            <input type="number" data-reserva-id="{{reserva.id}}" class="genteAsistente" value="0" max="{{reserva.genteReservada}}" min="0">
+        {% endfor %}
 
+        <input type="file" id="imagenRuta">
+        <input type="text" id="observaciones">
+        <input type="number" id="recaudacion">
 
-
-th,td {
-    padding: 8px;
-    border: 1px solid #ddd;
-    text-align: left;
-}
-
-#th {
-    background-color: #f2f2f2;
-}
-
-#tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-#tr:hover {
-    background-color: #ddd;
-}
-    
-</style>
-   <table>
-    <tr>
-        <th>ID</th>
-        <th>Fecha y Hora</th>
-        <th>Finalizado</th>
-        <th>Acción</th>
-    </tr>
-    {% for tour in tours %}
-    <tr>
-        <td>{{ tour.id }}</td>
-        <td>{{ tour.fechaHora|date('Y-m-d H:i:s') }}</td>
-        <td>{{ tour.finalizado ? 'Sí' : 'No' }}</td>
-        {# <td><input type="button" value="Finalizar"></td> #}
-        <td><a href="{{ path('FinalizarTour', {'Tour_id': tour.id}) }}">Hacer Reserva</a></td>
-
-    </tr>
-    {% endfor %}
-</table>
+        <input type="button" value="Guardar" onclick="guardarAsistentes()">
+    </form>
 
 {% endblock %}
-

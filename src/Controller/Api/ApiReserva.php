@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,4 +51,26 @@ class ApiReserva extends AbstractController
         return new JsonResponse(['id' => $reserva->getId()], JsonResponse::HTTP_CREATED);
         return new JsonResponse(['error' => 'Usuario no autenticado'], JsonResponse::HTTP_UNAUTHORIZED);
     }
+
+    #[Route("/edit", name: "edit", methods: ["POST"])]
+public function edit(Request $request, EntityManagerInterface $entityManager): JsonResponse
+{
+    $reservas = $request->request->get('idReservas');
+    $idReservas = json_decode($reservas); // Decodificar las IDs de reserva desde JSON
+    foreach ($idReservas as $idReserva) {
+        $cantidad = $request->request->get('asistente_' . $idReserva);
+        $reserva = $entityManager->getRepository(Reserva::class)->find($idReserva);
+
+        $reserva->setGenteAsistente($cantidad);
+
+        $this->entityManager->persist($reserva);
+    }
+
+    
+    $entityManager->flush();
+
+    return new JsonResponse(['message' => 'Reservas actualizadas con éxito'], JsonResponse::HTTP_OK);
+}
+
+
 }
