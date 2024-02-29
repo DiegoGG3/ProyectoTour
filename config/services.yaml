@@ -6,10 +6,14 @@
 parameters:
     fotos_perfil: '%kernel.project_dir%/public/fotos_perfil'
     fotos_ruta: '%kernel.project_dir%/public/fotos_ruta'
+    fotos_informe: '%kernel.project_dir%/public/fotos_informe'
 
 
 services:
-    # Otros servicios aquí...
+    App\Controller\FinalizarTourController:
+        arguments:  
+            $session: '@session'
+
 
     App\Service\RutasPorLocalidadService:
         autowire: true
@@ -36,10 +40,10 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    # App\EventSubscriber\RequestSubscriber:
-    #     arguments:
-    #        # $mailer: '@Symfony\Component\Mailer\MailerInterface'
-    #     tags:
-    #         - { name: 'kernel.event_subscriber' }
+    App\EventSubscriber\RequestSubscriber:
+        arguments:
+           $mailer: '@Symfony\Component\Mailer\MailerInterface'
+        tags:
+            - { name: 'kernel.event_subscriber' }
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

@@ -82,6 +82,8 @@ th,td {
         <th>Fecha y Hora</th>
         <th>Finalizado</th>
         <th>Acción</th>
+        <th>Cancelar</th>
+
     </tr>
     {% for tour in tours %}
     <tr>
@@ -89,7 +91,8 @@ th,td {
         <td>{{ tour.fechaHora|date('Y-m-d H:i:s') }}</td>
         <td>{{ tour.finalizado ? 'Sí' : 'No' }}</td>
         {# <td><input type="button" value="Finalizar"></td> #}
-        <td><a href="{{ path('FinalizarTour', {'Tour_id': tour.id}) }}">Hacer Reserva</a></td>
+        <td><a href="{{ path('FinalizarTour', {'Tour_id': tour.id}) }}">Finalizar tour</a></td>
+        <td><a href="{{ path('CancelarTour', {'Tour_id': tour.id}) }}">Cancelar</a></td>
 
     </tr>
     {% endfor %}
