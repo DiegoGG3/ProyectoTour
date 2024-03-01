@@ -49,54 +49,32 @@
             </div>
         </div>
     </nav>
-    <style>
-#tabla {
-    margin: 20px auto;
-    width: 80%;
-}
+    <link rel="stylesheet" type="text/css" href="{{ asset('styles/guia.css') }}" />
+<div id="tablaGuia">
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Fecha y Hora</th>
+            <th>Finalizado</th>
+            <th>Nombre de la ruta</th>
+            <th>Acción</th>
+            <th>Cancelar</th>
 
+        </tr>
+        {% for tour in tours %}
+        <tr>
+            <td>{{ tour.id }}</td>
+            <td>{{ tour.fechaHora|date('Y-m-d H:i:s') }}</td>
+            <td>{{ tour.finalizado ? 'Sí' : 'No' }}</td>
+            <td>{{ tour.codRuta.nombre }}</td> {# Esta línea es la nueva para mostrar el nombre de la ruta #}
+            <td><a href="{{ path('FinalizarTour', {'Tour_id': tour.id}) }}">Finalizar tour</a></td>
+            <td><a href="{{ path('CancelarTour', {'Tour_id': tour.id}) }}">Cancelar</a></td>
 
-
-th,td {
-    padding: 8px;
-    border: 1px solid #ddd;
-    text-align: left;
-}
-
-#th {
-    background-color: #f2f2f2;
-}
-
-#tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-#tr:hover {
-    background-color: #ddd;
-}
-    
-</style>
-   <table>
-    <tr>
-        <th>ID</th>
-        <th>Fecha y Hora</th>
-        <th>Finalizado</th>
-        <th>Acción</th>
-        <th>Cancelar</th>
-
-    </tr>
-    {% for tour in tours %}
-    <tr>
-        <td>{{ tour.id }}</td>
-        <td>{{ tour.fechaHora|date('Y-m-d H:i:s') }}</td>
-        <td>{{ tour.finalizado ? 'Sí' : 'No' }}</td>
-        {# <td><input type="button" value="Finalizar"></td> #}
-        <td><a href="{{ path('FinalizarTour', {'Tour_id': tour.id}) }}">Finalizar tour</a></td>
-        <td><a href="{{ path('CancelarTour', {'Tour_id': tour.id}) }}">Cancelar</a></td>
-
-    </tr>
-    {% endfor %}
-</table>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
 
 {% endblock %}
+
 

@@ -1,3 +1,28 @@
-#divReservas{
-    margin-top: 90px;
+/* Estilos para el encabezado */
+h1 {
+    margin-top: 75px ;
+    background-color: rgb(55, 157, 150);
+    color: white;
+    padding: 10px;
+}
+
+/* Estilos para los contenedores de reserva */
+.reserva-container {
+    background-color: rgb(55, 157, 150);
+    color: white;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+/* Estilos para el botón */
+input[type="button"] {
+    background-color: rgb(55, 157, 150);
+    color: white;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+#reservas{
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
 }

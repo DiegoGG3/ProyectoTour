@@ -45,20 +45,27 @@
             </div>
         </div>
     </nav>
-    <h1>{{tour.id}}</h1>
-    <input type="hidden" id="idTour" value="{{tour.id}}">
-    <form>
-        {% for reserva in reservas %}
-            <h1>{{reserva.id}}</h1>
-            <input type="number" value="{{reserva.genteReservada}}" disabled>
-            <input type="number" data-reserva-id="{{reserva.id}}" class="genteAsistente" value="0" max="{{reserva.genteReservada}}" min="0">
-        {% endfor %}
+        <link rel="stylesheet" type="text/css" href="{{ asset('styles/reservas.css') }}" />
 
-        <input type="file" id="imagenRuta">
-        <textarea name="observaciones" id="observaciones" rows="10" cols="50"></textarea>
-        <input type="number" id="recaudacion">
+    <h1>Ruta: {{ tour.codRuta.nombre }}, ID del tour: {{ tour.id }}</h1>
+        <input type="hidden" id="idTour" value="{{ tour.id }}">
+        <form>
+            <div id="reservas">
+                {% for reserva in reservas %}
+                    <div class="reserva-container">
+                        <h1>{{ reserva.codUser.nombre }}</h1>
+                        <input type="number" value="{{ reserva.genteReservada }}" disabled>
+                        <input type="number" data-reserva-id="{{ reserva.id }}" class="genteAsistente" value="0" max="{{ reserva.genteReservada }}" min="0">
+                    </div>
+                {% endfor %}
+            </div>
 
-        <input type="button" value="Guardar" onclick="guardarAsistentes()">
-    </form>
+            <input type="file" id="imagenRuta" style="margin-bottom: 10px;">
+            <textarea name="observaciones" id="observaciones" rows="10" cols="50" style="margin-bottom: 10px;"></textarea>
+            <input type="number" id="recaudacion" style="margin-bottom: 10px;">
+
+            <input type="button" value="Guardar" onclick="guardarAsistentes()">
+        </form>
+
 
 {% endblock %}
