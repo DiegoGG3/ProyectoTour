@@ -169,7 +169,7 @@ $(function () {
     });
 
     function agregarFila() {
-        var rangoFecha = $("#fechaInicioPr").val() + "-" + $("#fechaFinPr").val();
+        var rangoFecha = $("#fechaInicioPr").val() + " - " + $("#fechaFinPr").val();
         var dias = obtenerDiasSeleccionados();
         var hora = $("#hora").val();
         var persona = $("#personas").val();

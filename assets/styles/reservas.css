@@ -17,7 +17,7 @@ h1 {
 /* Estilos para el botón */
 input[type="button"] {
     background-color: rgb(55, 157, 150);
-    color: white;
+    color: rgb(255, 255, 255);
     padding: 10px;
     margin-top: 10px;
 }

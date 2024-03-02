@@ -10,7 +10,7 @@ use App\Entity\Visita;
 use App\Repository\RutaRepository;
 use App\Repository\VisitaRepository;
 use App\Repository\UserRepository;
-
+use App\Service\crearTour;
 use App\Service\RutaService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -50,7 +50,7 @@ class ApiRuta extends AbstractController
     }
 
     #[Route("/insert", name: "insert", methods: ["POST"])]
-    public function insert(Request $request, EntityManagerInterface $entityManager, VisitaRepository $visitaRepository, UserRepository $userRepository): JsonResponse
+    public function insert(Request $request, EntityManagerInterface $entityManager, VisitaRepository $visitaRepository, UserRepository $userRepository, crearTour $crearTour): JsonResponse
     {
         $nombre = $request->request->get('nombre');
         $descripcion = $request->request->get('descripcion');
@@ -99,21 +99,8 @@ class ApiRuta extends AbstractController
         $entityManager->persist($ruta);
         $entityManager->flush();
 
-        foreach ($programacion as $programa) {
-            // Crear un nuevo objeto Tour
-            $tour = new Tour();
-            $tour->setCodRuta($ruta); // Asignar la ruta asociada al tour
-        
-            // Supongamos que tienes un ID de guía disponible para cada programación de ruta
-            // Puedes obtener el objeto User (guía) de la base de datos utilizando el UserRepository
-            $guia = $userRepository->find($idGuia);
-            $tour->setGuia($guia); // Asignar el guía al tour
-        
-            $tour->setFechaHora(new \DateTime()); // Establecer la fecha y hora actual para el tour
-            $tour->setFinalizado(false);
-            // Persistir el tour en la base de datos
-            $entityManager->persist($tour);
-        }
+        $crearTour->crear($ruta, $idGuia);
+
 
         $entityManager->flush();
 

@@ -1,7 +1,7 @@
 
 {% block head %}
 <head>
-    <title>Login Tours Diego</title>
+    <title>Login Diego Tours</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
@@ -14,13 +14,12 @@
 {% endblock %}
 
 {% block body %}
-    
 
-    <body class="img js-fullheight" style="background-image: url({{ asset('images/fondo3.jpg') }});">
+    <body class="img js-fullheight">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="navbar">
         <div class="container">
-            <a class="navbar-brand" href="#!">Tours Diego</a>
-            <img src="{{ asset('images/logo.png') }}" alt="Tours Diego Logo" style="max-width: 60px; height: auto;" />
+            <a class="navbar-brand" href="#!">Diego Tours</a>
+            <img src="{{ asset('images/logo.png') }}" alt="Diego Tours Logo" style="max-width: 60px; height: auto;" />
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -70,25 +69,23 @@
                 <form action="{{ path('app_login') }}" method="post">
 
                   <div class="d-flex align-items-center mb-3 pb-1">
-                        <img src="{{ asset('images/logo.png') }}" alt="Tours Diego Logo" style="max-width: 60px; height: auto; margin-right: 15px;">
-                        <span class="h1 fw-bold mb-0">Tours Diego</span>
+                        <img src="{{ asset('images/logo.png') }}" alt="Diego Tours Logo" style="max-width: 60px; height: auto; margin-right: 15px;">
+                        <span class="h1 fw-bold mb-0">Diego Tours</span>
                     </div>
 
                   <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Inicia sesión en tu cuenta</h5>
 
                   <div class="form-outline mb-4">
                     <label class="form-label" for="form2Example17">Dirección de correo electrónico</label>
-                    <input type="email" id="form2Example17" name="_username" value="{{ last_username }}" required class="form-control form-control-lg" />
+                    <input type="email" style="background-color: #cec6d5;" id="form2Example17" name="_username" value="{{ last_username }}" required class="form-control form-control-lg" />
                   </div>
-
                   <div class="form-outline mb-4">
                     <label class="form-label" for="form2Example27">Contraseña</label>
-                    <input type="password" name="_password" id="form2Example27" required class="form-control form-control-lg" />
+                    <input type="password" style="background-color: #cec6d5;" name="_password" id="form2Example27" required class="form-control form-control-lg" />
                   </div>
 
                   <div class="pt-1 mb-4">
-                    <input type="submit" class="btn btn-dark btn-lg btn-block" type="button" value="Iniciar sesión"/>
-
+                    <input type="submit" class="btn btn-dark btn-lg btn-block" type="button" value="Iniciar sesión" style="background-color: #008080;"/>
                   </div>
 
                   <p class="mb-5 pb-lg-2" style="color: #393f81;">¿No tienes una cuenta? <a  href="{{ path('app_register') }}"

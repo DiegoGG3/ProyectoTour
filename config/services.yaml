@@ -13,7 +13,11 @@ services:
     App\Controller\FinalizarTourController:
         arguments:  
             $session: '@session'
+            
 
+    App\Service\crearTour:
+            autowire: true
+            autoconfigure: true
 
     App\Service\RutasPorLocalidadService:
         autowire: true
