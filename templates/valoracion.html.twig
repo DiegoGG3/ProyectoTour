@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Diego Tours
+{% endblock %}
+
+{% block importmap %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('js/jquery-3.7.1.js') }}"></script>
+    <script src="{{ asset('js/jquery-ui.js') }}"></script>
+    <script src="{{ asset('js/landin.js') }}"></script>
+    <script src="{{ asset('js/valoracion.js') }}"></script>
+
+
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/logo.png') }}" />
+    <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
+    <link href="{{ asset('styles/app.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/jquery-ui.css') }}" rel="stylesheet" />
+
+{% endblock %}
+
+{% block body %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="#!">Diego Tours</a>
+            <img src="{{ asset('images/logo.png') }}" alt="Diego Tours Logo" style="max-width: 60px; height: auto;" />
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="{{ path('home') }}">Home</a></li>
+                    {% if app.user %}
+                        {% for rol in app.user.roles %}
+                            {% if rol == "ROLE_USER" %}
+                                <li class="nav-item"><a class="nav-link" href="{{ path('tours_user', {'idUser': app.user.id}) }}">Mis Tours</a></li>
+                            {% endif %}
+                            {% if rol=="ROLE_ADMIN" %}
+                                <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Administración</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Calendario</a></li>
+                            {% endif %}
+                            {% if rol=="ROLE_GUIA" %}
+                                <li class="nav-item"><a class="nav-link" href="{{ path('guia_ruta', {'idGuia': app.user.id}) }}">Tours asignados</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        <li class="nav-item"><a class="nav-link" href="{{ path('action-logout') }}">Cerrar Sesión</a></li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{{ path('app_login') }}">Iniciar Sesión</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ path('app_register') }}">Registro</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+      <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+    /* Personalización adicional */
+    body {
+      background-color: #f8f9fa; /* Color de fondo */
+      padding: 20px;
+    }
+
+    .valoracion-input {
+      margin-bottom: 15px;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h1 class="text-center mt-5 mb-4">Valoración del Tour</h1>
+      <p class="lead text-center">Por favor, deja tu valoración del tour:</p>
+      <form method="POST" id="valoracionForm">
+        <div class="form-group">
+          <label for="notaGuia">Nota para el guía:</label>
+          <input type="number" id="notaGuia" name="notaGuia" class="form-control valoracion-input" required>
+        </div>
+        <div class="form-group">
+          <label for="notaRuta">Nota para la ruta:</label>
+          <input type="number" id="notaRuta" name="notaRuta" class="form-control valoracion-input" required>
+        </div>
+        <div class="form-group">
+          <label for="comentario">Comentario:</label>
+          <textarea id="comentario" name="comentario" class="form-control valoracion-input" rows="4"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Enviar valoración</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+{% endblock %}

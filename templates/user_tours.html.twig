@@ -27,21 +27,26 @@
         <table class="table mt-3">
             <thead>
                 <tr>
-                    <th>ID Reserva</th>
                     <th>Fecha de Reserva</th>
                     <th>Gente Reservada</th>
                     <th>Nombre de ruta</th>
                     <th>Usuario</th>
+                    <th>Accion</th>
+
                 </tr>
             </thead>
             <tbody>
                 {% for reserva in reservas %}
                 <tr>
-                    <td>{{ reserva.id }}</td>
                     <td>{{ reserva.fechaReserva|date('Y-m-d H:i:s') }}</td>
                     <td>{{ reserva.genteReservada }}</td>
                     <td>{{ reserva.codTour.codRuta.getNombre() }}</td> {# Accediendo al nombre de la ruta a través de Tour #}
                     <td>{{ reserva.codUser.nombre }}</td> {# Asume que la entidad User tiene un campo 'username' #}
+                    {% if reserva.codTour.finalizado %}
+                        <td><a href="{{ path('ValorarTour', {'Reserva_id': reserva.id}) }}">Valoracion</a></td>
+                    {% else %}
+                        <td><a href="{{ path('CancelarReserva', {'Reserva_id': reserva.id}) }}">Cancelar</a></td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>

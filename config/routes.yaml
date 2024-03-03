@@ -16,3 +16,8 @@ procesar_reserva:
     path: '/procesar_reserva'
     controller: App\Controller\ProcesarReservaController::procesarReserva'
     methods: ['POST']
+
+guardar_valoracion:
+    path: '/guardar-valoracion/{Reserva_id}'
+    controller: 'App\Controller\ValoracionController::guardarValoracion'
+    methods: ['POST']

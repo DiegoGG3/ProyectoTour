@@ -8,8 +8,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Mailer\MailerInterface;
 
 class FinalizarTourController extends AbstractController
 {
@@ -35,7 +33,7 @@ class FinalizarTourController extends AbstractController
     }
 
     #[Route('/CancelarTour/{Tour_id}', name: "CancelarTour")]
-    public function cancelarTour(TourRepository $TourRepository, $Tour_id, EntityManagerInterface $entityManager, SessionInterface $session): JsonResponse
+    public function cancelarTour(TourRepository $TourRepository, $Tour_id, EntityManagerInterface $entityManager): JsonResponse
     {
         if (!isset($Tour_id)) {
             throw new \InvalidArgumentException('Se requiere el parámetro Tour_id en la URL.');
