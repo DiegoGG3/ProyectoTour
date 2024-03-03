@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Reservas de Tours
+{% endblock %}
+
+{% block importmap %}
+    <!-- Tus scripts y estilos aquí, reutilizo los mismos que ya tienes -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('js/jquery-3.7.1.js') }}"></script>
+    <script src="{{ asset('js/jquery-ui.js') }}"></script>
+    <script src="{{ asset('js/landin.js') }}"></script>
+
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/logo.png') }}" />
+    <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
+    <link href="{{ asset('styles/app.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/jquery-ui.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="navbar">
+        <!-- Tu barra de navegación aquí, reutilizo la misma que ya tienes -->
+    </nav>
+
+    <div class="container mt-5">
+        <h2>Reservas de Tours</h2>
+        <table class="table mt-3">
+            <thead>
+                <tr>
+                    <th>ID Reserva</th>
+                    <th>Fecha de Reserva</th>
+                    <th>Gente Reservada</th>
+                    <th>Nombre de ruta</th>
+                    <th>Usuario</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reserva in reservas %}
+                <tr>
+                    <td>{{ reserva.id }}</td>
+                    <td>{{ reserva.fechaReserva|date('Y-m-d H:i:s') }}</td>
+                    <td>{{ reserva.genteReservada }}</td>
+                    <td>{{ reserva.codTour.codRuta.getNombre() }}</td> {# Accediendo al nombre de la ruta a través de Tour #}
+                    <td>{{ reserva.codUser.nombre }}</td> {# Asume que la entidad User tiene un campo 'username' #}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
