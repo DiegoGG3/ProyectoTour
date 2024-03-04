@@ -4,13 +4,22 @@ namespace App\Controller;
 use App\Repository\ReservaRepository;
 use App\Repository\TourRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Mailer\MailerInterface;
 
 class FinalizarTourController extends AbstractController
 {
+    private $mailer;
+
+    public function __construct(MailerInterface $mailer)
+    {
+        $this->mailer = $mailer;
+    }
+
     #[Route('/FinalizarTour/{Tour_id}', name:"FinalizarTour")]
     public function formularioReserva(TourRepository $TourRepository, $Tour_id ,ReservaRepository $ReservaRepository): Response
     {
@@ -33,7 +42,7 @@ class FinalizarTourController extends AbstractController
     }
 
     #[Route('/CancelarTour/{Tour_id}', name: "CancelarTour")]
-    public function cancelarTour(TourRepository $TourRepository, $Tour_id, EntityManagerInterface $entityManager): JsonResponse
+    public function cancelarTour(ReservaRepository $reservaRepository, TourRepository $TourRepository, $Tour_id, EntityManagerInterface $entityManager): Response
     {
         if (!isset($Tour_id)) {
             throw new \InvalidArgumentException('Se requiere el parámetro Tour_id en la URL.');
@@ -45,14 +54,35 @@ class FinalizarTourController extends AbstractController
             throw $this->createNotFoundException('No se encontró la Tour con el ID proporcionado.');
         }
 
-        // Eliminar el tour de la base de datos
         $entityManager->remove($Tour);
         $entityManager->flush();
 
-        // Establecer la bandera de cancelación en la sesión
-        // $session->set('tour_cancelado', true);
+        $reservas = $reservaRepository->findBy(['codTour' => $Tour_id]);
 
-        return new JsonResponse(['message' => 'Tour eliminado con éxito'], JsonResponse::HTTP_OK);
+        foreach ($reservas as $reserva) {
+            $usuario = $reserva->getCodUser();
+
+            $correoUsuario = $usuario->getEmail();
+
+            $fechaHora = $Tour->getFechaHora()->format('Y-m-d H:i:s'); 
+
+            $textoCorreo = 'Se canceló el tour de la fecha ' . $fechaHora . '.'; 
+
+            $email = (new Email())
+                ->from('DiegoTours@example.com')
+                ->to($correoUsuario)
+                ->subject('Canceacion del tour')
+                ->text($textoCorreo);
+
+            $this->mailer->send($email);
+        }
+
+
+        return new Response(
+            '<script>alert("Tour cancelado con éxito");</script>',
+            Response::HTTP_OK,
+            ['content-type' => 'text/html']
+        );
     }
     
 }

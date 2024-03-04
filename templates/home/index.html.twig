@@ -34,7 +34,7 @@
                             {% endif %}
                             {% if rol=="ROLE_ADMIN" %}
                                 <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Administración</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Calendario</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ path('calendario') }}">Calendario</a></li>
                             {% endif %}
                             {% if rol=="ROLE_GUIA" %}
                                 <li class="nav-item"><a class="nav-link" href="{{ path('guia_ruta', {'idGuia': app.user.id}) }}">Tours asignados</a></li>

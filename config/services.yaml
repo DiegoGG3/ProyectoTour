@@ -49,5 +49,14 @@ services:
            $mailer: '@Symfony\Component\Mailer\MailerInterface'
         tags:
             - { name: 'kernel.event_subscriber' }
+
+            # config/services.yaml
+
+    # App\EventSubscriber\TourCancelSubscriber:
+    #     arguments:
+    #        $mailer: '@Symfony\Component\Mailer\MailerInterface'
+    #     tags:
+    #         - { name: 'kernel.event_subscriber' }
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
