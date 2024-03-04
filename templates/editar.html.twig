@@ -14,13 +14,14 @@
     <script src="{{ asset('js/jquery-3.7.1.js') }}"></script>
     <script src="{{ asset('js/jquery-ui.js') }}"></script>
     <script src="{{ asset('js/jquery.richtext.min.js') }}"></script>
-    <script src="{{ asset('js/pagina.js') }}"></script>
+    <script src="{{ asset('js/editarRuta.js') }}"></script>
     <script src="{{ asset('js/image-uploader.js') }}"></script>
     <script src="https://kit.fontawesome.com/91464fdedc.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
 <body>
     <div id="crearRuta">
+    <input type="hidden" id="rutaId" value="{{ruta.id}}">
         <h1>Editar Ruta</h1>
         <form method="post" id="formulario" >
             <ul>
@@ -49,7 +50,9 @@
                     <input id="spinner" name="spinner" value="{{ ruta.tamanoMaximo }}"><br>
                     <label for="Foto">Foto</label>
                     <form action="url" enctype="multipart/form-data" id="Foto">
-                        <div class="input-images"></div>
+                        <div class="input-images">
+                            <img src="{{ asset('fotos_ruta/' ~ ruta.foto) }}" alt="Foto de la ruta">
+                        </div>
                     </form>
                     <div id="fotoError" style="color: red; display: none;">Debe de haber solo una foto.</div>
                 </div>
@@ -73,18 +76,22 @@
                 <div>
                     <h1>Lugares Dispobibles</h1>
                     <ul class="tarjetasUl" id="visitasDisponibles">
-                        {# {% for visita in visitas %}
-                            <li id="{{visita.id}}" class="tarjeta" style="border: 1px solid green;">
-                                <img src="{{ asset('fotos_visita/' ~ visita.foto) }}" width="80px" height="80px" alt="Castillo">
-                                <h2>{{visita.nombre}}</h2>                            
-                            </li>
-                        {% endfor %} #}
+                    
                     </ul>
                 </div>
                 <div>
                     <h1>Lugares Asignados</h1>
                     <div id="tarjetasError" style="color: red; display: none;">Debe de haber al menos un lugar que visitar.</div>
                     <ul class="tarjetasUl" id="visitasRuta">
+                        {% for visita in ruta.getVisitas() %}
+                            <li class="tarjeta"  id="{{ visita.getId() }}">
+                                {% if visita.getFoto() %}
+                                    <img src="{{ asset('fotos_visita/' ~ visita.getFoto()) }}" alt="Foto de la visita">
+                                {% endif %}
+                                <h2>{{ visita.getNombre() }}</h2>
+                                <p>{{ visita.getDescripcion() | raw }}</p>
+                            </li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>
@@ -93,11 +100,11 @@
                     <div class="formulario">
                         <div>
                             <label for="fechaInicioPr">Fecha inicio</label>
-                            <input type="text" class="datepicker" id="fechaInicioPr" value="{{ ruta.fechaFin|date('Y-m-d') }}">
+                            <input type="text" class="datepicker" id="fechaInicioPr">
 
                             <br>
                             <label for="fechaFinPr">Fecha final</label>
-                            <input type="text" class="datepicker" id="fechaFinPr" value="{{ ruta.fechaFin|date('Y-m-d') }}">
+                            <input type="text" class="datepicker" id="fechaFinPr">
 
                             <br>
                         </div>
@@ -131,24 +138,36 @@
                 </div>
                 <div id="ladoDer3">
                     <div id="tabla">
-                        <table id="horarios">
-                            <thead>
-                                <tr>
-                                    <th>Rango de Fecha</th>
-                                    <th>Días</th>
-                                    <th>Hora</th>
-                                    <th>Persona</th>
-                                    <th>Eliminar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
+                        {% if ruta.programacion is not empty %}
+                                <table id="horarios">
+                                    <thead>
+                                        <tr>
+                                            <th>Rango de Fecha</th>
+                                            <th>Días</th>
+                                            <th>Hora</th>
+                                            <th>Persona</th>
+                                            <th>Eliminar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                            {% for horario in ruta.programacion %}
+                                        <tr>
+                                            <td>{{ horario.rangoFecha }}</td>
+                                            <td>{{ horario.dias }}</td>
+                                            <td>{{ horario.hora }}</td>
+                                            <td>{{ horario.persona }}</td>
+                                            <td><button class="eliminar-btn">Eliminar</button></td>
+                                        </tr>
+                            {% endfor %}
+                                    </tbody>
+                                </table>
+                        {% else %}
+                            <p>No hay programación para esta ruta.</p>
+                        {% endif %}
                     </div>
                     <div id="tablaError" style="color: red; display: none;">Debe de haber al menos una progrmacion.</div>
                 </div>
             </div>
-            <button type="submit">Actualizar</button>
         </form>
     </div>
 </body>

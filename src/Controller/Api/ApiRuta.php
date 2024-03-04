@@ -110,6 +110,63 @@ class ApiRuta extends AbstractController
         return new JsonResponse(['id' => $creaTour], JsonResponse::HTTP_CREATED);
     }
 
+    #[Route("/editar/{id}", name: "editar_ruta_bd", methods: ["POST"])]
+    public function editar(Request $request, EntityManagerInterface $entityManager, $id): JsonResponse
+    {
+        $ruta = $entityManager->getRepository(Ruta::class)->find($id);
+
+        if (!$ruta) {
+            return new JsonResponse(['error' => 'Ruta no encontrada'], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        // Obtener y actualizar los datos de la solicitud
+        $nombre = $request->request->get('nombre');
+        $descripcion = $request->request->get('descripcion');
+        $puntoInicio = $request->request->get('puntoInicio');
+        $tamanoMaximo = $request->request->get('tamanoMaximo');
+        $fechaInicio = DateTime::createFromFormat('d/m/Y', $request->request->get('fechaInicio'));
+        $fechaFin = DateTime::createFromFormat('d/m/Y', $request->request->get('fechaFin'));
+        $programacion = json_decode($request->request->get('programacion'));
+        $ids = $request->request->get('visitasId');
+        $idsArray = array_map('intval', explode(',', $ids));
+
+        // Actualizar los datos de la ruta
+        $ruta->setNombre($nombre);
+        $ruta->setDescripcion($descripcion);
+        $ruta->setPuntoInicio($puntoInicio);
+        $ruta->setTamanoMaximo($tamanoMaximo);
+        $ruta->setFechaInicio($fechaInicio);
+        $ruta->setFechaFin($fechaFin);
+        $ruta->setProgramacion($programacion);
+
+        // Manejo de la imagen (si se envía en la solicitud)
+        $file = $request->files->get('foto');
+        if ($file) {
+            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+            $file->move($this->getParameter('fotos_ruta'), $fileName);
+            $ruta->setFoto($fileName);
+        }
+
+        // Asociar visitas (si se proporcionan en la solicitud)
+        if (is_iterable($idsArray)) {
+            $ruta->getVisitas()->clear(); // Limpiar las visitas existentes
+            foreach ($idsArray as $id) {
+                $visita = $entityManager->getRepository(Visita::class)->find($id);
+                if ($visita) {
+                    $ruta->addVisita($visita);
+                }
+            }
+        } else {
+            $idsArray = [];
+        }
+
+        // Persistir los cambios
+        $entityManager->flush();
+
+        return new JsonResponse(['success' => 'Ruta actualizada', 'id' => $ruta->getId()]);
+    }
+
+
     #[Route("/ruta/editar/{id}", name: "editar_ruta")]
     public function editarRuta($id,  RutaRepository $rutaRepository, EntityManagerInterface $entityManager): Response
     {
