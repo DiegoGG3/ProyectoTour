@@ -17,39 +17,39 @@ class RegistrationController extends AbstractController
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
-        $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
-        $form->handleRequest($request);
+        // $user = new User();
+        // $form = $this->createForm(RegistrationFormType::class, $user);
+        // $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
-            $user->setRoles(['ROLE_USER']);
-            $user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
+        // if ($form->isSubmitted() && $form->isValid()) {
+        //     // encode the plain password
+        //     $user->setRoles(['ROLE_USER']);
+        //     $user->setPassword(
+        //         $userPasswordHasher->hashPassword(
+        //             $user,
+        //             $form->get('plainPassword')->getData()
+        //         )
+        //     );
 
-            $file= $form['foto']->getData();
-            $filename = md5(uniqid()).'.'.$file->guessExtension();
+            // $file= $form['foto']->getData();
+            // $filename = md5(uniqid()).'.'.$file->guessExtension();
 
-            $file->move(
-                $this->getParameter('fotos_perfil'),
-                $filename
-            );
+            // $file->move(
+            //     $this->getParameter('fotos_perfil'),
+            //     $filename
+            // );
 
-            $user->setFoto($filename);
+        //     $user->setFoto($filename);
 
-            $entityManager->persist($user);
-            $entityManager->flush();
-            // do anything else you need here, like send an email
+        //     $entityManager->persist($user);
+        //     $entityManager->flush();
+        //     // do anything else you need here, like send an email
 
-            return $this->redirectToRoute('home');
-        }
+        //     return $this->redirectToRoute('home');
+        // }
 
         return $this->render('register.html.twig', [
-            'registrationForm' => $form->createView(),
+            // 'registrationForm' => $form->createView(),
         ]);
     }
 }

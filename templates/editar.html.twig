@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editar Ruta</title>
+    <!--Css y esas mierdas-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery-ui.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('styles/appRuta.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/richtext.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/image-uploader.css') }}" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <!--Js y esas mierdas-->
+    <script src="{{ asset('js/jquery-3.7.1.js') }}"></script>
+    <script src="{{ asset('js/jquery-ui.js') }}"></script>
+    <script src="{{ asset('js/jquery.richtext.min.js') }}"></script>
+    <script src="{{ asset('js/pagina.js') }}"></script>
+    <script src="{{ asset('js/image-uploader.js') }}"></script>
+    <script src="https://kit.fontawesome.com/91464fdedc.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+    <div id="crearRuta">
+        <h1>Editar Ruta</h1>
+        <form method="post" id="formulario" >
+            <ul>
+                <li><a href="#tabs-1">Informacion</a></li>
+                <li><a href="#tabs-2">Vistas</a></li>
+                <li><a href="#tabs-3">Programacion</a></li>
+            </ul>
+            <div id="tabs-1" class="formulario">
+                <div id="ladoIzq">
+                    <label for="nombre">Nombre</label><br>
+                    <input id="nombre" name="nombre" type="text" value="{{ ruta.nombre }}"><br>
+                    <label>Lugar de Inicio</label><br>
+                    <label for="x">Eje X</label>
+                    <input id="x" name="x" type="text" value="38.61594477689501">
+                    <label for="y">Eje Y</label>
+                    <input id="y" name="y" type="text" value="-2.013429994202383">
+                    <input id="mapaBoton" name="mapaBoton" type="button" value="Mapa"><br>
+                    <div id="map"></div>
+                    <label>Fechas</label><br>
+                    <label for="fechaInicio">Inicio</label>
+                    <input type="text" class="datepicker" id="fechaInicio" value="{{ ruta.fechaInicio|date('Y-m-d') }}">
+                    <label for="fechaFin">Final</label>
+                    <input type="text" class="datepicker" id="fechaFin" value="{{ ruta.fechaFin|date('Y-m-d') }}"><br>
+
+                    <label for="spinner">Numero de asistentes máximos</label><br>
+                    <input id="spinner" name="spinner" value="{{ ruta.tamanoMaximo }}"><br>
+                    <label for="Foto">Foto</label>
+                    <form action="url" enctype="multipart/form-data" id="Foto">
+                        <div class="input-images"></div>
+                    </form>
+                    <div id="fotoError" style="color: red; display: none;">Debe de haber solo una foto.</div>
+                </div>
+                <div id="ladoDer">
+                    <label for="descripcion">Descripcion</label><br><br>
+                    <textarea id="descripcion" name="descripcion" rows="10" cols="50">{{ ruta.descripcion }}</textarea>
+                    <div id="descripcionError" style="color: red; display: none;">La descripción no puede estar vacía.</div>
+                </div>
+            </div>
+            <div id="tabs-2">
+                <div id="filtro">
+                    <label for="filtroLoc">Localidad</label>
+                    <select name="filtroLoc" id="filtroLoc">
+                        <option value="Seleccione una localidad">Seleccione una localidad</option>
+
+                        {% for localidad in localidades %}
+                            <option value="{{ localidad.id }}">{{ localidad.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <h1>Lugares Dispobibles</h1>
+                    <ul class="tarjetasUl" id="visitasDisponibles">
+                        {# {% for visita in visitas %}
+                            <li id="{{visita.id}}" class="tarjeta" style="border: 1px solid green;">
+                                <img src="{{ asset('fotos_visita/' ~ visita.foto) }}" width="80px" height="80px" alt="Castillo">
+                                <h2>{{visita.nombre}}</h2>                            
+                            </li>
+                        {% endfor %} #}
+                    </ul>
+                </div>
+                <div>
+                    <h1>Lugares Asignados</h1>
+                    <div id="tarjetasError" style="color: red; display: none;">Debe de haber al menos un lugar que visitar.</div>
+                    <ul class="tarjetasUl" id="visitasRuta">
+                    </ul>
+                </div>
+            </div>
+            <div id="tabs-3">
+                <div id="ladoIzq3">
+                    <div class="formulario">
+                        <div>
+                            <label for="fechaInicioPr">Fecha inicio</label>
+                            <input type="text" class="datepicker" id="fechaInicioPr" value="{{ ruta.fechaFin|date('Y-m-d') }}">
+
+                            <br>
+                            <label for="fechaFinPr">Fecha final</label>
+                            <input type="text" class="datepicker" id="fechaFinPr" value="{{ ruta.fechaFin|date('Y-m-d') }}">
+
+                            <br>
+                        </div>
+                        <div id="diasSemana">
+                            <input type="checkbox" id="lunes" name="dia" value="L">
+                            <label for="lunes">Lunes</label>
+                            <input type="checkbox" id="martes" name="dia" value="M">
+                            <label for="martes">Martes</label>
+                            <input type="checkbox" id="miercoles" name="dia" value="X">
+                            <label for="miercoles">Miércoles</label>
+                            <input type="checkbox" id="jueves" name="dia" value="J">
+                            <label for="jueves">Jueves</label>
+                            <input type="checkbox" id="viernes" name="dia" value="V">
+                            <label for="viernes">Viernes</label>
+                            <input type="checkbox" id="sabado" name="dia" value="S">
+                            <label for="sabado">Sábado</label>
+                            <input type="checkbox" id="domingo" name="dia" value="D">
+                            <label for="domingo">Domingo</label>
+                        </div>
+                        <div id="diasError" style="color: red; display: none;">Debe de haber al menos un dia seleccionado.</div>
+                        <label for="hora">Hora:</label>
+                        <input type="time" id="hora" name="hora">
+                        <label for="personas">Guia</label>
+                        <select id="personas" name="personas">
+                            {% for guia in guias %}
+                                <option value="{{guia.id}}">{{guia.nombre}}</option>
+                            {% endfor %}
+                        </select><br>
+                        <input type="button" id="botonAñadir" value="Añadir">
+                    </div>
+                </div>
+                <div id="ladoDer3">
+                    <div id="tabla">
+                        <table id="horarios">
+                            <thead>
+                                <tr>
+                                    <th>Rango de Fecha</th>
+                                    <th>Días</th>
+                                    <th>Hora</th>
+                                    <th>Persona</th>
+                                    <th>Eliminar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="tablaError" style="color: red; display: none;">Debe de haber al menos una progrmacion.</div>
+                </div>
+            </div>
+            <button type="submit">Actualizar</button>
+        </form>
+    </div>
+</body>
+</html>

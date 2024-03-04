@@ -19,11 +19,40 @@
 
 {% block body %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="navbar">
-        <!-- Tu barra de navegación aquí, reutilizo la misma que ya tienes -->
+        <div class="container">
+            <a class="navbar-brand" href="#!">Diego Tours</a>
+            <img src="{{ asset('images/logo.png') }}" alt="Diego Tours Logo" style="max-width: 60px; height: auto;" />
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="{{ path('home') }}">Home</a></li>
+                    {% if app.user %}
+                        {% for rol in app.user.roles %}
+                            {% if rol == "ROLE_USER" %}
+                                <li class="nav-item"><a class="nav-link" href="{{ path('tours_user', {'idUser': app.user.id}) }}">Mis Tours</a></li>
+                            {% endif %}
+                            {% if rol=="ROLE_ADMIN" %}
+                                <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Administración</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Calendario</a></li>
+                            {% endif %}
+                            {% if rol=="ROLE_GUIA" %}
+                                <li class="nav-item"><a class="nav-link" href="{{ path('guia_ruta', {'idGuia': app.user.id}) }}">Tours asignados</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        <li class="nav-item"><a class="nav-link" href="{{ path('action-logout') }}">Cerrar Sesión</a></li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{{ path('app_login') }}">Iniciar Sesión</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ path('app_register') }}">Registro</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
     </nav>
 
     <div class="container mt-5">
-        <h2>Reservas de Tours</h2>
+        <h2 style="margin-top: 75px;">Reservas de Tours</h2>
         <table class="table mt-3">
             <thead>
                 <tr>
@@ -43,9 +72,9 @@
                     <td>{{ reserva.codTour.codRuta.getNombre() }}</td> {# Accediendo al nombre de la ruta a través de Tour #}
                     <td>{{ reserva.codUser.nombre }}</td> {# Asume que la entidad User tiene un campo 'username' #}
                     {% if reserva.codTour.finalizado %}
-                        <td><a href="{{ path('ValorarTour', {'Reserva_id': reserva.id}) }}">Valoracion</a></td>
+                        <td><a style="text-decoration: none ; padding: 5px 15px; background-color: rgb(55, 157, 150); color: white; border: none; border-radius: 4px; cursor: pointer; box-shadow: 4px 4px 8px -4px teal;" href="{{ path('ValorarTour', {'Reserva_id': reserva.id}) }}">Valoracion</a></td>
                     {% else %}
-                        <td><a href="{{ path('CancelarReserva', {'Reserva_id': reserva.id}) }}">Cancelar</a></td>
+                        <td><a style="text-decoration: none ; padding: 5px 15px; background-color: rgb(55, 157, 150); color: white; border: none; border-radius: 4px; cursor: pointer; box-shadow: 4px 4px 8px -4px teal;" href="{{ path('CancelarReserva', {'Reserva_id': reserva.id}) }}">Cancelar</a></td>
                     {% endif %}
                 </tr>
                 {% endfor %}

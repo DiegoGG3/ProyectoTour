@@ -13,62 +13,70 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('images/logo.png') }}" />
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/jquery-ui.css') }}" rel="stylesheet" />
-
+    <link href="{{ asset('styles/reservas.css') }}" rel="stylesheet" />
 {% endblock %}
 
 {% block body %}
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="navbar">
-        <div class="container">
-            <a class="navbar-brand" href="#!">Diego Tours</a>
-            <img src="{{ asset('images/logo.png') }}" alt="Diego Tours Logo" style="max-width: 60px; height: auto;" />
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="{{ path('home') }}">Home</a></li>
-                    {% if app.user %}
-                        {% for rol in app.user.roles %}
-                            {% if rol != "ROLE_ADMIN" %}
-                                <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Mis Tours</a></li>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="navbar">
+    <div class="container">
+        <a class="navbar-brand" href="#!">Diego Tours</a>
+        <img src="{{ asset('images/logo.png') }}" alt="Diego Tours Logo" style="max-width: 60px; height: auto;" />
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{{ path('home') }}">Home</a></li>
+                {% if app.user %}
+                    {% for rol in app.user.roles %}
+                        {% if rol == "ROLE_USER" %}
+                            <li class="nav-item"><a class="nav-link" href="{{ path('tours_user', {'idUser': app.user.id}) }}">Mis Tours</a></li>
+                        {% endif %}
+                        {% if rol=="ROLE_ADMIN" %}
+                            <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Administración</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Calendario</a></li>
+                        {% endif %}
+                        {% if rol=="ROLE_GUIA" %}
+                            <li class="nav-item"><a class="nav-link" href="{{ path('guia_ruta', {'idGuia': app.user.id}) }}">Tours asignados</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    <li class="nav-item"><a class="nav-link" href="{{ path('action-logout') }}">Cerrar Sesión</a></li>
+                {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{{ path('app_login') }}">Iniciar Sesión</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ path('app_register') }}">Registro</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h1 class="text-center">Formulario de Reserva</h1>
+                </div>
+                <div class="card-body">
+                    {% for tour in toursPorRuta %}
+                        <form class="reserva-form" method="post">
+                            <input type="hidden" class="idTour" name="tour_id" value="{{ tour.id }}">
+                            <input type="text" name="fecha_hora" value="{{ tour.fechaHora|date('Y-m-d H:i:s') }}" class="form-control mb-3" readonly>
+                            <div class="mb-3">
+                                <label for="cantidad_personas" class="form-label">Cantidad de Personas:</label>
+                                <input type="number" class="form-control cantidad-personas" name="cantidad_personas" min="1" value="1">
+                            </div>
+                            {% if app.user %}
+                                <input type="hidden" class="idUser" name="idUser" value="{{ app.user.id }}">
+                                <button type="submit" class="btn btn-primary btn-block">Enviar Reserva</button>
+                            {% else %}
+                                <a class="btn btn-primary btn-block" href="{{ path('app_login') }}">Iniciar Sesión</a>
                             {% endif %}
-                            {% if rol=="ROLE_ADMIN" %}
-                                <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Administración</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Calendario</a></li>
-                            {% endif %}
-                            {% if rol=="ROLE_GUIDE" %}
-                                <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Calendario Tours</a></li>
-                            {% endif %}
-                        {% endfor %}
-                        <li class="nav-item"><a class="nav-link" href="{{ path('action-logout') }}">Cerrar Sesión</a></li>
-                    {% else %}
-                        <li class="nav-item"><a class="nav-link" href="{{ path('app_login') }}">Iniciar Sesión</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ path('app_register') }}">Registro</a></li>
-                    {% endif %}
-                </ul>
+                        </form>
+                    {% endfor %}
+                </div>
             </div>
         </div>
-    </nav>
-        <link href="{{ asset('styles/reservas.css') }}" rel="stylesheet" />
-
-   <div id="divReservas">
-    <h1>Formulario de Reserva</h1>
-
-    {% for tour in toursPorRuta %}
-        <form class="reserva-form" method="post">
-            <input type="hidden" class="idTour" name="tour_id" value="{{ tour.id }}">
-            <input type="text" name="fecha_hora" value="{{ tour.fechaHora|date('Y-m-d H:i:s') }}">
-            <label for="cantidad_personas">Cantidad de Personas:</label>
-            <input type="number" class="cantidad-personas" name="cantidad_personas" min="1" value="1">
-            {% if app.user %}
-                <input type="hidden" class="idUser" name="idUser" value="{{ app.user.id }}">
-
-                <input type="submit" class="btn btn-primary submit" value="Enviar Reserva">
-            {% else %}
-                <a class="nav-link" href="{{ path('app_login') }}">Iniciar Sesión</a>
-            {% endif %}
-
-        </form>
-    {% endfor %}
+    </div>
 </div>
 {% endblock %}

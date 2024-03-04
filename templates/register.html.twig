@@ -3,14 +3,11 @@
 {% block title %}Registro - Diego Tours {% endblock %}
 
 {% block body %}
-        <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-
-    <body class="img js-fullheight" style="background-image: url({{ asset('images/fondo3.jpg') }});">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="navbar">
         <div class="container">
-            <a class="navbar-brand" href="#!"> Diego Tours </a>
+            <a class="navbar-brand" href="#!">Diego Tours</a>
             <img src="{{ asset('images/logo.png') }}" alt="Diego Tours Logo" style="max-width: 60px; height: auto;" />
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -18,14 +15,15 @@
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="{{ path('home') }}">Home</a></li>
                     {% if app.user %}
                         {% for rol in app.user.roles %}
-                            {% if rol=="ROLE_USER" %}
-                                <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Mis Tours</a></li>
+                            {% if rol == "ROLE_USER" %}
+                                <li class="nav-item"><a class="nav-link" href="{{ path('tours_user', {'idUser': app.user.id}) }}">Mis Tours</a></li>
                             {% endif %}
                             {% if rol=="ROLE_ADMIN" %}
                                 <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Administración</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Calendario</a></li>
                             {% endif %}
-                            {% if rol=="ROLE_GUIDE" %}
-                                <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Calendario Tours</a></li>
+                            {% if rol=="ROLE_GUIA" %}
+                                <li class="nav-item"><a class="nav-link" href="{{ path('guia_ruta', {'idGuia': app.user.id}) }}">Tours asignados</a></li>
                             {% endif %}
                         {% endfor %}
                         <li class="nav-item"><a class="nav-link" href="{{ path('action-logout') }}">Cerrar Sesión</a></li>
@@ -37,35 +35,51 @@
             </div>
         </div>
     </nav>
-        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
-<section class="ftco-section">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6 text-center mb-5">
-                <h2 class="heading-section">Registro en Diego Tours</h2>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 text-center mb-5">
+                    <h2 class="heading-section">Registro en Diego Tours</h2>
+                </div>
             </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-md-6 col-lg-4 bg-dark rounded">
-                <div class="login-wrap p-0">
-                    <h3 class="mb-4 text-center">¿Nuevo por aquí?</h3>
-                     <form action="{{ path('app_register') }}" class="signin-form" method="post" enctype="multipart/form-data">
-                        {{ form_start(registrationForm) }}
-                        {{ form_row(registrationForm.nombre) }}
-                        {{ form_row(registrationForm.email) }}
-                        {{ form_row(registrationForm.plainPassword) }}
-                        {{ form_row(registrationForm.foto) }}
-                        <div class="form-row">
-                            <div class="form-group col-md-12">
-                                <button type="submit" class="form-control btn btn-primary submit px-3">Registrarse</button>
-                            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-4">
+                    <div class="card">
+                        <div class="card-body p-4">
+                            <h3 class="mb-4 text-center">¿Nuevo por aquí?</h3>
+                            <form action="{{ path('user-insert') }}" method="post" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label for="nombre">Nombre</label>
+                                    <input type="text" id="nombre" name="nombre" class="form-control" required autofocus>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" name="email" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="plainPassword_first">Contraseña</label>
+                                    <input type="password" id="plainPassword_first" name="plainPassword[first]" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="plainPassword_second">Confirmar Contraseña</label>
+                                    <input type="password" id="plainPassword_second" name="plainPassword[second]" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="foto">Foto de Perfil</label>
+                                    <input type="file" id="foto" name="foto" class="form-control-file" required>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary btn-block">Registrarse</button>
+                                </div>
+                            </form>
                         </div>
-                        {{ form_end(registrationForm) }}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 </body>
 {% endblock %}

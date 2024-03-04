@@ -2,6 +2,8 @@
 // src/Controller/Api/RutaApi.php
 
 namespace App\Controller\Api;
+
+use App\Entity\Localidad;
 use DateTime;
 use App\Entity\Ruta;
 use App\Entity\Tour;
@@ -108,19 +110,23 @@ class ApiRuta extends AbstractController
         return new JsonResponse(['id' => $creaTour], JsonResponse::HTTP_CREATED);
     }
 
-       
-
-    #[Route("/update/{id}", name: "update", methods: ["PUT"])]
-    public function update(Request $request, $id, RutaRepository $rutaRepository): Response
+    #[Route("/ruta/editar/{id}", name: "editar_ruta")]
+    public function editarRuta($id,  RutaRepository $rutaRepository, EntityManagerInterface $entityManager): Response
     {
         $ruta = $rutaRepository->find($id);
-        if (!$ruta) {
-            return new Response(null, Response::HTTP_NOT_FOUND);
-        }
-        $data = json_decode($request->getContent(), true);
-        // Aquí puedes actualizar la entidad Ruta con los datos recibidos en $data
+        $visitas = $entityManager->getRepository(Visita::class)->findAll();
+        $localidades = $entityManager->getRepository(Localidad::class)->findAll();
+        // En tu controlador u otro lugar donde necesites buscar usuarios con el rol de guía
+        $guias = $entityManager->getRepository(User::class)->findByRoles();
+    
+        // Renderiza la plantilla de edición y pasa la ruta a la plantilla
+        return $this->render('editar.html.twig', [
+            'ruta' => $ruta,
+            'visitas' => $visitas,
+            'localidades' => $localidades,
+            'guias' => $guias,
+        ]);
     }
-
     #[Route("/delete/{id}", name: "delete", methods: ["DELETE"])]
     public function delete($id, RutaRepository $rutaRepository): Response
     {

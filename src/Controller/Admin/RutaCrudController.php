@@ -3,13 +3,11 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Ruta;
-use DateTime as GlobalDateTime;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -51,14 +49,16 @@ class RutaCrudController extends AbstractCrudController
     }
 
     public function configureActions(Actions $actions): Actions
-    {
-        return $actions
-            ->update(Crud::PAGE_INDEX, Action::NEW, function (Action $action) {
-                return $action->linkToRoute('app_crear_ruta', []);
-            })
-            // ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action) {
-            //     return $action->linkToRoute('app_crear_ruta', ["id"=>"hola"]);
-            // })
-            ;
-    }
+{
+    return $actions
+        ->update(Crud::PAGE_INDEX, Action::NEW, function (Action $action) {
+            return $action->linkToRoute('app_crear_ruta', []);
+        });
+
+        // ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action, $id) {
+        //     // Asegúrate de que $id esté disponible aquí
+        //     return $action->linkToRoute('ruta-editar_ruta/$id', ["id" => $id]);
+        // });
+}
+
 }

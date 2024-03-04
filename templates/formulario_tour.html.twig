@@ -1,10 +1,10 @@
 {% block importmap %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('js/jquery-3.7.1.js') }}"></script>
     <script src="{{ asset('js/jquery-ui.js') }}"></script>
     <script src="{{ asset('js/landin.js') }}"></script>
     <script src="{{ asset('js/registrarreserva.js') }}"></script>
-
 
     <link rel="icon" type="image/x-icon" href="{{ asset('images/logo.png') }}" />
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block body %}
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="navbar">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
             <a class="navbar-brand" href="#!">Diego Tours</a>
             <img src="{{ asset('images/logo.png') }}" alt="Diego Tours Logo" style="max-width: 60px; height: auto;" />
@@ -25,15 +25,15 @@
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="{{ path('home') }}">Home</a></li>
                     {% if app.user %}
                         {% for rol in app.user.roles %}
-                            {% if rol != "ROLE_ADMIN" %}
-                                {# <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Mis Tours</a></li> #}
+                            {% if rol == "ROLE_USER" %}
+                                <li class="nav-item"><a class="nav-link" href="{{ path('tours_user', {'idUser': app.user.id}) }}">Mis Tours</a></li>
                             {% endif %}
                             {% if rol=="ROLE_ADMIN" %}
                                 <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Administración</a></li>
                                 <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Calendario</a></li>
                             {% endif %}
                             {% if rol=="ROLE_GUIA" %}
-                                <li class="nav-item"><a class="nav-link" href="{{ path('guia_ruta', {'idGuia': app.user.id}) }}">Mis tours</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ path('guia_ruta', {'idGuia': app.user.id}) }}">Tours asignados</a></li>
                             {% endif %}
                         {% endfor %}
                         <li class="nav-item"><a class="nav-link" href="{{ path('action-logout') }}">Cerrar Sesión</a></li>
@@ -45,27 +45,40 @@
             </div>
         </div>
     </nav>
-        <link rel="stylesheet" type="text/css" href="{{ asset('styles/reservas.css') }}" />
 
-    <h1>Ruta: {{ tour.codRuta.nombre }}, ID del tour: {{ tour.id }}</h1>
+    <div class="container mt-5">
+        <h1 class="mb-4" style="margin-top: 80px;">Ruta: {{ tour.codRuta.nombre }}, ID del tour: {{ tour.id }}</h1>
         <input type="hidden" id="idTour" value="{{ tour.id }}">
         <form>
             <div id="reservas">
                 {% for reserva in reservas %}
-                    <div class="reserva-container">
-                        <h1>{{ reserva.codUser.nombre }}</h1>
-                        <input type="number" value="{{ reserva.genteReservada }}" disabled>
-                        <input type="number" data-reserva-id="{{ reserva.id }}" class="genteAsistente" value="0" max="{{ reserva.genteReservada }}" min="0">
+                    <div class="reserva-container border p-3 mb-3">
+                        <h2>{{ reserva.codUser.nombre }}</h2>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Gente Reservada</span>
+                            <input type="number" class="form-control" value="{{ reserva.genteReservada }}" disabled>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Gente Asistente</span>
+                            <input type="number" class="form-control genteAsistente" data-reserva-id="{{ reserva.id }}" value="0" max="{{ reserva.genteReservada }}" min="0">
+                        </div>
                     </div>
                 {% endfor %}
             </div>
 
-            <input type="file" id="imagenRuta" style="margin-bottom: 10px;">
-            <textarea name="observaciones" id="observaciones" rows="10" cols="50" style="margin-bottom: 10px;"></textarea>
-            <input type="number" id="recaudacion" style="margin-bottom: 10px;">
-
-            <input type="button" value="Guardar" onclick="guardarAsistentes()">
+            <div class="mb-3">
+                <label for="imagenRuta" class="form-label">Imagen de la Ruta</label>
+                <input type="file" class="form-control" id="imagenRuta">
+            </div>
+            <div class="mb-3">
+                <label for="observaciones" class="form-label">Observaciones</label>
+                <textarea class="form-control" id="observaciones" rows="4"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="recaudacion" class="form-label">Recaudación</label>
+                <input type="number" class="form-control" id="recaudacion">
+            </div>
+            <button type="button" class="btn btn-primary" onclick="guardarAsistentes()">Guardar</button>
         </form>
-
-
+    </div>
 {% endblock %}

@@ -29,15 +29,15 @@
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="{{ path('home') }}">Home</a></li>
                     {% if app.user %}
                         {% for rol in app.user.roles %}
-                            {% if rol != "ROLE_ADMIN" %}
-                                {# <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Mis Tours</a></li> #}
+                            {% if rol == "ROLE_USER" %}
+                                <li class="nav-item"><a class="nav-link" href="{{ path('tours_user', {'idUser': app.user.id}) }}">Mis Tours</a></li>
                             {% endif %}
                             {% if rol=="ROLE_ADMIN" %}
                                 <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Administración</a></li>
                                 <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Calendario</a></li>
                             {% endif %}
                             {% if rol=="ROLE_GUIA" %}
-                                <li class="nav-item"><a class="nav-link" href="{{ path('guia_ruta', {'idGuia': app.user.id}) }}">Mis tours</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ path('guia_ruta', {'idGuia': app.user.id}) }}">Tours asignados</a></li>
                             {% endif %}
                         {% endfor %}
                         <li class="nav-item"><a class="nav-link" href="{{ path('action-logout') }}">Cerrar Sesión</a></li>
@@ -67,7 +67,11 @@
             <td>{{ tour.fechaHora|date('Y-m-d H:i:s') }}</td>
             <td>{{ tour.finalizado ? 'Sí' : 'No' }}</td>
             <td>{{ tour.codRuta.nombre }}</td> {# Esta línea es la nueva para mostrar el nombre de la ruta #}
-            <td><a href="{{ path('FinalizarTour', {'Tour_id': tour.id}) }}">Finalizar tour</a></td>
+                {% if not tour.finalizado %}
+                    <td><a href="{{ path('FinalizarTour', {'Tour_id': tour.id}) }}" class="btn btn-primary">Finalizar tour</a></td>
+                {% else %}
+                    <td><button class="btn btn-primary" disabled>Finalizar tour</button></td>
+                {% endif %}
             <td><a href="{{ path('CancelarTour', {'Tour_id': tour.id}) }}">Cancelar</a></td>
 
         </tr>

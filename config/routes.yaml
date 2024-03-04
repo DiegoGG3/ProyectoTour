@@ -21,3 +21,9 @@ guardar_valoracion:
     path: '/guardar-valoracion/{Reserva_id}'
     controller: 'App\Controller\ValoracionController::guardarValoracion'
     methods: ['POST']
+
+ruta_editar:
+    path: /ruta/editar/{id}
+    controller: 'App\Controller\Api\ApiRuta::editarRuta'
+    methods: ['GET']  # Método HTTP permitido para esta ruta
+
