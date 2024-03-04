@@ -18,12 +18,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     type: 'GET',
                     data: { idRuta: id },
                     success: function(data) {
-                        var ruta= JSON.parse(data);
-                        console.log(ruta);
+                        console.log(data);
                         var HTML = '<div id="tour'+id+'">' +
                                             '<div>' +
                                                 '<label for="nombreRuta">Nombre Ruta:</label>' +
-                                                '<input type="text" id="nombreRuta" name="nombreRuta" value="'+ruta.nombre+'">' +
+                                                '<input type="text" id="nombreRuta" name="nombreRuta" value="'+data.nombre+'">' +
                                             '</div>' +
                                             '<div>' +
                                                 '<label for="guiaRuta">Guia: </label>' +
@@ -50,9 +49,8 @@ document.addEventListener('DOMContentLoaded', function() {
                             url:'/selectGuias',
                             type: 'GET',
                             success: function(data) {
-                                guias=JSON.parse(data);
-                                for(var i=0;i<guias.length;i++){
-                                    jsonGuias.push(guias[i].email);
+                                for(var i=0;i<data.length;i++){
+                                    jsonGuias.push(data[i].email);
                                 }
                                 $('#nombreRuta').prop('disabled', true);
                                 $('#guiaRuta').autocomplete({

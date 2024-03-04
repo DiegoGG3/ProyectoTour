@@ -65,20 +65,26 @@ class EventosToursAPIController extends AbstractController
 public function rutaIdAPI(Request $request, EntityManagerInterface $entityManager, RutaRepository $rutaRepository): JsonResponse
 {
     $idTour = $request->query->get('idRuta');
-    $tour = $entityManager->getRepository(Tour::class)->findBy(['id' => $idTour]);
-
+    $tour = $entityManager->getRepository(Tour::class)->find($idTour); // Usar find() si solo buscas por ID.
 
     if (!$tour) {
         return new JsonResponse(['error' => 'Tour no encontrado'], 404);
     }
 
-    $idRuta = $tour[0]->getCodRuta();
-    $ruta = $rutaRepository->find($idRuta);
-    echo($ruta);
+    $ruta = $tour->getCodRuta();
     if (!$ruta) {
         return new JsonResponse(['error' => 'Ruta no encontrada'], 404);
     }
 
-    return new JsonResponse($ruta);
+    // Convertir el objeto Ruta a un array o estructura que pueda ser serializada a JSON.
+    $rutaData = [
+        'id' => $ruta->getId(),
+        'nombre' => $ruta->getNombre(),
+
+        // Agrega aquí más campos según sea necesario.
+    ];
+
+    return new JsonResponse($rutaData);
 }
+
 }
