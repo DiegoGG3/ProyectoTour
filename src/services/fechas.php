@@ -31,11 +31,11 @@ class crearTour
         );
 
         foreach ($ruta->getProgramacion() as $programacion) {
-            $rangoFechas = explode(" - ", $programacion->rangoFecha); // Acceder a la propiedad como objeto
+            $rangoFechas = explode(" - ", $programacion->rangoFecha); 
             $fecha = DateTime::createFromFormat('d/m/Y', str_replace('/', '/', $rangoFechas[0]));
             $fechaFin = DateTime::createFromFormat('d/m/Y', str_replace('/', '/', $rangoFechas[1]));
             $intervalo = new DateInterval('P1D'); 
-            $dias = explode(",", $programacion->dias); // Acceder a la propiedad como objeto
+            $dias = explode(",", $programacion->dias); 
 
             while ($fecha <= $fechaFin) {
                 if (array_search($diasSemana[$fecha->format('N')], $dias) !== false) {

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Tour;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -9,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use App\Entity\User;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class SelectGuiasController extends AbstractController
 {
@@ -22,19 +24,15 @@ class SelectGuiasController extends AbstractController
     #[Route('/selectGuias', name: 'app_select_guias')]
     public function index(EntityManagerInterface $entityManagerInterface): JsonResponse
     {
-        // Obtener todos los guías (usuarios con el rol ROLE_GUIDE)
         $guias = $entityManagerInterface->getRepository(User::class)->findByRoles(['ROLE_GUIDE']);
 
-        // Serializar los guías
         $serializedGuias = array_map(function ($guia) {
             return $this->serializeGuia($guia, 'Level::BASIC');
         }, $guias);
 
-        // Devolver la respuesta JSON
         return new JsonResponse($serializedGuias);
     }
 
-    // Función de serialización personalizada para los guías (users)
     public function serializeGuia(User $guia, $level = ""): array
     {
         switch ($level) {

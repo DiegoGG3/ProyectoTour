@@ -54,9 +54,6 @@ class FinalizarTourController extends AbstractController
             throw $this->createNotFoundException('No se encontró la Tour con el ID proporcionado.');
         }
 
-        $entityManager->remove($Tour);
-        $entityManager->flush();
-
         $reservas = $reservaRepository->findBy(['codTour' => $Tour_id]);
 
         foreach ($reservas as $reserva) {
@@ -75,7 +72,12 @@ class FinalizarTourController extends AbstractController
                 ->text($textoCorreo);
 
             $this->mailer->send($email);
+
+            $entityManager->remove($reserva);
+
         }
+        $entityManager->remove($Tour);
+        $entityManager->flush();
 
 
         return new Response(

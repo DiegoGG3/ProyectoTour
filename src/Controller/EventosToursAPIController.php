@@ -27,19 +27,15 @@ class EventosToursAPIController extends AbstractController
     #[Route('/eventosToursAPI', name: 'app_eventos_tours_a_p_i')]
     public function index(): JsonResponse
     {
-        // Obtener todos los tours
         $tours = $this->entityManager->getRepository(Tour::class)->findAll();
 
-        // Serializar los tours
         $serializedTours = array_map(function($tour) {
             return $this->serializeTour($tour, 'Level::BASIC');
         }, $tours);
 
-        // Devolver la respuesta JSON
         return new JsonResponse($serializedTours);
     }
 
-    // Función de serialización personalizada para los tours
     public function serializeTour(Tour $tour, $level=""): array
     {
 
@@ -49,10 +45,9 @@ class EventosToursAPIController extends AbstractController
                     'id' => $tour->getId(),
                     'guia' => $tour->getGuia(),
                     'finalizado' => $tour->isFinalizado(),
-                    'fechaHora' => $tour->getFechaHora()->format('Y-m-d H:i:s'), // Formatear fecha y hora
-                    'codRuta' => $tour->getCodRuta()->getId(), // Obtener solo el ID de la ruta
-                    'nombre' => $tour->getCodRuta()->getNombre(), // Obtener solo el ID de la ruta
-                    // Agregar más campos según sea necesario
+                    'fechaHora' => $tour->getFechaHora()->format('Y-m-d H:i:s'), 
+                    'codRuta' => $tour->getCodRuta()->getId(), 
+                    'nombre' => $tour->getCodRuta()->getNombre(), 
                 ];
                 break;
             default:
@@ -65,7 +60,7 @@ class EventosToursAPIController extends AbstractController
 public function rutaIdAPI(Request $request, EntityManagerInterface $entityManager, RutaRepository $rutaRepository): JsonResponse
 {
     $idTour = $request->query->get('idRuta');
-    $tour = $entityManager->getRepository(Tour::class)->find($idTour); // Usar find() si solo buscas por ID.
+    $tour = $entityManager->getRepository(Tour::class)->find($idTour); 
 
     if (!$tour) {
         return new JsonResponse(['error' => 'Tour no encontrado'], 404);
@@ -76,12 +71,9 @@ public function rutaIdAPI(Request $request, EntityManagerInterface $entityManage
         return new JsonResponse(['error' => 'Ruta no encontrada'], 404);
     }
 
-    // Convertir el objeto Ruta a un array o estructura que pueda ser serializada a JSON.
     $rutaData = [
         'id' => $ruta->getId(),
         'nombre' => $ruta->getNombre(),
-
-        // Agrega aquí más campos según sea necesario.
     ];
 
     return new JsonResponse($rutaData);

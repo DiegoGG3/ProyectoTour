@@ -18,13 +18,10 @@ class CrearRutaController extends AbstractController
     #[Route('/crear/ruta', name: 'app_crear_ruta')]
     public function index(EntityManagerInterface $entityManager): Response
     {
-        // Obtener todas las visitas de la base de datos
         $visitas = $entityManager->getRepository(Visita::class)->findAll();
         $localidades = $entityManager->getRepository(Localidad::class)->findAll();
-        // En tu controlador u otro lugar donde necesites buscar usuarios con el rol de guía
         $guias = $entityManager->getRepository(User::class)->findByRoles();
 
-        // Pasar las visitas a la plantilla Twig
         return $this->render('crear_ruta/index.html.twig', [
             'controller_name' => 'CrearRutaController',
             'visitas' => $visitas,
@@ -38,10 +35,8 @@ class CrearRutaController extends AbstractController
     {
         $localidadId = $request->request->get('localidadId');
 
-        // Obtener los lugares disponibles según la localidad seleccionada
         $lugaresDisponibles = $entityManager->getRepository(Visita::class)->findBy(['localidad' => $localidadId]);
 
-        // Convertir los resultados a un array de datos que se pueden serializar fácilmente
         $data = [];
         foreach ($lugaresDisponibles as $visita) {
             $data[] = [
@@ -49,11 +44,9 @@ class CrearRutaController extends AbstractController
                 'nombre' => $visita->getNombre(),
                 'foto' => $visita->getFoto(),
 
-                // Agrega más campos según sea necesario
             ];
         }
 
-        // Devolver los datos como respuesta JSON
         return new JsonResponse($data);
     }
 }

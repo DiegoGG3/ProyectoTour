@@ -34,6 +34,7 @@ security:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/administrar_ruta, roles: ROLE_GUIA }
+        - { path: ^/apiRuta, roles: ROLE_ADMIN }
 
 
 when@test:

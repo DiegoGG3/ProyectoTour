@@ -57,7 +57,7 @@ class ApiReserva extends AbstractController
     public function edit(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
         $reservas = $request->request->get('idReservas');
-        $idReservas = json_decode($reservas); // Decodificar las IDs de reserva desde JSON
+        $idReservas = json_decode($reservas); 
         foreach ($idReservas as $idReserva) {
             $cantidad = $request->request->get('asistente_' . $idReserva);
             $reserva = $entityManager->getRepository(Reserva::class)->find($idReserva);

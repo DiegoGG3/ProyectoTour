@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Entity\Reserva;
+use App\Entity\Tour;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -42,6 +43,8 @@ class UserTour extends AbstractController
 
         return new JsonResponse(['message' => 'Tour eliminado con éxito'], JsonResponse::HTTP_OK);
     }
+   
+
 
     #[Route('/ValorarTour/{Reserva_id}', name: "ValorarTour")]
     public function ValorarTour(ReservaRepository $ReservaRepository, $Reserva_id): Response

@@ -68,8 +68,6 @@ class ApiRuta extends AbstractController
         $ids = $request->request->get('visitasId');
         $idsArray = array_map('intval', explode(',', $ids));
 
-        
-    
         $ruta = new Ruta();
         $ruta->setNombre($nombre);
         $ruta->setDescripcion($descripcion);
@@ -102,10 +100,7 @@ class ApiRuta extends AbstractController
         $entityManager->flush();
 
         $crearTour->crear($ruta, $idGuia);
-
-
         $entityManager->flush();
-
 
         return new JsonResponse(['id' => $creaTour], JsonResponse::HTTP_CREATED);
     }
@@ -119,7 +114,6 @@ class ApiRuta extends AbstractController
             return new JsonResponse(['error' => 'Ruta no encontrada'], JsonResponse::HTTP_NOT_FOUND);
         }
 
-        // Obtener y actualizar los datos de la solicitud
         $nombre = $request->request->get('nombre');
         $descripcion = $request->request->get('descripcion');
         $puntoInicio = $request->request->get('puntoInicio');
@@ -130,7 +124,6 @@ class ApiRuta extends AbstractController
         $ids = $request->request->get('visitasId');
         $idsArray = array_map('intval', explode(',', $ids));
 
-        // Actualizar los datos de la ruta
         $ruta->setNombre($nombre);
         $ruta->setDescripcion($descripcion);
         $ruta->setPuntoInicio($puntoInicio);
@@ -139,7 +132,6 @@ class ApiRuta extends AbstractController
         $ruta->setFechaFin($fechaFin);
         $ruta->setProgramacion($programacion);
 
-        // Manejo de la imagen (si se envía en la solicitud)
         $file = $request->files->get('foto');
         if ($file) {
             $fileName = md5(uniqid()) . '.' . $file->guessExtension();
@@ -147,9 +139,8 @@ class ApiRuta extends AbstractController
             $ruta->setFoto($fileName);
         }
 
-        // Asociar visitas (si se proporcionan en la solicitud)
         if (is_iterable($idsArray)) {
-            $ruta->getVisitas()->clear(); // Limpiar las visitas existentes
+            $ruta->getVisitas()->clear(); 
             foreach ($idsArray as $id) {
                 $visita = $entityManager->getRepository(Visita::class)->find($id);
                 if ($visita) {
@@ -160,7 +151,6 @@ class ApiRuta extends AbstractController
             $idsArray = [];
         }
 
-        // Persistir los cambios
         $entityManager->flush();
 
         return new JsonResponse(['success' => 'Ruta actualizada', 'id' => $ruta->getId()]);
@@ -173,10 +163,8 @@ class ApiRuta extends AbstractController
         $ruta = $rutaRepository->find($id);
         $visitas = $entityManager->getRepository(Visita::class)->findAll();
         $localidades = $entityManager->getRepository(Localidad::class)->findAll();
-        // En tu controlador u otro lugar donde necesites buscar usuarios con el rol de guía
         $guias = $entityManager->getRepository(User::class)->findByRoles();
     
-        // Renderiza la plantilla de edición y pasa la ruta a la plantilla
         return $this->render('editar.html.twig', [
             'ruta' => $ruta,
             'visitas' => $visitas,

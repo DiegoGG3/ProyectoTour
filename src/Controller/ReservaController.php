@@ -26,27 +26,21 @@ class ReservaController extends AbstractController
     {
         $data = json_decode($request->getContent(), true);
 
-        // Verificar si los datos están presentes y si el campo tour_id está definido
         if (!$data || !isset($data['tour_id'])) {
             return new JsonResponse(['error' => 'Datos de reserva incorrectos'], 400);
         }
 
         $tourId = $data['tour_id'];
 
-        // Obtener el tour desde la base de datos
         $tour = $this->entityManager->getRepository(Tour::class)->find($tourId);
 
-        // Verificar si el tour existe
         if (!$tour) {
             return new JsonResponse(['error' => 'El tour no existe'], 404);
         }
 
-        // Crear una nueva reserva
         $reserva = new Reserva();
         $reserva->setCodTour($tour);
-        // También puedes establecer otros campos de la reserva aquí si es necesario
 
-        // Persistir la reserva en la base de datos
         $this->entityManager->persist($reserva);
         $this->entityManager->flush();
 

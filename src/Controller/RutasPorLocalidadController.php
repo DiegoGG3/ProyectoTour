@@ -18,14 +18,11 @@ class RutasPorLocalidadController extends AbstractController
         $this->rutasPorLocalidadService = $rutasPorLocalidadService;
     }
 
-    /**
-     * @Route("/rutas_por_localidad/{nombre}", name="rutas_por_localidad_nombre")
-     */
+   
     #[Route('/rutas_por_localidad/{nombre}', name: 'rutas_por_localidad')]
 
     public function mostrarRutasPorLocalidadNombre(string $nombre, LocalidadRepository $localidadRepository): Response
     {
-        // Buscar la localidad por su nombre
         $localidad = $localidadRepository->findOneBy(['nombre' => $nombre]);
 
         if (!$localidad) {
@@ -36,13 +33,13 @@ class RutasPorLocalidadController extends AbstractController
         $toursPorRuta = [];
 
         foreach ($rutas as $ruta) {
-            $toursPorRuta[$ruta->getId()] = $ruta->getTours(); // Suponiendo que "getTours()" devuelve los tours asociados a la ruta
+            $toursPorRuta[$ruta->getId()] = $ruta->getTours();
         }
 
         return $this->render('rutas_por_localidad.html.twig', [
             'localidad' => $localidad,
             'rutas' => $rutas,
-            'toursPorRuta' => $toursPorRuta, // Pasar los tours asociados a cada ruta a la vista
+            'toursPorRuta' => $toursPorRuta,
         ]);
     }
 }
