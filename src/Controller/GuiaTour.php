@@ -16,10 +16,12 @@ class GuiaTour extends AbstractController
     {
         $guia = $entityManager->getRepository(User::class)->findBy(['id' => $idGuia]);
         $tours = $entityManager->getRepository(Tour::class)->findBy(['guia' => $guia]);
+        // $Ruta = $entityManager->getRepository(Ruta::class)->find($tours[0]->getCodRuta());
 
 
         return $this->render('guia_tours.html.twig', [
             'tours' => $tours,
+            // 'ruta' => $Ruta
         ]);
     }
 }

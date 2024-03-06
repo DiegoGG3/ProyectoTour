@@ -13,30 +13,24 @@ h1 {
 
 #rutas {
     display: grid;
-    grid-template-columns: 32% 32% 32%;
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
+    padding: 0 20px;
 }
 
 .divsRutas {
-    
-    margin: 30px;
     background-color: #fff;
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
-    padding: 35px;
+    padding: 20px;
 }
 
 .fotoRuta {
     width: 100%;
-    height: 300px;
+    height: auto;
+    object-fit: cover; /* Asegura que la foto cubra el espacio asignado sin perder la proporción */
     border-radius: 10px; 
-}
-
-
-
-.rutaInfo {
-    padding: 20px;
 }
 
 .rutaInfo h2 {
@@ -47,10 +41,6 @@ h1 {
     margin-bottom: 0; /* Elimina el margen inferior predeterminado */
 }
 
-.botones{
-    width: 100px;
-}
-
 .reserva{
     padding: 10px 20px;
     background-color: rgb(55, 157, 150);
@@ -58,7 +48,23 @@ h1 {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    box-shadow: 3px 3px teal;
+    box-shadow: 4px 4px 8px -4px teal;
     text-decoration: none;
+    display: block; /* Para que ocupe su propio espacio y no esté al lado de otros elementos */
+    width: max-content; /* Para que su ancho se ajuste al contenido */
+    margin-top: 20px; /* Espacio antes del botón */
+}
 
+/* Media queries */
+@media (max-width: 992px) {
+  #rutas {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  #rutas {
+    grid-template-columns: 1fr;
+    padding: 0 10px;
+  }
 }

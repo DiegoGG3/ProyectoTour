@@ -183,13 +183,6 @@ input[type="button"] {
     height: 700px;
 }
 
-#ciudades {
-    display: grid;
-    grid-template-columns: 32% 32% 32%;
-    gap: 20px;
-    justify-items: center;
-    margin-top: 10px;
-}
 
 #ulFooter{
     display: flex;
@@ -205,4 +198,26 @@ input[type="button"] {
 #footer{
     margin-top: 50px;
     background-color: rgba(0, 0, 0, 0.5);
+}
+
+#ciudades {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columnas para pantallas grandes */
+    gap: 20px;
+    justify-items: center;
+    margin-top: 10px;
+}
+
+/* Para tabletas y debajo, use 2 columnas */
+@media screen and (max-width: 768px) {
+    #ciudades {
+        grid-template-columns: repeat(2, 1fr); /* 2 columnas */
+    }
+}
+
+/* Para móviles y pantallas más pequeñas, use 1 columna */
+@media screen and (max-width: 480px) {
+    #ciudades {
+        grid-template-columns: 1fr; /* 1 columna */
+    }
 }

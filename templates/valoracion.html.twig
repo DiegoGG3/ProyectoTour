@@ -68,15 +68,25 @@
     .form-group {
       margin-bottom: 25px;
     }
+
+    #cont{
+      display: grid;
+      grid-template-columns: 30% 40%;
+
+    }
+
+
   </style>
 </head>
 <body>
 
 <div class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-8">
       <h1 class="text-center mt-5 mb-4">Valoración del Tour</h1>
       <p class="lead text-center">Por favor, deja tu valoración del tour:</p>
+  <div class="row justify-content-center" id="cont">
+    <img src="{{ asset('images/evaluar.jpg') }}" alt="foto" class="img-fluid">
+
+    <div class="col-md-8">
       <form method="POST" id="valoracionForm">
         <div class="form-group">
           <label for="notaGuia">Nota para el guía:</label>
@@ -96,8 +106,6 @@
   </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 
 {% endblock %}

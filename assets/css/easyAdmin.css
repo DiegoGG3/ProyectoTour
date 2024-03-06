@@ -1,0 +1,33 @@
+.sidebar{
+    background-color: teal !important;
+}
+
+#menu-item-label{
+    color: white;
+}
+
+.logo-custom{
+    color: rgb(255, 255, 255);
+    font-size: 2em;
+}
+
+.menu-item-label{
+    color: rgb(0, 0, 0);
+}
+
+.menu-header-contents>span{
+    text-decoration: underline;
+    font-size: 1.3em;
+}
+
+#main-menu .menu .menu-item.active{
+    background-color: rgb(255, 255, 255) !important;
+} 
+
+#main-menu .menu .menu-item.active:not(.expanded) .menu-icon, #main-menu .menu .menu-item.active:not(.expanded) a {
+    color: rgb(0, 0, 0);
+}
+
+#main-menu .menu .menu-icon{
+    color: rgb(0, 0, 0);
+}

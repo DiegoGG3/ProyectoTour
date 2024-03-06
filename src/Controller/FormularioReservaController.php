@@ -23,10 +23,13 @@ class FormularioReservaController extends AbstractController
         throw $this->createNotFoundException('No se encontró la ruta con el ID proporcionado.');
     }
 
-    $toursPorRuta = $Ruta->getTours(); 
+    $toursPorRuta = $Ruta->getTours();
+    $visitas = $Ruta->getVisitas();
 
     return $this->render('formulario_reserva.html.twig', [
         'toursPorRuta' => $toursPorRuta,
+        'ruta' => $Ruta,
+        'visitas' => $visitas
     ]);
 }
 
